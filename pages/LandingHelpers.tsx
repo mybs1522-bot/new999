@@ -17,14 +17,14 @@ export const RAW_JOINERS = [
 ];
 
 export const PROBLEM_POINTS = [
-  { emoji: "⏰", text: "Spending 4 hours on a single floor plan? Our students finish in 40 minutes." },
-  { emoji: "💸", text: "Paying agencies ₹50,000 per render? That money should be in your pocket!" },
-  { emoji: "📉", text: "Losing ₹15 lakh projects because your competitor shows 3D walkthroughs while you show flat PDFs?" }
+  { emoji: "⏰", text: "Raat Bhar Jagkar AutoCAD Pe Kaam Kar Rahe Ho? Our students finish in 40 minutes and chill." },
+  { emoji: "💸", text: "Dusron se ₹10,000 me render banwa ke client de rahe ho? That money belongs in your pocket." },
+  { emoji: "📉", text: "Client Reject Kar Diya Kyunki Tumhara 3D Render 'Boring' Tha? Usi Client Ko Dusra Banda Le Gaya." }
 ];
 
 export const TRANSFORMATION_STORIES = [
-  { name: "Priya P.", role: "Freelancer → ₹80,000/project", before: "Used to charge ₹15,000 per project. Working all night. Clients would ghost her.", after: "Now clients pay ₹80,000+ without negotiating.", emoji: "💰" },
-  { name: "Rahul V.", role: "Student → 3 Job Offers", before: "Zero experience. Applied to 40 places: silence.", after: "Built a portfolio in 15 days. Got 3 job offers.", emoji: "🎓" }
+  { name: "Priya P.", role: "Freelancer → ₹80,000/project", before: "Client ₹2000 ke liye chik-chik karta tha. Raat bhar kaam, subah ghosting.", after: "Now they gladly pay ₹80,000+ advance. No negotiations.", emoji: "💰" },
+  { name: "Rahul V.", role: "Student → 3 Job Offers", before: "Fresh graduate. Applied to 40 places: HRs ignored.", after: "Learned AI + V-Ray in 15 days. Got 3 offers paying 3x standard fresher salary.", emoji: "🎓" }
 ];
 
 export const PAGE_PREVIEWS_ROW1 = [
@@ -42,10 +42,10 @@ export const PAGE_PREVIEWS_ROW2 = [
 ];
 
 export const FEAR_STATS = [
-  { stat: '73%', label: 'of architecture graduates can\'t create a single professional render', icon: '📉' },
-  { stat: '5x', label: 'more likely to get hired with AI + rendering skills in your portfolio', icon: '🚀' },
-  { stat: '₹30L+', label: 'average amount studios waste outsourcing renders every year', icon: '💸' },
-  { stat: '15 days', label: 'from zero experience to your first paid render — if you start now', icon: '⏳' },
+  { stat: '73%', label: 'B.Arch/Interior grads are struggling for jobs because unko sirf theory aati hai', icon: '📉' },
+  { stat: '5x', label: 'HRs specifically search for \'AI + V-Ray\' resumes. 5x faster placements.', icon: '🚀' },
+  { stat: '₹50k+', label: 'is what an average studio pays an outsourced 3D visualizer per project', icon: '💸' },
+  { stat: '15 days', label: 'from zero experience to your first paid gig — if you start right now', icon: '⏳' },
 ];
 
 /* ─── LOGO ─── */
@@ -72,7 +72,7 @@ export const CallToActionWidget = ({ timeLeft, onClick, headline, subtext }: { t
       <div className="max-w-2xl mx-auto relative z-10 text-center">
         {headline && <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-2 tracking-tight">{headline}</h3>}
         {subtext && <p className="text-zinc-400 text-sm mb-6">{subtext}</p>}
-        {!headline && <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest mb-6">⚠️ Enroll before the timer hits zero</p>}
+        {!headline && <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest mb-6">🚨 TIMER IS TICKING. DON'T REGRET MISSING THIS.</p>}
         <div className="flex items-center justify-center gap-1 md:gap-2 mb-6">
           <div className="flip-clock-group"><div className="flex gap-1"><FlipDigit value={h[0]} /><FlipDigit value={h[1]} /></div><span className="flip-clock-label">HRS</span></div>
           <span className="text-xl md:text-3xl font-bold text-zinc-600 -mt-4">:</span>
@@ -81,11 +81,11 @@ export const CallToActionWidget = ({ timeLeft, onClick, headline, subtext }: { t
           <div className="flip-clock-group"><div className="flex gap-1"><FlipDigit value={s[0]} /><FlipDigit value={s[1]} /></div><span className="flip-clock-label">SEC</span></div>
         </div>
         <div className="mb-6">
-          <p className="text-blue-400 font-semibold text-sm mt-2">Special Offer — This price won't last forever</p>
+          <p className="text-red-400 font-semibold text-sm mt-2">Special Offer — Don't miss this ₹999 steal deal</p>
         </div>
         <div className="w-full max-w-md mx-auto">
-          <button onClick={onClick} className="cta-primary w-full text-white px-8 py-4 md:py-5 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 group hover:scale-[1.03] active:scale-[0.98] premium-stroke" style={{ background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', boxShadow: '0 6px 20px -4px rgba(37,99,235,0.5), 0 12px 40px -8px rgba(29,78,216,0.3)', border: '1px solid rgba(255,255,255,0.15)' }}>
-            <span className="text-lg md:text-xl font-display font-bold uppercase tracking-widest relative z-10">Start Learning Now</span>
+          <button onClick={onClick} className="cta-primary w-full text-white px-8 py-4 md:py-5 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 group hover:scale-[1.03] active:scale-[0.98] premium-stroke" style={{ background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', boxShadow: '0 6px 20px -4px rgba(249,115,22,0.5), 0 12px 40px -8px rgba(234,88,12,0.3)', border: '1px solid rgba(255,255,255,0.15)' }}>
+            <span className="text-lg md:text-xl font-display font-bold uppercase tracking-widest relative z-10">Claim Your High-Paying Career</span>
             <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
@@ -155,9 +155,10 @@ export const TESTIMONIALS_LANDING = [
 ];
 
 export const FAQ_ITEMS_LANDING = [
-  { question: "Is it really just ₹999 for all 12 courses? What's the catch?", answer: "No catch. No subscription. No hidden fees. No upsells. You get lifetime access to all 12 courses for a one-time payment of ₹999. We believe everyone deserves world-class design education. 50,000+ students and counting — that's how we keep it affordable." },
+  { question: "Is it really just ₹999 for all 12 courses? Kuch hidden fee to nahi?", answer: "Koi catch nahi. Koi EMI bait nahi. 1-time ₹999 payment for lifetime. 50,000+ Indians trust this system to build their careers instead of paying ₹1,50,000+ at local institutes." },
   { question: "Do I need an expensive computer?", answer: "Not at all! A decent laptop with a basic graphics card works perfectly. We also teach cloud rendering tricks for slower machines, so even a ₹30,000 laptop can produce stunning results." },
   { question: "I'm a complete beginner with zero experience. Will I feel lost?", answer: "Absolutely not. We literally start from 'how to download and open the software.' Every module builds step-by-step, and you get mentor support whenever you're stuck." },
+  { question: "Kya mujhe English aani chahiye software seekhne ke liye?", answer: "Bilkul nahi! Clients ko tumhare 3D designs aur renders se farak padta hai, vocabulary se nahi. Software seekho, result do, aur high-paying projects close karo." },
   { question: "How quickly will I see results?", answer: "Give it 15 focused days (1-2 hours daily). By Day 5, you'll have your first photorealistic render. By Day 15, you'll have a portfolio piece that looks like it came from a professional studio. If you don't feel dramatically more confident, full refund." },
   { question: "Is the software included?", answer: "We provide direct links to official free, student, and trial versions — SketchUp, V-Ray, Lumion, D5, AutoCAD. You do NOT need expensive licenses. Many tools are completely free for students." },
   { question: "Can I get a refund if I don't like it?", answer: "100%. No-questions-asked 7-day refund policy. Send us an email, money back within 48 hours. If you're not blown away by the value, we don't want your ₹999. Simple." },
@@ -171,7 +172,7 @@ export const INCOME_TIERS = [
   { label: 'Single Render Image', before: '₹500', after: '₹5,000+', icon: '🖼️' },
   { label: 'Interior Design (Flat)', before: '₹10,000', after: '₹80,000+', icon: '🏠' },
   { label: 'Cinematic Walkthrough', before: '₹0', after: '₹1,50,000+', icon: '🎬' },
-  { label: 'Freelance Monthly', before: '₹20,000', after: '₹2,00,000+', icon: '💰' },
+  { label: 'Freelance Monthly / Salary', before: 'Struggling at ₹20k', after: 'Consistent ₹2 Lakhs+', icon: '💰' },
 ];
 
 export const COURSES_LANDING = [

@@ -178,8 +178,8 @@ const CheckoutPage: React.FC = () => {
         <section className="bg-white py-10 md:py-12 border-b border-gray-100 grid-bg">
           <div className="container mx-auto px-4 md:px-8 text-center">
             <h2 className="text-xl md:text-2xl font-display font-bold text-gray-800 leading-relaxed">
-              Choose what you want to learn, <br className="md:hidden" />
-              <span className="text-brand-primary">or get everything to become a complete designer.</span>
+              You don't need a degree <br className="md:hidden" />
+              <span className="text-brand-primary">to start Interior Designing.</span>
             </h2>
             <button
               onClick={() => setShowPaymentModal(true)}
