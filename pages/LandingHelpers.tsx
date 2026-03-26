@@ -17,14 +17,14 @@ export const RAW_JOINERS = [
 ];
 
 export const PROBLEM_POINTS = [
-  { emoji: "⏰", text: "Raat Bhar Jagkar AutoCAD Pe Kaam Kar Rahe Ho? Our students finish in 40 minutes and chill." },
-  { emoji: "💸", text: "Dusron se ₹10,000 me render banwa ke client de rahe ho? That money belongs in your pocket." },
-  { emoji: "📉", text: "Client Reject Kar Diya Kyunki Tumhara 3D Render 'Boring' Tha? Usi Client Ko Dusra Banda Le Gaya." }
+  { emoji: "⏰", text: "Spending countless frustrating hours on a single 3D view while clients constantly ask for more revisions?" },
+  { emoji: "😰", text: "Feeling overwhelmed by complex software, fearing you'll never catch up to the top studios?" },
+  { emoji: "🤖", text: "Watching AI generate beautiful designs in seconds and worrying your traditional skills will soon be irrelevant?" }
 ];
 
 export const TRANSFORMATION_STORIES = [
-  { name: "Priya P.", role: "Freelancer → ₹80,000/project", before: "Client ₹2000 ke liye chik-chik karta tha. Raat bhar kaam, subah ghosting.", after: "Now they gladly pay ₹80,000+ advance. No negotiations.", emoji: "💰" },
-  { name: "Rahul V.", role: "Student → 3 Job Offers", before: "Fresh graduate. Applied to 40 places: HRs ignored.", after: "Learned AI + V-Ray in 15 days. Got 3 offers paying 3x standard fresher salary.", emoji: "🎓" }
+  { name: "Priya P.", role: "Freelance Designer", before: "Struggling alone with YouTube tutorials. Designs looked fake, took days, and clients wouldn't pay well without arguments.", after: "Joined our community. With mentor guidance, she mastered V-Ray + AI. She now charges premium rates and finishes in a fraction of the time.", emoji: "✨" },
+  { name: "Rahul V.", role: "Architecture Student", before: "Terrified of AI taking his future job. Felt his college degree wasn't teaching practical, modern software skills.", after: "We held his hand through the workflow. He now uses AI to generate concepts and V-Ray for final polish. Just landed a massive internship.", emoji: "🎓" }
 ];
 
 export const PAGE_PREVIEWS_ROW1 = [
@@ -42,10 +42,10 @@ export const PAGE_PREVIEWS_ROW2 = [
 ];
 
 export const FEAR_STATS = [
-  { stat: '73%', label: 'B.Arch/Interior grads are struggling for jobs because unko sirf theory aati hai', icon: '📉' },
-  { stat: '5x', label: 'HRs specifically search for \'AI + V-Ray\' resumes. 5x faster placements.', icon: '🚀' },
-  { stat: '₹50k+', label: 'is what an average studio pays an outsourced 3D visualizer per project', icon: '💸' },
-  { stat: '15 days', label: 'from zero experience to your first paid gig — if you start right now', icon: '⏳' },
+  { stat: '82%', label: 'of traditional 3D visualization tasks are actively being replaced by AI rendering tools right now.', icon: '📉' },
+  { stat: '10x', label: 'faster output when you learn to comfortably partner with AI instead of fearing it.', icon: '🚀' },
+  { stat: '1-on-1', label: 'Mentor support. We hold your hand through every single software hurdle so you never feel alone.', icon: '🤝' },
+  { stat: '15 Days', label: 'From feeling stuck and overwhelmed, to creating portfolio-ready designs with total confidence.', icon: '⏳' },
 ];
 
 /* ─── LOGO ─── */
@@ -142,80 +142,76 @@ export const VALUE_STACK_ITEMS = [
 ];
 
 export const TESTIMONIALS_LANDING = [
-  { name: 'Priya P.', role: 'Freelance Designer', location: 'Mumbai, IN', content: 'From AutoCAD to AI, everything is covered. The texture library is a goldmine. I used to spend hours hunting for materials — now everything is ready to go.' },
-  { name: 'Aravind S.', role: 'Senior Architect', location: 'Bangalore, IN', content: 'The Revit workflow section alone saved our firm countless hours. Undeniable value for real-world projects.' },
-  { name: 'Meera I.', role: '3D Visualizer', location: 'Chennai, IN', content: 'The V-Ray + 3ds Max combo is a game-changer. My real estate clients are blown away by the realism of the renders.' },
-  { name: 'Rahul V.', role: 'Architecture Student', location: 'Delhi, IN', content: 'Landed my dream internship at a top firm because I was the only candidate who knew Enscape VR and AI Design.' },
-  { name: 'Ananya G.', role: 'Interior Designer', location: 'Pune, IN', content: 'I now present 10 variations in the time it used to take for one. Best ₹999 I ever spent.' },
-  { name: 'Vikram S.', role: 'Landscape Architect', location: 'Jaipur, IN', content: 'D5 Render lets me make live changes during client meetings. Blows them away every time. Highly recommended.' },
-  { name: 'Neha K.', role: 'Studio Owner', location: 'Lucknow, IN', content: 'My team of 4 now does the work that used to take 8 people. No more outsourcing. Profit doubled.' },
-  { name: 'Rohit M.', role: 'Freelance Visualizer', location: 'Ahmedabad, IN', content: 'Went from ₹40,000/month freelancing to consistent ₹3,00,000+ months. The V-Ray module alone was worth 100x the price.' },
-  { name: 'Simran P.', role: 'Design Student', location: 'Chandigarh, IN', content: 'Started from zero experience. Didn\'t even know what SketchUp was. 15 days later, my portfolio landed me my first paid gig (₹25,000!).' },
-  { name: 'Arjun D.', role: 'Architect & Educator', location: 'Hyderabad, IN', content: 'I teach at a university and now recommend this to all my students. More practical than most 4-year programs.' },
+  { name: 'Priya P.', role: 'Freelance Designer', location: 'Mumbai, IN', content: 'I used to cry when V-Ray crashed. Literally. The mentors are so incredibly kind and patient. Now I use AI so well that I feel completely secure in my career.' },
+  { name: 'Aravind S.', role: 'Senior Architect', location: 'Bangalore, IN', content: 'I feared AI would replace my studio. But Avada held my hand through the transition. We now use it to generate gorgeous concepts for clients in minutes.' },
+  { name: 'Meera I.', role: '3D Visualizer', location: 'Chennai, IN', content: 'The step-by-step guidance is amazing for beginners. Whenever my scene looks dark or weird, I just ask the mentor. They are absolute lifesavers.' },
+  { name: 'Rahul V.', role: 'Architecture Student', location: 'Delhi, IN', content: 'I felt so behind in college because they still teach completely outdated methods. Within two weeks here, I gained the confidence to start taking well-paying projects.' },
+  { name: 'Ananya G.', role: 'Interior Designer', location: 'Pune, IN', content: 'To have someone to actually look at your screen and say "Oh, simply press this button" saves weeks of frustration. Best ₹999 I ever spent.' },
+  { name: 'Vikram S.', role: 'Landscape Architect', location: 'Jaipur, IN', content: 'The continuous support makes learning stress-free. D5 Render combined with AI generation is just magical. It took away all my anxiety about falling behind.' },
+  { name: 'Neha K.', role: 'Studio Owner', location: 'Lucknow, IN', content: 'My team of 4 now works with zero stress because we integrated AI the way Avada taught us. No more late nights before client meetings.' },
+  { name: 'Rohit M.', role: 'Freelance Visualizer', location: 'Ahmedabad, IN', content: 'I almost quit 3D entirely because it felt too overwhelming. The friendly mentors here broke it down to be so simple. I owe them my entire successful freelance business.' },
+  { name: 'Simran P.', role: 'Design Student', location: 'Chandigarh, IN', content: 'Started from absolute zero. I didn\'t even know what SketchUp was. 15 days later, thanks to their constant hand-holding, my portfolio landed me a paid studio gig.' },
+  { name: 'Arjun D.', role: 'Architect & Educator', location: 'Hyderabad, IN', content: 'I teach at a university, and sadly, we don\'t provide this level of modern, practical support. I genuinely recommend this to all my anxious students to secure their futures.' },
 ];
 
 export const FAQ_ITEMS_LANDING = [
-  { question: "Is it really just ₹999 for all 12 courses? Kuch hidden fee to nahi?", answer: "Koi catch nahi. Koi EMI bait nahi. 1-time ₹999 payment for lifetime. 50,000+ Indians trust this system to build their careers instead of paying ₹1,50,000+ at local institutes." },
-  { question: "Do I need an expensive computer?", answer: "Not at all! A decent laptop with a basic graphics card works perfectly. We also teach cloud rendering tricks for slower machines, so even a ₹30,000 laptop can produce stunning results." },
-  { question: "I'm a complete beginner with zero experience. Will I feel lost?", answer: "Absolutely not. We literally start from 'how to download and open the software.' Every module builds step-by-step, and you get mentor support whenever you're stuck." },
-  { question: "Kya mujhe English aani chahiye software seekhne ke liye?", answer: "Bilkul nahi! Clients ko tumhare 3D designs aur renders se farak padta hai, vocabulary se nahi. Software seekho, result do, aur high-paying projects close karo." },
-  { question: "How quickly will I see results?", answer: "Give it 15 focused days (1-2 hours daily). By Day 5, you'll have your first photorealistic render. By Day 15, you'll have a portfolio piece that looks like it came from a professional studio. If you don't feel dramatically more confident, full refund." },
-  { question: "Is the software included?", answer: "We provide direct links to official free, student, and trial versions — SketchUp, V-Ray, Lumion, D5, AutoCAD. You do NOT need expensive licenses. Many tools are completely free for students." },
-  { question: "Can I get a refund if I don't like it?", answer: "100%. No-questions-asked 7-day refund policy. Send us an email, money back within 48 hours. If you're not blown away by the value, we don't want your ₹999. Simple." },
-  { question: "Is it just theory or will I build real projects?", answer: "Every module is project-based. You won't just watch — you'll build real interiors, exteriors, renders, and walkthroughs alongside the instructor. You'll finish with 6+ portfolio-ready projects, not just certificates." },
-  { question: "How is this different from YouTube tutorials?", answer: "YouTube gives you random fragments. This is a complete, structured system — from zero to professional — in a specific order that builds your skills properly. Plus 10,000+ assets, mentor support, and certification. That's why 50,000+ students chose this over free content." },
-  { question: "Will these skills actually help me earn more?", answer: "Our students charge ₹3,000-₹10,000 per rendered image, ₹50,000+ per design, and ₹1,00,000-₹5,00,000 per cinematic walkthrough. The ROI on ₹999 is incredible. Many students earn their money back within the first week." },
-  { question: "Can I access it on my phone?", answer: "Yes! All courses are hosted online and work on any device — laptop, tablet, or phone. Learn at your own pace, anytime, anywhere. Your access never expires." },
+  { question: "I'm terrified of AI taking my job. Will this help?", answer: "We completely understand that fear! AI is scary if you ignore it, but it's an incredible superpower when you master it. We will hold your hand and teach you exactly how to use AI as your personal assistant, making you brilliantly fast and completely irreplaceable." },
+  { question: "I am a complete beginner and get overwhelmed easily. Is this for me?", answer: "Yes, this program was built exactly with you in mind. We know learning software can be intimidating. We start from the absolute basics ('how to click here') and our mentors are always a WhatsApp message away to hold your hand when you feel stuck." },
+  { question: "Are you really going to help me, or is this just another course?", answer: "This is a true mentorship community. When your render looks weird or your software crashes, you don't have to figure it out alone. You reach out to us, and we patiently help you fix it. Your success is our personal mission." },
+  { question: "Is it really just ₹999? What's the catch?", answer: "No catch! We simply want to make high-quality, supportive design education accessible to everyone. It's a one-time payment of ₹999 for lifetime access to the courses and our supportive mentor community." },
+  { question: "Do I need to buy expensive software subscriptions?", answer: "Not at all. We will show you exactly how to easily access official free or student versions of the software. We want you earning safely, not spending unnecessarily on expensive licenses." },
+  { question: "What if I feel like it's not working for me?", answer: "We want this to be completely stress-free for you. If you join and feel it's not a comforting and productive fit, just email us within 7 days. We will refund your ₹999 immediately, no questions asked, and we'll still be rooting for you!" },
+  { question: "Can I access the training safely on my mobile?", answer: "Yes! All courses are hosted clearly online and work perfectly on any device — laptop, tablet, or phone. You can learn comfortably at your own pace anywhere." },
 ];
 
 export const INCOME_TIERS = [
-  { label: 'Single Render Image', before: '₹500', after: '₹5,000+', icon: '🖼️' },
-  { label: 'Interior Design (Flat)', before: '₹10,000', after: '₹80,000+', icon: '🏠' },
-  { label: 'Cinematic Walkthrough', before: '₹0', after: '₹1,50,000+', icon: '🎬' },
-  { label: 'Freelance Monthly / Salary', before: 'Struggling at ₹20k', after: 'Consistent ₹2 Lakhs+', icon: '💰' },
+  { label: 'Single Render Charge', before: 'Struggling to ask ₹1000', after: 'Confidently quoting ₹5,000+', icon: '🖼️' },
+  { label: 'Interior Design Project', before: 'Rejected for poor 3D quality', after: 'Winning ₹80,000+ contracts', icon: '🏠' },
+  { label: 'Time to Finish a Room', before: '3 Frustrating, Sleepless Nights', after: '2 Easy Hours with our AI Workflow', icon: '⏱️' },
+  { label: 'Your Career Confidence', before: 'Constantly Anxious & Overwhelmed', after: 'Relaxed, In-Demand Professional', icon: '🌟' },
 ];
 
 export const COURSES_LANDING = [
   {
     id: '1', title: 'AutoCAD Mastery', software: 'AutoCAD', students: '42.5k',
-    description: 'Stop wasting 4 hours on a single floor plan. Master the exact shortcuts, workflows, and drafting secrets used by top firms.',
+    description: 'Feeling slow and clunky drawing floor plans? We will patiently teach you the industry shortcuts so you can draft precision plans stress-free in half the time.',
     imageUrl: 'https://lh3.googleusercontent.com/d/1fV5bz4JDugh8HxLMJ0fXu5K5sDj3qlSR',
-    learningPoints: ['Draft precision plans for builders', 'Speed shortcuts that cut work by 60%', 'Professional detailing that wins bids'],
-    workflowImpact: 'Get your weekends back — permanently.'
+    learningPoints: ['Friendly, step-by-step drafting basics', 'Speed shortcuts that reduce your eye-strain', 'Clean detailing that builders will easily understand'],
+    workflowImpact: 'Stop dreading revisions. Make changes easily in seconds.'
   },
   {
     id: '3', title: 'SketchUp 3D', software: 'SketchUp', students: '55k',
-    description: 'Turn flat sketches into jaw-dropping 3D models. Build complex interiors and exteriors in hours, not days.',
+    description: 'Struggling to visualize your 2D ideas? Let us guide you through building your first 3D home. It\'s much easier than building blocks when shown correctly.',
     imageUrl: 'https://lh3.googleusercontent.com/d/1wl6by5AO5MiPeoYsZ8F6Zi5AJahoeTQo',
-    learningPoints: ['Model 5x faster than your peers', 'Organize scenes that never crash', 'One-click render-ready models'],
-    workflowImpact: 'Build in hours what takes others days.'
+    learningPoints: ['Overcome the anxiety of a blank 3D screen', 'Organize models safely so they never crash your PC', 'Download beautiful pre-made models effortlessly'],
+    workflowImpact: 'See your imagination comfortably come to life instantly.'
   },
   {
     id: '5', title: 'V-Ray Realism', software: 'V-Ray', students: '48k',
-    description: 'Transform models into photographs so realistic, clients can\'t tell the difference. Master lighting, materials, and post-production.',
+    description: 'Are your renders feeling cartoonish or fake looking? We\'ll hold your hand through the scary lighting settings until your images look like real photography.',
     imageUrl: 'https://lh3.googleusercontent.com/d/1aHEt_z78tYD_0Cn66DiduAnhwn-o8El8',
-    learningPoints: ['Lighting that rivals a ₹5k photoshoot', 'Materials indistinguishable from real life', 'Post-production secrets from top studios'],
-    workflowImpact: 'Charge ₹3,000–₹10,000 per render image.'
+    learningPoints: ['Simple lighting setups that always work reliably', 'Creating comforting materials that feel real to touch', 'Gentle editing tricks to make any render pop beautifully'],
+    workflowImpact: 'Relax and watch your clients gasp when they see their future home.'
   },
   {
     id: '6', title: 'Lumion Cinema', software: 'Lumion', students: '31k',
-    description: 'Static images bore clients. Cinematic video walkthroughs sell projects in 60 seconds flat.',
+    description: 'Want to tell a story but animation seems too hard? We\'ll show you how to easily create beautiful, gentle walking tours of your designs that win over any client.',
     imageUrl: 'https://lh3.googleusercontent.com/d/1XW2DDHVa1Qc15NcZ3wUKMFRT7LkyZMCt',
-    learningPoints: ['Cinematic camera moves that sell', 'Bring scenes to life: people, trees, weather, cars', 'Render 60fps walkthroughs fast'],
-    workflowImpact: 'Close clients in 60 seconds.'
+    learningPoints: ['Adding life effortlessly: waving trees and walking people', 'Setting up cameras without the confusing tech setups', 'Rendering video smoothly on your machine safely'],
+    workflowImpact: 'Win projects easily by making clients emotionally feel the space.'
   },
   {
     id: '7', title: 'D5 Render', software: 'D5 Render', students: '19k',
-    description: 'Real-time rendering changes the game. See every material, lighting, and angle change instantly.',
+    description: 'Hate waiting frustrating hours for a single image to load? We\'ll teach you this real-time engine safely so you can see your beautiful changes instantly as you work.',
     imageUrl: 'https://lh3.googleusercontent.com/d/1vbV4j6K9sgzbbZ7qlRdgqPTXWiHBPLsr',
-    learningPoints: ['Zero wait time — see changes live', 'Drag-and-drop asset workflow', '4K cinematic images in seconds'],
-    workflowImpact: 'Change designs live during client meetings.'
+    learningPoints: ['Set up D5 safely without overwhelming your computer', 'Painting comforting lights and materials in real-time', 'Creating cinematic 4K images effortlessly in seconds'],
+    workflowImpact: 'Confidently make live design changes while the client watches.'
   },
   {
     id: '9', title: 'AI Advantage', software: 'AI Architecture', students: '75k',
-    description: 'Generate stunning design concepts before you finish your coffee. Learn the AI tricks used by top studios.',
+    description: 'AI is changing fast, and we entirely understand it feels scary. We are here to guide you to generate concepts easily so you never have to stare at a blank page again.',
     imageUrl: 'https://lh3.googleusercontent.com/d/1s-HzZVKpc9F92mLW2gMOPk0kVrKAqUIS',
-    learningPoints: ['Generate 10 concepts in 10 minutes', 'Use AI to fix and enhance renders', 'Free tools that replace expensive software'],
-    workflowImpact: 'Never start from a blank page again.'
+    learningPoints: ['Safely turn a simple sketch into a full 3D concept in seconds', 'Use friendly AI to fix rendering mistakes automatically', 'Become the highly sought-after, irreplaceable designer'],
+    workflowImpact: 'Turn your fear of AI confidently into your biggest professional advantage.'
   },
 ];

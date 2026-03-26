@@ -36,6 +36,16 @@ const CheckoutPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentError, setPaymentError] = useState('');
   const [highlightIndex, setHighlightIndex] = useState<number>(-1);
+  const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
+
+  // Auto-slide for mobile showcase
+  useEffect(() => {
+    const slideInterval = setInterval(() => {
+      setMobileSlideIndex((prev) => (prev + 1) % COURSES.length);
+    }, 2000); // 2 seconds per slide
+
+    return () => clearInterval(slideInterval);
+  }, []);
 
   // Auto-scroll showcase: highlight each course card one-by-one, then scroll back to top
   useEffect(() => {
@@ -136,6 +146,45 @@ const CheckoutPage: React.FC = () => {
           animation: courseHighlight 0.3s ease-out;
           border-color: rgba(37, 99, 235, 0.5) !important;
         }
+        
+        /* Mobile Slideshow Animations */
+        @keyframes slideInRight {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOutLeft {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(-100%); opacity: 0; }
+        }
+        .slide-enter {
+          animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        .slide-exit {
+          animation: slideOutLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+        }
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-shimmer {
+          position: relative;
+          overflow: hidden;
+        }
+        .animate-shimmer::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          transform: translateX(-100%);
+          background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+          animation: shimmer 3s infinite;
+        }
       `}</style>
 
       {/* ═══════ ANNOUNCEMENT BAR ═══════ */}
@@ -175,21 +224,92 @@ const CheckoutPage: React.FC = () => {
 
       <main>
         {/* ═══════ HERO SECTION ═══════ */}
-        <section className="bg-white py-10 md:py-12 border-b border-gray-100 grid-bg">
-          <div className="container mx-auto px-4 md:px-8 text-center">
-            <h2 className="text-xl md:text-2xl font-display font-bold text-gray-800 leading-relaxed">
-              You don't need a degree <br className="md:hidden" />
+        {/* ═══════ COURSE SLIDESHOW ═══════ */}
+        <section className="py-8 bg-gray-50 border-b border-gray-100 overflow-hidden relative">
+           <div className="container mx-auto px-4">
+             <div className="mb-4 text-center">
+                 <div className="inline-flex items-center gap-2 text-brand-primary text-xs font-bold uppercase tracking-widest mb-1.5">
+                   <Sparkles size={14} />
+                   All 12 Courses Included
+                 </div>
+                 <h2 className="text-xl md:text-3xl font-display font-bold text-gray-900 leading-tight">Master Every Tool Needed<br/>For Professional Design</h2>
+             </div>
+             
+             {/* Slideshow Container */}
+             <div className="relative w-full max-w-sm mx-auto aspect-[4/5] h-[400px]">
+                {COURSES.map((course, idx) => (
+                  <div 
+                    key={course.id}
+                    className={`absolute inset-0 transition-opacity duration-500 ${idx === mobileSlideIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}
+                  >
+                     <div className="w-full h-full bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col transform transition-transform duration-500 hover:scale-[1.02]">
+                        {/* Image Header */}
+                        <div className="relative h-3/5 w-full bg-gray-100 overflow-hidden">
+                           <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover" />
+                           <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
+                            {course.software}
+                           </div>
+                           <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1.5 rounded-full flex items-center gap-1">
+                             <Star size={10} className="text-yellow-400 fill-yellow-400" /> {course.students}
+                           </div>
+                           {/* Gradient Overlay for Text */}
+                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4 pb-2">
+                              <h3 className="font-display font-bold text-white text-xl leading-tight drop-shadow-md">{course.title}</h3>
+                           </div>
+                        </div>
+
+                        {/* Content Body */}
+                        <div className="flex-1 p-4 flex flex-col justify-between bg-white relative">
+                            {/* Accent Line */}
+                            <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${course.color || 'from-blue-500 to-indigo-500'}`}></div>
+                            
+                            <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mt-1">
+                               {course.description}
+                            </p>
+                            
+                            <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
+                                <div className="text-brand-primary text-xs font-bold flex items-center gap-1">
+                                    <Eye size={14}/> Preview Course
+                                </div>
+                                <div className="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1 border border-emerald-100">
+                                   <CheckCircle2 size={10}/> Included in Bundle
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                  </div>
+                ))}
+             </div>
+             
+             {/* Progress Indicators */}
+             <div className="flex justify-center gap-1.5 mt-5">
+               {COURSES.map((_, idx) => (
+                 <div 
+                   key={idx} 
+                   className={`h-1.5 rounded-full transition-all duration-300 ${idx === mobileSlideIndex ? 'w-6 bg-brand-primary' : 'w-2 bg-gray-300'}`}
+                 />
+               ))}
+             </div>
+
+           </div>
+        </section>
+
+        {/* ═══════ HERO SECTION ═══════ */}
+        <section className="bg-white py-10 md:py-16 border-b border-gray-100 grid-bg">
+          <div className="container mx-auto px-4 md:px-8 text-center max-w-2xl flex flex-col items-center">
+            <h2 className="text-2xl md:text-4xl font-display font-black text-gray-900 leading-tight">
+              You don't need a degree <br className="hidden md:block" />
               <span className="text-brand-primary">to start Interior Designing.</span>
             </h2>
             <button
               onClick={() => setShowPaymentModal(true)}
-              className="mt-6 inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-bold text-lg shadow-xl shadow-blue-500/20 hover:shadow-blue-500/30 hover:scale-[1.03] transition-all group premium-stroke"
+              className="mt-6 md:mt-8 inline-flex items-center gap-1.5 md:gap-3 px-5 md:px-10 py-3.5 md:py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl md:rounded-2xl font-bold text-[13px] md:text-lg shadow-xl shadow-blue-500/30 hover:shadow-blue-500/40 hover:scale-[1.02] transition-all group w-full sm:w-auto justify-center animate-shimmer border border-blue-400/50"
             >
-              <Download size={20} />
-              Download All Courses — ₹{BUNDLE_PRICE}
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              <Download size={16} className="md:w-5 md:h-5 shrink-0" />
+              <span className="whitespace-nowrap">Download All Courses — ₹{BUNDLE_PRICE}</span>
+              <ArrowRight size={16} className="md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
-            <p className="mt-3 text-xs text-gray-500 font-medium">Lifetime access • All software included free • 7-day money-back guarantee</p>
+            <p className="mt-4 text-xs md:text-sm text-gray-500 font-medium max-w-[280px] md:max-w-none mx-auto leading-relaxed">Lifetime access • All software included free • 7-day money-back guarantee</p>
           </div>
         </section>
 
@@ -213,90 +333,7 @@ const CheckoutPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ═══════ COURSE GRID ═══════ */}
-        <section id="courses" className="py-12 md:py-16 bg-gray-50 scroll-mt-16 grid-bg">
-          <div className="container mx-auto px-4 md:px-8">
-
-            {/* Section Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
-              <div>
-                <h2 className="text-2xl md:text-3xl font-display font-bold text-gray-900">All Courses</h2>
-                <p className="text-gray-500 text-sm mt-1">{COURSES.length} courses included in the ₹{BUNDLE_PRICE} bundle</p>
-              </div>
-              <button
-                onClick={() => setShowPaymentModal(true)}
-                className="flex items-center gap-2 bg-gray-900 text-white font-bold text-sm px-5 py-2.5 rounded-full hover:bg-black transition-colors shrink-0"
-              >
-                <Sparkles size={14} className="text-yellow-400 fill-yellow-400" />
-                Download All 12 — ₹{BUNDLE_PRICE}
-              </button>
-            </div>
-
-            {/* Categories */}
-            {COURSE_CATEGORIES.map(cat => {
-              const categoryCourses = cat.ids.map(id => COURSES.find(c => c.id === id)!).filter(Boolean);
-              return (
-                <div key={cat.title} className="mb-10">
-                  <div className="flex items-center gap-3 mb-5">
-                    <h3 className="text-lg font-display font-bold text-gray-800">{cat.title}</h3>
-                    <div className="h-px flex-1 bg-gray-200"></div>
-                    <span className="text-xs text-gray-400 font-medium">{categoryCourses.length} courses</span>
-                  </div>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-5">
-                    {categoryCourses.map(course => {
-                      const globalIdx = COURSES.findIndex(c => c.id === course.id);
-                      return (
-                      <div
-                        key={course.id}
-                        data-course-index={globalIdx}
-                        className={`group relative bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:border-gray-200 cursor-pointer ${highlightIndex === globalIdx ? 'course-highlight' : ''}`}
-                        onClick={() => setDetailCourse(course)}
-                      >
-                        {/* Image */}
-                        <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
-                          <img
-                            src={course.imageUrl}
-                            alt={course.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-900 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm">
-                            {course.software}
-                          </div>
-                          <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full">
-                            {course.students} students
-                          </div>
-                          {/* Included badge */}
-                          <div className="absolute bottom-3 left-3 bg-emerald-500/90 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
-                            <CheckCircle2 size={10} /> Included
-                          </div>
-                        </div>
-
-                        {/* Content */}
-                        <div className="p-3 md:p-4">
-                          <h3 className="font-display font-bold text-gray-900 text-base md:text-lg leading-tight mb-1 group-hover:text-brand-primary transition-colors line-clamp-2 min-h-[2.5rem] md:min-h-0">
-                            {course.title}
-                          </h3>
-                          <p className="text-gray-500 text-[10px] md:text-xs mb-2 md:mb-3 leading-relaxed line-clamp-1 md:line-clamp-2">
-                            {course.description}
-                          </p>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); setDetailCourse(course); }}
-                            className="flex items-center gap-1.5 text-brand-primary text-xs font-bold hover:underline transition-all"
-                          >
-                            <Eye size={12} />
-                            See Topics
-                          </button>
-                        </div>
-                      </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
+        {/* ═══════ COURSE GRID (REMOVED) ═══════ */}
 
         {/* ═══════ BUNDLE BANNER ═══════ */}
         <section className="py-12 md:py-16 px-4 md:px-8 bg-white grid-bg">
@@ -320,11 +357,11 @@ const CheckoutPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setShowPaymentModal(true)}
-                  className="px-10 py-5 bg-brand-primary text-white font-bold text-lg rounded-2xl shadow-glow hover:shadow-glow-lg hover:bg-blue-700 transition-all flex items-center gap-3 group shrink-0 premium-stroke"
+                  className="px-5 py-4 md:px-10 md:py-5 bg-brand-primary text-white font-bold text-sm md:text-lg rounded-xl md:rounded-2xl shadow-glow hover:shadow-glow-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 md:gap-3 group shrink-0 w-full sm:w-auto animate-shimmer border border-blue-400/30"
                 >
-                  <Download size={20} />
-                  Download All Courses
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                  <Download size={16} className="md:w-5 md:h-5 shrink-0" />
+                  <span className="whitespace-nowrap">Download All Courses</span>
+                  <ArrowRight size={16} className="md:w-5 md:h-5 group-hover:translate-x-1 transition-transform shrink-0" />
                 </button>
               </div>
             </div>

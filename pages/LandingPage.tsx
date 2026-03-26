@@ -31,7 +31,7 @@ const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Logo />
           <div className="flex items-center gap-4">
-            <button onClick={openCheckout} className="hidden md:block text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all premium-stroke" style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)', boxShadow: '0 0 15px rgba(249,115,22,0.4)' }}>Download All Courses</button>
+            <button onClick={openCheckout} className="hidden md:block text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all premium-stroke" style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)', boxShadow: '0 0 15px rgba(249,115,22,0.4)' }}>Join 50,000+ Students</button>
           </div>
         </div>
       </header>
@@ -46,25 +46,28 @@ const LandingPage: React.FC = () => {
           </div>
           <div className="max-w-5xl mx-auto px-5 relative z-10">
             <div className="flex flex-col items-center text-center pt-8 md:pt-16">
-              <div className="mb-4 inline-flex items-center gap-2 px-4 py-1.5 bg-red-50 border border-red-200 rounded-full">
-                <CheckCircle size={14} className="text-red-600" />
-                <span className="text-xs font-bold text-red-700">Secret Pipeline To 1 Lakh+ Monthly Income (No Paid Software)</span>
+              <div className="mb-4 inline-flex items-center gap-2 px-4 py-1.5 bg-orange-50 border border-orange-200 rounded-full">
+                <CheckCircle size={14} className="text-orange-600" />
+                <span className="text-xs font-bold text-orange-700">Your Complete Journey to Professional 3D Excellence</span>
               </div>
               <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 bg-slate-50 border border-slate-200 rounded-full">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                <span className="text-xs font-medium text-slate-600">50,000+ Indian Designers Already Upgraded • Don't Be Left Behind</span>
+                <span className="text-xs font-medium text-slate-600">50,000+ Students Supported by Expert Mentors</span>
               </div>
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.08] mb-6 text-slate-900 tracking-tight">
-                Stop Begging For Clients. <br className="hidden md:block" /> Master 3D Design & <br className="hidden md:block" />
-                Let Them <span className="bg-gradient-to-r from-red-600 to-red-800 bg-clip-text text-transparent">Beg For You.</span>
+              <h1 className="text-3xl md:text-4xl lg:text-[52px] font-display font-bold leading-[1.15] mb-6 text-slate-900 tracking-tight">
+                If You Design Homes, Offices & Architecture, <br className="hidden lg:block" />
+                <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">You Must Master These Tools.</span>
               </h1>
-              <p className="text-lg md:text-2xl text-slate-700 font-bold mb-6 leading-relaxed max-w-3xl">
-                Sirf 'Degree' aur AutoCAD se ab job nahi milti. <span className="text-red-600">High-Paying packages chahiye?</span> You Need This. <br className="hidden md:block" />
-                <span className="text-slate-500 text-base md:text-xl font-medium italic block mt-2">Join the Top 1% of Indian Designers for just ₹999 before your competitor does.</span>
+              <p className="text-lg md:text-xl text-slate-700 font-bold mb-6 leading-relaxed max-w-4xl mx-auto">
+                Whether you're in a job or running a business, the entry of AI means you MUST be ready. We will patiently hold your hand and upgrade your skills in <span className="text-orange-600">Interior & Exterior Designing, Planning, and Rendering.</span>
               </p>
               
-
-              <p className="text-xs text-slate-500 mb-10 font-bold">100% Guaranteed Placements Material • Works on ANY Laptop • Risk-Free 7 Days</p>
+              <div className="flex flex-col sm:flex-row gap-4 items-center mb-8">
+                <button onClick={openCheckout} className="px-10 py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-[1.03] transition-all flex items-center gap-3 group whitespace-nowrap premium-stroke">
+                  Get Mentor Support & All Courses <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                </button>
+              </div>
+              <p className="text-xs text-slate-500 mb-10 font-bold">1-on-1 Mentor Support • Free Software Links Included • 7-Day Money-Back Guarantee</p>
               
               {/* Hero Video */}
               <div className="w-full max-w-4xl mb-6 overflow-hidden rounded-2xl shadow-2xl" style={{ position: 'relative', paddingTop: '56.25%' }}>
@@ -84,7 +87,7 @@ const LandingPage: React.FC = () => {
               </div>
 
               {/* The Bridge */}
-              <p className="text-lg md:text-xl font-medium text-slate-600 italic reveal mt-8">"Kal kya socha tha? Aaj kya kar rahe ho? 50,000+ students took action and changed their lives. <strong className="text-red-600 border-b-2 border-red-200">Aapka kya bahana hai?</strong>"</p>
+              <p className="text-lg md:text-xl font-medium text-slate-600 italic reveal mt-8">"Every great designer started exactly where you are today. <strong className="text-orange-600 border-b-2 border-orange-200">Let us help you take the next step.</strong>"</p>
             </div>
           </div>
         </section>
@@ -97,28 +100,28 @@ const LandingPage: React.FC = () => {
           <div className="max-w-4xl mx-auto px-5 relative z-10 text-center">
             <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 bg-red-500/10 border border-red-500/20 rounded-full reveal">
               <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-              <span className="text-xs font-bold text-red-500 tracking-wider uppercase">2026 Ka Sabse Kadwa Sach (Ignored By Colleges)</span>
+              <span className="text-xs font-bold text-red-500 tracking-wider uppercase">Urgent Industry Shift</span>
             </div>
             
             <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight mb-6 reveal">
-              "Bhai, AI meri job kha jayega kya?"
+              AI Is Changing Everything. <br className="hidden md:block" /><span className="text-orange-500">Don't Get Left Behind.</span>
             </h2>
             
             <p className="text-xl md:text-2xl text-slate-300 font-medium mb-12 leading-relaxed max-w-3xl mx-auto reveal">
-              Nahi. AI aapki job nahi khayega. <br className="hidden md:block" />
-              But ek <span className="text-white font-bold border-b-2 border-red-500">smart designer jo AI aur latest software janta hai</span>, woh aapki seat zarur le jayega. Period.
+              It's true: slow, traditional drafting jobs are disappearing as AI takes over. We know it feels scary. <br className="hidden md:block" />
+              But here is the good news—<strong className="text-white border-b-2 border-orange-500">AI needs a creative director</strong>. We will patiently hold your hand and teach you how to partner with these tools, turning fear into your biggest advantage.
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 text-left max-w-3xl mx-auto">
-              <div className="bg-slate-800/50 border border-slate-700 p-6 md:p-8 rounded-2xl backdrop-blur-sm reveal hover:border-red-500/30 transition-colors">
+              <div className="bg-slate-800/50 border border-red-900/50 p-6 md:p-8 rounded-2xl backdrop-blur-sm reveal hover:border-red-500/30 transition-colors">
                 <div className="text-red-400 mb-4 bg-red-400/10 w-12 h-12 rounded-xl flex items-center justify-center"><X size={24} /></div>
-                <h3 className="text-xl font-bold text-white mb-3">Sirf AutoCAD = Berozgari</h3>
-                <p className="text-sm md:text-base text-slate-400 leading-relaxed">Clients ab 2D line-drawings dekh kar high advance nahi dete. Unko Netflix level 3D views chahiye. Upgrade now or pack your bags and change your career.</p>
+                <h3 className="text-xl font-bold text-white mb-3">The Old Approach is Dying</h3>
+                <p className="text-sm md:text-base text-slate-400 leading-relaxed">Spending 40 hours drawing 2D lines and hunting for material textures manually is no longer viable. Clients expect photorealistic 3D visuals instantly.</p>
               </div>
-              <div className="bg-gradient-to-br from-red-900/40 to-rose-900/20 border border-red-500/30 p-6 md:p-8 rounded-2xl backdrop-blur-sm reveal shadow-[0_0_30px_rgba(225,29,72,0.15)] hover:border-red-400/50 transition-colors">
-                <div className="text-red-400 mb-4 bg-red-400/10 w-12 h-12 rounded-xl flex items-center justify-center"><Sparkles size={24} /></div>
-                <h3 className="text-xl font-bold text-white mb-3">Hybrid System = High-Ticket Projects</h3>
-                <p className="text-sm md:text-base text-slate-300 leading-relaxed">SketchUp + V-Ray + AI seekho, and completely crush your local competition. Client paisa dene se mana hi nahi kar payega jab uska sapna 3D me zinda dikhega.</p>
+              <div className="bg-gradient-to-br from-orange-900/40 to-amber-900/20 border border-orange-500/30 p-6 md:p-8 rounded-2xl backdrop-blur-sm reveal shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:border-orange-400/50 transition-colors">
+                <div className="text-orange-400 mb-4 bg-orange-400/10 w-12 h-12 rounded-xl flex items-center justify-center"><Sparkles size={24} /></div>
+                <h3 className="text-xl font-bold text-white mb-3">Your Irreplaceable Future</h3>
+                <p className="text-sm md:text-base text-slate-300 leading-relaxed">We will safely guide you to combine the precision of SketchUp with the speed of AI. You'll generate ideas in seconds and deliver polished renders in hours, completely stress-free.</p>
               </div>
             </div>
           </div>
@@ -140,29 +143,29 @@ const LandingPage: React.FC = () => {
         <section className="py-16 md:py-28 grid-bg bg-white border-b border-slate-200">
           <div className="max-w-3xl mx-auto px-5">
             <div className="reveal text-center mb-12">
-              <p className="text-red-500 text-xs font-mono uppercase tracking-widest mb-4">Ek Reality Check In The Faces Of "Theoretical" Colleges</p>
-              <h2 className="text-3xl md:text-5xl font-serif italic text-slate-900 mb-8 leading-snug">"Theory rattne se lakhon ki deals crack nahi hoti. Visibility is everything."</h2>
+              <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-4">A Supportive Message from Our Mentors</p>
+              <h2 className="text-3xl md:text-5xl font-serif italic text-slate-900 mb-8 leading-snug">"We believe in practical, hands-on learning with experts who are always ready to help you."</h2>
             </div>
             <div className="reveal space-y-6 text-slate-600 text-base md:text-lg leading-relaxed">
-              <p>Let's be brutally honest: <strong className="text-slate-900">'Accha design' hona kaafi nahi hai. Padhai sabne ki hai.</strong></p>
-              <p>Jo banda Hollywood-style 3D walkthrough aur photo-real render deta hai... wahi paisa chhapta hai. Woh bhi 2 din me, 2 hafte me nahi.</p>
-              <p>Aur ab? <strong className="text-red-500">AI ne sab speed limits tod di hain.</strong> Jo purane tarike use kar rahe hain, unki value ZERO hone wali hai. Designer who uses AI renders instantly and charges 5x more from the same clients.</p>
-              <p>4 saal college fees bhari? Phir bhi portfolio khali hai? Expensive ₹1,50,000 ke 'institutes' sirf scam kar rahe hain — wahi puraana syllabus, no real world job guarantee.</p>
+              <p>Learning complex software can feel overwhelming <strong className="text-slate-900">when you're doing it alone.</strong></p>
+              <p>That's why our program is built differently. You aren't just getting tutorial videos; you're joining a community where mentors review your work, answer your technical questions, and cheer you on as you improve.</p>
+              <p>Whether you are a student, a freelancer, or a studio owner, <strong className="text-orange-600">we are here to support your transition</strong> into modern, high-quality 3D rendering. No more struggling with endless YouTube tutorials that leave you confused.</p>
+              <p>You don't need to spend lakhs of rupees on expensive, outdated courses to build a portfolio you can be incredibly proud of.</p>
               
-              <div className="my-10 bg-gradient-to-br from-red-50 to-rose-50 border border-red-200 rounded-2xl p-6 md:p-8 shadow-soft">
-                <p className="font-bold text-slate-900 text-xl mb-4">Toh Humne System Hi Hack Kar Diya.</p>
+              <div className="my-10 bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-2xl p-6 md:p-8 shadow-soft">
+                <p className="font-bold text-slate-900 text-xl mb-4">Here is How We Support You:</p>
                 <ul className="space-y-3">
-                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-red-500 shrink-0" /><span className="text-slate-800">12 Core Software Mastery. The complete placement pipeline.</span></li>
-                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-red-500 shrink-0" /><span className="text-slate-800">100% Free Software links given. No expensive licenses to buy.</span></li>
-                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-red-500 shrink-0" /><span className="text-slate-800">Personal mentor support for life and 10,000+ assets included.</span></li>
+                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-orange-500 shrink-0" /><span className="text-slate-800">12 Comprehensive Courses structured compassionately for beginners.</span></li>
+                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-orange-500 shrink-0" /><span className="text-slate-800">Direct links to free/student versions so you save your money.</span></li>
+                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-orange-500 shrink-0" /><span className="text-slate-800">Dedicated 1-on-1 mentor support—whenever you're stuck, we're here.</span></li>
                 </ul>
-                <div className="mt-6 pt-6 border-t border-red-100 flex items-center justify-between">
-                  <span className="text-slate-600 text-sm italic font-bold">This entire mega-bundle for an absurd ₹999.</span>
-                  <button onClick={openCheckout} className="text-red-600 font-bold text-sm hover:text-red-800 flex items-center gap-1 group">Enroll & Change Your Destiny <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" /></button>
+                <div className="mt-6 pt-6 border-t border-orange-100 flex items-center justify-between">
+                  <span className="text-slate-600 text-sm italic font-bold">A complete learning ecosystem for just ₹999.</span>
+                  <button onClick={openCheckout} className="text-orange-600 font-bold text-sm hover:text-orange-800 flex items-center gap-1 group">Join Our Community <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" /></button>
                 </div>
               </div>
 
-              <p className="text-slate-900 font-semibold text-lg md:text-xl border-l-4 border-red-500 pl-4 bg-red-50 p-4 rounded-r-xl">Bhai, ₹999 to ek weekend ki party aur Zomato me ud jate hain. Asli sawaal ye hai: <br/><br/>Kya tum ek ₹5-10 Lakh ka yearly package lose karna afford kar sakte ho just because you hesitated today?</p>
+              <p className="text-slate-900 font-semibold text-lg md:text-xl border-l-4 border-orange-500 pl-4 bg-orange-50 p-4 rounded-r-xl">Investing in your education is the best step you can take for your creative journey. Our mentors are excited to welcome you and help you build something amazing.</p>
             </div>
           </div>
         </section>
@@ -171,8 +174,8 @@ const LandingPage: React.FC = () => {
         <section className="py-16 md:py-24 bg-slate-50 overflow-hidden border-b border-slate-200 grid-bg">
           <div className="max-w-5xl mx-auto px-5 mb-12 text-center">
             <div className="reveal">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">This is what a <span className="text-red-600">₹999 'Zero-Risk' Decision</span> looks like.</h2>
-              <p className="text-slate-600 text-lg max-w-2xl mx-auto italic font-serif">"Pehle client 2000 Rs ke liye chik-chik karta tha. Ab wo muh-mangi keemat de rahe hain."</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">See What Our <span className="text-orange-600">Students Have Achieved</span></h2>
+              <p className="text-slate-600 text-lg max-w-2xl mx-auto italic font-serif">"With dedicated mentor support, these students transformed their portfolios and confidence."</p>
             </div>
           </div>
           <div className="flex flex-col gap-6 md:gap-8">
@@ -196,23 +199,23 @@ const LandingPage: React.FC = () => {
         {/* 5. OLD vs NEW — The Contrast */}
         <section className="py-16 md:py-24 bg-white grid-bg">
           <div className="max-w-5xl mx-auto px-5">
-            <div className="reveal text-center mb-12"><h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Failure Ka Raasta vs. <span className="text-emerald-600">1 Lakh/Month Ka Blueprint</span></h2></div>
+            <div className="reveal text-center mb-12"><h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">The Lonely, Frustrating Path <br className="hidden md:block" />vs. <span className="text-emerald-600">Our Hand-Holding Blueprint</span></h2></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="reveal grid-bg border border-red-200 rounded-2xl p-8 shadow-soft">
-                <div className="flex items-center gap-3 mb-6"><div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center"><X size={20} className="text-red-500" /></div><h3 className="text-xl font-bold text-red-500">Abhi Bhi Yehi Kar Rahan Hai?</h3></div>
+                <div className="flex items-center gap-3 mb-6"><div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center"><X size={20} className="text-red-500" /></div><h3 className="text-xl font-bold text-red-500">The Old Struggle</h3></div>
                 <ul className="space-y-4">
                   {PROBLEM_POINTS.map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-slate-600 text-sm"><span className="mt-1 shrink-0 text-base">{item.emoji}</span>{item.text}</li>
                   ))}
-                  {['Searching random tutorials that contradict each other', 'Paying ₹40,000/month for software you can get for free', 'Finished your degree but don\'t have a single portfolio-ready render'].map((item, i) => (
+                  {['Searching random YouTube tutorials that leave you confused and frustrated', 'Paying expensive monthly subscriptions for software you barely know how to use', 'Graduating from college but lacking a truly stunning portfolio to get hired'].map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-slate-600 text-sm"><X size={14} className="text-red-500 mt-1 shrink-0" />{item}</li>
                   ))}
                 </ul>
               </div>
               <div className="reveal bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-8 shadow-soft">
-                <div className="flex items-center gap-3 mb-6"><div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center"><CheckCircle size={20} className="text-emerald-600" /></div><h3 className="text-xl font-bold text-slate-900">Smart Logon Ka System</h3></div>
+                <div className="flex items-center gap-3 mb-6"><div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center"><CheckCircle size={20} className="text-emerald-600" /></div><h3 className="text-xl font-bold text-slate-900">Our Supportive System</h3></div>
                 <ul className="space-y-4">
-                  {['Structured pipeline: AutoCAD → SketchUp → V-Ray → Lumion → D5 → AI', 'AI renders for you. You design. 10x output.', 'Professional portfolio in 15 days — even from zero', 'All software FREE — no expensive licenses ever', 'Mentor support even at 11 PM before a deadline'].map((item, i) => (
+                  {['A friendly, step-by-step pipeline: AutoCAD → SketchUp → V-Ray → Lumion → AI', 'AI handles the heavy lifting. You focus on creativity. 10x your output stress-free.', 'A stunning, professional portfolio built safely in just 15 days—even from zero', 'All necessary software links provided—say goodbye to expensive licenses', 'A dedicated mentor practically holding your hand and answering questions'].map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-slate-700 text-sm"><CheckCircle size={14} className="text-blue-500 mt-1 shrink-0" />{item}</li>
                   ))}
                 </ul>
@@ -222,7 +225,7 @@ const LandingPage: React.FC = () => {
             {/* 6. INCOME TIERS — The ROI */}
             <div className="mt-20 pt-16 border-t border-slate-200">
               <div className="reveal text-center mb-10">
-                <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Apni First Deal Se Pura Paisa Vasool. <span className="text-emerald-600">Baaki Saari Zindagi Sirf Profit.</span></h2>
+                <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Invest in Yourself Today. <br className="hidden md:block" /><span className="text-emerald-600">Reap the Rewards Forever.</span></h2>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {INCOME_TIERS.map((tier, i) => (
@@ -244,9 +247,9 @@ const LandingPage: React.FC = () => {
         <section className="py-16 md:py-20 bg-slate-50 border-y border-slate-200 grid-bg">
           <div className="max-w-5xl mx-auto px-5">
             <div className="reveal text-center mb-10">
-              <p className="text-red-500 text-xs font-mono uppercase tracking-widest mb-3">Included with enrollment</p>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Tumhara Unfair Advantage - <span className="text-red-600">Aaj aur Abhi Se</span></h2>
-              <p className="text-slate-600 text-base md:text-lg max-w-2xl mx-auto">One bundle, one workflow, lifetime access. Everything your competitor wishes they had.</p>
+              <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-3">Included with enrollment</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Everything You Need to Succeed, <span className="text-orange-600">Provided Today</span></h2>
+              <p className="text-slate-600 text-base md:text-lg max-w-2xl mx-auto">A supportive bundle filled with all the software guides, mentors, and tools you need.</p>
             </div>
             <div className="reveal max-w-3xl mx-auto bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-soft">
               {VALUE_STACK_ITEMS.map((item, i) => (
@@ -341,8 +344,8 @@ const LandingPage: React.FC = () => {
           <CallToActionWidget 
             timeLeft={timeLeft} 
             onClick={openCheckout} 
-            headline="Just one question left — when will you start?" 
-            subtext="AI is widening the gap every day. 50,000+ students chose the right side. This is your moment." 
+            headline="Let us hold your hand towards a brighter future." 
+            subtext="AI is moving fast, but you don't have to face it alone. 50,000+ students chose our supportive community. We are ready when you are." 
           />
         </section>
       </main>
