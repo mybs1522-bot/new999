@@ -4,10 +4,11 @@ import { COURSES, COURSE_CATEGORIES, BUNDLE_PRICE, TESTIMONIALS, FAQ_ITEMS } fro
 import { ChevronDown, Sparkles, ArrowRight, Timer, Star, CheckCircle2, Zap, Check, Download, Phone, Mail, Lock, Loader2, X, Eye } from 'lucide-react';
 import { openRazorpayCheckout } from '../services/razorpay';
 import { CourseDetailModal } from '../components/CourseDetailModal';
+import { TextMarquee } from '../components/ui/text-marquee';
 
 // Logo Component
 const Logo = () => (
-  <div className="flex items-center gap-3 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+  <div className="flex items-center gap-3 cursor-pointer group" onClick={() => window.location.href = '/'}>
     <div className="relative w-9 h-9 border-2 border-gray-900 flex items-center justify-center bg-white transition-all duration-300 group-hover:bg-gray-900 group-hover:text-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] group-hover:translate-x-[2px] group-hover:translate-y-[2px]">
       <span className="font-display font-black text-lg tracking-tighter relative z-10">AV</span>
     </div>
@@ -225,81 +226,114 @@ const CheckoutPage: React.FC = () => {
       <main>
         {/* ═══════ HERO SECTION ═══════ */}
         {/* ═══════ COURSE SLIDESHOW ═══════ */}
-        <section className="py-8 bg-gray-50 border-b border-gray-100 overflow-hidden relative">
-           <div className="container mx-auto px-4">
-             <div className="mb-4 text-center">
-                 <div className="inline-flex items-center gap-2 text-brand-primary text-xs font-bold uppercase tracking-widest mb-1.5">
+        <section className="py-8 md:py-16 bg-white border-b border-gray-100 overflow-hidden relative">
+           <div className="container mx-auto px-4 mb-8">
+             <div className="text-center reveal">
+                 <div className="inline-flex items-center gap-2 text-brand-primary text-xs font-bold uppercase tracking-widest mb-2">
                    <Sparkles size={14} />
-                   All 12 Courses Included
+                   All 12 Premium Courses Included
                  </div>
-                 <h2 className="text-xl md:text-3xl font-display font-bold text-gray-900 leading-tight">Master Every Tool Needed<br/>For Professional Design</h2>
+                 <h2 className="text-2xl md:text-4xl font-display font-black text-gray-900 leading-tight">Master Every Tool Needed<br/>For Professional Design</h2>
              </div>
-             
-             {/* Slideshow Container */}
-             <div className="relative w-full max-w-sm mx-auto aspect-[4/5] h-[400px]">
-                {COURSES.map((course, idx) => (
-                  <div 
-                    key={course.id}
-                    className={`absolute inset-0 transition-opacity duration-500 ${idx === mobileSlideIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`}
-                  >
-                     <div className="w-full h-full bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col transform transition-transform duration-500 hover:scale-[1.02]">
-                        {/* Image Header */}
-                        <div className="relative h-3/5 w-full bg-gray-100 overflow-hidden">
-                           <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover" />
-                           <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-md">
-                            {course.software}
-                           </div>
-                           <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1.5 rounded-full flex items-center gap-1">
-                             <Star size={10} className="text-yellow-400 fill-yellow-400" /> {course.students}
-                           </div>
-                           {/* Gradient Overlay for Text */}
-                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-4 pb-2">
-                              <h3 className="font-display font-bold text-white text-xl leading-tight drop-shadow-md">{course.title}</h3>
-                           </div>
-                        </div>
-
-                        {/* Content Body */}
-                        <div className="flex-1 p-4 flex flex-col justify-between bg-white relative">
-                            {/* Accent Line */}
-                            <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${course.color || 'from-blue-500 to-indigo-500'}`}></div>
-                            
-                            <p className="text-gray-600 text-sm leading-relaxed line-clamp-2 mt-1">
-                               {course.description}
-                            </p>
-                            
-                            <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
-                                <div className="text-brand-primary text-xs font-bold flex items-center gap-1">
-                                    <Eye size={14}/> Preview Course
-                                </div>
-                                <div className="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1 border border-emerald-100">
-                                   <CheckCircle2 size={10}/> Included in Bundle
-                                </div>
-                            </div>
-                        </div>
-                     </div>
-                  </div>
-                ))}
-             </div>
-             
-             {/* Progress Indicators */}
-             <div className="flex justify-center gap-1.5 mt-5">
-               {COURSES.map((_, idx) => (
-                 <div 
-                   key={idx} 
-                   className={`h-1.5 rounded-full transition-all duration-300 ${idx === mobileSlideIndex ? 'w-6 bg-brand-primary' : 'w-2 bg-gray-300'}`}
-                 />
-               ))}
-             </div>
-
            </div>
+           
+           <div className="flex flex-col gap-3 md:gap-4 relative w-full overflow-hidden pb-4">
+            {/* ROW 1: Courses 1 to 6 */}
+            <div className="flex gap-3 md:gap-4 animate-scroll-right hover:pause w-max pl-4 md:pl-6">
+              {[...COURSES.slice(0, 6), ...COURSES.slice(0, 6)].map((course, i) => {
+                const globalIndex = i % 6;
+                return (
+                  <div key={`row1-${course.id}-${i}`} className="w-[140px] md:w-[150px] shrink-0 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div className="relative aspect-square overflow-hidden bg-gray-100 cursor-pointer" onClick={() => setDetailCourse(course)}>
+                      <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      
+                      {/* Number Badge */}
+                      <div className="absolute top-1.5 left-1.5 w-6 h-6 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center font-display font-bold text-gray-900 shadow-sm text-[10px] border border-gray-200">
+                        {globalIndex + 1}
+                      </div>
+                      
+                      {/* Software Badge */}
+                      <div className="absolute top-1.5 right-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full shadow-sm border border-gray-200">
+                        {course.software}
+                      </div>
+                      
+                      {/* View Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-lg">
+                          <Eye size={14} />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="p-2">
+                      <h3 className="font-display font-bold text-gray-900 text-xs md:text-sm mb-1 line-clamp-1 leading-tight" title={course.title}>{course.title}</h3>
+                      <div className="mt-1 pt-1 border-t border-gray-100">
+                        <div className="bg-emerald-50 text-emerald-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-emerald-100 w-full">
+                          <CheckCircle2 size={8}/> Included
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* ROW 2: Courses 7 to 12 */}
+            <div className="flex gap-3 md:gap-4 animate-scroll-right hover:pause w-max pl-4 md:pl-6" style={{ animationDelay: '-22.5s' }}>
+              {[...COURSES.slice(6, 12), ...COURSES.slice(6, 12)].map((course, i) => {
+                const globalIndex = (i % 6) + 6;
+                return (
+                  <div key={`row2-${course.id}-${i}`} className="w-[140px] md:w-[150px] shrink-0 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div className="relative aspect-square overflow-hidden bg-gray-100 cursor-pointer" onClick={() => setDetailCourse(course)}>
+                      <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      
+                      {/* Number Badge */}
+                      <div className="absolute top-1.5 left-1.5 w-6 h-6 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center font-display font-bold text-gray-900 shadow-sm text-[10px] border border-gray-200">
+                        {globalIndex + 1}
+                      </div>
+                      
+                      {/* Software Badge */}
+                      <div className="absolute top-1.5 right-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full shadow-sm border border-gray-200">
+                        {course.software}
+                      </div>
+                      
+                      {/* View Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-lg">
+                          <Eye size={14} />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="p-2">
+                      <h3 className="font-display font-bold text-gray-900 text-xs md:text-sm mb-1 line-clamp-1 leading-tight" title={course.title}>{course.title}</h3>
+                      <div className="mt-1 pt-1 border-t border-gray-100">
+                        <div className="bg-emerald-50 text-emerald-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-emerald-100 w-full">
+                          <CheckCircle2 size={8}/> Included
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </section>
 
         {/* ═══════ HERO SECTION ═══════ */}
         <section className="bg-white py-10 md:py-16 border-b border-gray-100 grid-bg">
           <div className="container mx-auto px-4 md:px-8 text-center max-w-2xl flex flex-col items-center">
-            <h2 className="text-2xl md:text-4xl font-display font-black text-gray-900 leading-tight">
-              You don't need a degree <br className="hidden md:block" />
-              <span className="text-brand-primary">to start Interior Designing.</span>
+            <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 leading-tight flex justify-center mb-4 md:mb-6">
+              <TextMarquee
+                prefix={<span className="text-gray-900 mr-2 md:mr-3">Learn</span>}
+                height={48}
+                speed={1}
+                className="text-brand-primary uppercase tracking-tight"
+              >
+                <span>Design</span>
+                <span>Planning</span>
+                <span>Rendering</span>
+              </TextMarquee>
             </h2>
             <button
               onClick={() => setShowPaymentModal(true)}
@@ -333,7 +367,7 @@ const CheckoutPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ═══════ COURSE GRID (REMOVED) ═══════ */}
+
 
         {/* ═══════ BUNDLE BANNER ═══════ */}
         <section className="py-12 md:py-16 px-4 md:px-8 bg-white grid-bg">
@@ -492,7 +526,7 @@ const CheckoutPage: React.FC = () => {
             {/* What's Included */}
             <div className="p-6 pb-3">
               <div className="grid grid-cols-2 gap-2 mb-4">
-                {["12 Premium Courses", "10,000+ Textures", "Software Guides", "Official Certificate", "Mentor Support", "Lifetime Access"].map((item, i) => (
+                {["12 Premium Courses", "10,000+ Textures", "Software Guides", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-gray-700 font-medium">
                     <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
                     {item}
