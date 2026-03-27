@@ -323,18 +323,17 @@ const CheckoutPage: React.FC = () => {
         {/* ═══════ HERO SECTION ═══════ */}
         <section className="bg-white py-10 md:py-16 border-b border-gray-100 grid-bg">
           <div className="container mx-auto px-4 md:px-8 text-center max-w-2xl flex flex-col items-center">
-            <h2 className="text-3xl md:text-5xl font-display font-black text-gray-900 leading-tight flex justify-center mb-4 md:mb-6">
-              <TextMarquee
-                prefix={<span className="text-gray-900 mr-2 md:mr-3">Learn</span>}
-                height={48}
-                speed={1}
-                className="text-brand-primary uppercase tracking-tight"
-              >
-                <span>Design</span>
-                <span>Planning</span>
-                <span>Rendering</span>
-              </TextMarquee>
-            </h2>
+            <div className="mb-2 md:mb-6 text-center">
+              <h2 className="text-xl md:text-3xl font-display font-black text-gray-900 leading-tight mb-1 tracking-tight">
+                Learn <span className="text-brand-primary uppercase">Design, Planning & Rendering</span>
+              </h2>
+              <p className="text-[10px] md:text-sm text-gray-600 font-medium italic leading-relaxed">
+                Because <span className="relative inline-block px-1.5 py-0.5">
+                  <span className="relative z-10 font-bold text-gray-900 not-italic uppercase tracking-tight">Skills are more important</span>
+                  <span className="absolute inset-x-0 bottom-0.5 h-1.5 bg-yellow-300/40 -rotate-1 rounded-sm transform scale-x-110"></span>
+                </span> than degrees.
+              </p>
+            </div>
             <button
               onClick={() => setShowPaymentModal(true)}
               className="mt-6 md:mt-8 inline-flex items-center gap-1.5 md:gap-3 px-5 md:px-10 py-3.5 md:py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl md:rounded-2xl font-bold text-[13px] md:text-lg shadow-xl shadow-blue-500/30 hover:shadow-blue-500/40 hover:scale-[1.02] transition-all group w-full sm:w-auto justify-center animate-shimmer border border-blue-400/50"
