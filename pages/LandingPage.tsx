@@ -1,20 +1,98 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Star, CheckCircle, CheckCircle2, X, ChevronDown, Sparkles } from 'lucide-react';
+import { ArrowRight, Star, CheckCircle, CheckCircle2, X, ChevronDown, Sparkles, Eye, Download, Phone, Mail, Lock, Loader2, Timer, Check } from 'lucide-react';
+import { COURSES, BUNDLE_PRICE } from '../constants';
 import { WhatsAppButton } from '../components/WhatsAppButton';
+import { openRazorpayCheckout } from '../services/razorpay';
 import {
-  Logo, CallToActionWidget, SocialProofToast,
+  Logo, SocialProofToast,
   PROBLEM_POINTS, TRANSFORMATION_STORIES, FEAR_STATS,
   VALUE_STACK_ITEMS, TESTIMONIALS_LANDING, FAQ_ITEMS_LANDING, INCOME_TIERS,
   COURSES_LANDING, PAGE_PREVIEWS_ROW1, PAGE_PREVIEWS_ROW2
 } from './LandingHelpers';
 
+/* ─── REUSABLE CTA WITH TIMER (Apple-style proportions) ─── */
+const CtaWithTimer = ({ timeLeft, onClick, variant = 'orange' }: { timeLeft: { h: number; m: number; s: number }; onClick: () => void; variant?: 'orange' | 'dark' | 'blue' }) => {
+  const f = (v: number) => v.toString().padStart(2, '0');
+  const bgClass = variant === 'dark'
+    ? 'bg-slate-900'
+    : variant === 'blue'
+      ? 'bg-gradient-to-br from-blue-600 to-indigo-700'
+      : 'bg-gradient-to-br from-orange-500 to-orange-600';
+  const btnClass = variant === 'dark'
+    ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-500/25'
+    : variant === 'blue'
+      ? 'bg-white text-blue-700 hover:bg-blue-50 shadow-lg shadow-white/15'
+      : 'bg-slate-900 hover:bg-black shadow-lg shadow-black/25';
+  const textColor = 'text-white';
+  const btnTextColor = variant === 'blue' ? 'text-blue-700' : 'text-white';
+  const timerAccent = variant === 'orange' ? 'text-yellow-200' : variant === 'blue' ? 'text-blue-200' : 'text-orange-400';
+  const timerBg = variant === 'dark' ? 'bg-slate-800 border-slate-700' : variant === 'blue' ? 'bg-white/15 border-white/20' : 'bg-white/20 border-white/30';
+
+  return (
+    <div className={`${bgClass} rounded-2xl md:rounded-3xl px-5 py-6 md:p-10 relative overflow-hidden`}>
+      <div className="absolute top-0 right-0 w-60 h-60 bg-white/5 rounded-full blur-[80px] -mr-16 -mt-16 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full blur-[60px] -ml-10 -mb-10 pointer-events-none" />
+
+      <div className="relative z-10 flex flex-col items-center text-center gap-4 md:gap-5">
+        {/* Timer label */}
+        <div className="flex items-center gap-1.5">
+          <Timer size={14} className={`${timerAccent} animate-pulse`} />
+          <span className={`text-[10px] md:text-xs font-bold uppercase tracking-widest ${timerAccent}`}>Offer Ends In</span>
+        </div>
+
+        {/* Timer digits - compact on mobile */}
+        <div className="flex items-center gap-1.5 md:gap-2.5">
+          {[{ val: f(timeLeft.h), label: 'HRS' }, { val: f(timeLeft.m), label: 'MIN' }, { val: f(timeLeft.s), label: 'SEC' }].map((unit, i) => (
+            <React.Fragment key={i}>
+              <div className="flex flex-col items-center">
+                <div className={`${timerBg} border rounded-lg md:rounded-xl px-3 py-1.5 md:px-4 md:py-2.5`}>
+                  <span className={`text-xl md:text-3xl font-display font-black tabular-nums ${textColor}`}>{unit.val}</span>
+                </div>
+                <span className={`text-[8px] md:text-[9px] font-bold uppercase tracking-widest mt-1 ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'}`}>{unit.label}</span>
+              </div>
+              {i < 2 && <span className={`text-lg md:text-2xl font-bold ${variant === 'dark' ? 'text-slate-600' : 'text-white/30'} -mt-3`}>:</span>}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Price - tighter on mobile */}
+        <div className="flex items-baseline gap-2">
+          <span className={`text-sm md:text-lg ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'} line-through font-bold`}>₹2,999</span>
+          <span className={`text-3xl md:text-4xl font-display font-black ${textColor}`}>₹{BUNDLE_PRICE}</span>
+          <span className={`${variant === 'dark' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/20 text-white'} text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-full`}>66% OFF</span>
+        </div>
+
+        {/* Button - full width on mobile, auto on desktop */}
+        <button
+          onClick={onClick}
+          className={`${btnClass} ${btnTextColor} font-bold text-sm md:text-base px-6 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-2 md:gap-3 group hover:scale-[1.02] active:scale-[0.98] transition-all w-full sm:w-auto`}
+        >
+          <Download size={16} className="shrink-0" />
+          <span>Download All 12 Courses — ₹{BUNDLE_PRICE}</span>
+          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform shrink-0" />
+        </button>
+
+        <p className={`text-[10px] md:text-xs font-medium ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'}`}>Lifetime access • All software included • 7-day money-back</p>
+      </div>
+    </div>
+  );
+};
+
 const LandingPage: React.FC = () => {
-  const navigate = useNavigate();
   const [timeLeft, setTimeLeft] = useState(() => { const D = (3 * 3600 + 36 * 60 + 20) * 1000, r = D - (Date.now() % D); return { h: Math.floor((r / 3600000) % 24), m: Math.floor((r / 60000) % 60), s: Math.floor((r / 1000) % 60) }; });
   const [showStickyBar, setShowStickyBar] = useState(false);
   useEffect(() => { window.scrollTo(0, 0); }, []);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  // Payment modal state
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneError, setPhoneError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState('');
+  const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const calc = () => { const D = (3 * 3600 + 36 * 60 + 20) * 1000, now = Date.now(), r = D - (now % D); setTimeLeft({ h: Math.floor((r / 3600000) % 24), m: Math.floor((r / 60000) % 60), s: Math.floor((r / 1000) % 60) }); };
@@ -22,7 +100,39 @@ const LandingPage: React.FC = () => {
   }, []);
   useEffect(() => { const h = () => setShowStickyBar(window.scrollY > 600); window.addEventListener('scroll', h, { passive: true }); return () => window.removeEventListener('scroll', h); }, []);
 
-  const openCheckout = () => navigate('/checkout');
+  const formatTime = (val: number) => val.toString().padStart(2, '0');
+  const validateEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  const openPaymentModal = () => setShowPaymentModal(true);
+
+  const handlePayment = () => {
+    let hasError = false;
+    if (!phone || phone.length < 10) { setPhoneError(true); hasError = true; } else { setPhoneError(false); }
+    if (!email || !validateEmail(email)) { setEmailError(true); hasError = true; } else { setEmailError(false); }
+    if (hasError) return;
+
+    setIsLoading(true);
+    setPaymentError('');
+
+    openRazorpayCheckout({
+      amount: BUNDLE_PRICE,
+      courseIds: COURSES.map(c => c.id),
+      userPhone: phone,
+      userEmail: email,
+      onSuccess: (paymentId) => {
+        setIsLoading(false);
+        setPaymentSuccess(paymentId);
+        setShowPaymentModal(false);
+      },
+      onCancel: () => {
+        setIsLoading(false);
+      },
+      onError: (err) => {
+        setIsLoading(false);
+        setPaymentError('Payment failed. Please try again or contact support.');
+        console.error('Razorpay Error:', err);
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 font-sans overflow-x-hidden selection:bg-blue-100 grid-bg">
@@ -31,7 +141,7 @@ const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Logo />
           <div className="flex items-center gap-4">
-            <button onClick={openCheckout} className="hidden md:block text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all premium-stroke" style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)', boxShadow: '0 0 15px rgba(249,115,22,0.4)' }}>Join 50,000+ Students</button>
+            <button onClick={openPaymentModal} className="hidden md:block text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all premium-stroke" style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)', boxShadow: '0 0 15px rgba(249,115,22,0.4)' }}>Join 50,000+ Students</button>
           </div>
         </div>
       </header>
@@ -54,15 +164,32 @@ const LandingPage: React.FC = () => {
                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                 <span className="text-xs font-medium text-slate-600">50,000+ Students Supported 24/7 by Our Team</span>
               </div>
-              <h1 className="text-3xl md:text-4xl lg:text-[52px] font-display font-bold leading-[1.15] mb-6 text-slate-900 tracking-tight">
-                Architects & Interior Designers <br className="hidden lg:block" />
-                <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">are losing jobs according to Claude.</span>
+              <h1 className="leading-[1.15] mb-6 text-slate-900 tracking-tight">
+                <span className="block text-slate-400 text-xs md:text-sm font-medium uppercase tracking-[0.3em] mb-3 font-sans">If you want to do</span>
+                <span className="block text-3xl md:text-4xl lg:text-[52px] font-display font-black">
+                  Planning & Designing
+                </span>
+                <span className="block text-xl md:text-2xl lg:text-3xl font-serif italic text-slate-400 mt-1">
+                  of
+                </span>
+                <span className="block text-3xl md:text-4xl lg:text-[52px] font-display font-black mt-1">
+                  <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Interiors</span>
+                  <span className="text-slate-300 font-light mx-2">&</span>
+                  <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">Exteriors</span>
+                </span>
+                <span className="block mt-3 md:mt-4">
+                  <span className="text-slate-400 text-sm md:text-lg font-medium">and</span>
+                  <span className="block text-2xl md:text-3xl lg:text-4xl font-display font-black mt-1">
+                    <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Learn AI</span>
+                    <span className="font-serif italic text-slate-400 text-xl md:text-2xl lg:text-3xl ml-2">for Design</span>
+                  </span>
+                </span>
               </h1>
-              <div className="w-full max-w-4xl mx-auto mb-8 rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
-                <img src="https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fc1952c81bca02a7c8cc05ef7801e67ca60831c55-4096x4096.png&w=3840&q=75" alt="Claude AI Impact on Architecture" className="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-500" />
-              </div>
-              <p className="text-lg md:text-xl text-slate-700 font-bold mb-6 leading-relaxed max-w-4xl mx-auto">
-                <span className="text-orange-600">But you don't need to worry.</span> If you know how to use AI for your leverage, you become irreplaceable. We will patiently hold your hand and upgrade your skills in Interior & Exterior Designing, Planning, and Rendering.
+              <p className="text-lg md:text-2xl font-display font-bold text-slate-900 mb-3">
+                You're at the <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">right place.</span>
+              </p>
+              <p className="text-sm md:text-base text-slate-500 mb-8 leading-relaxed max-w-2xl mx-auto font-medium">
+                12 industry-standard courses. One affordable bundle. From AutoCAD to AI-powered rendering — everything you need to build a career you're proud of.
               </p>
               
               {/* New Story Section */}
@@ -87,7 +214,8 @@ const LandingPage: React.FC = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 items-center mb-8">
-                <button onClick={openCheckout} className="px-10 py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-[1.03] transition-all flex items-center gap-3 group whitespace-nowrap premium-stroke">
+                <button onClick={openPaymentModal} className="px-10 py-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl font-bold text-lg shadow-xl shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-[1.03] transition-all flex items-center gap-3 group whitespace-nowrap premium-stroke">
+                  <Download size={18} className="shrink-0" />
                   Get All Courses & 24/7 Team Support <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </button>
               </div>
@@ -98,48 +226,113 @@ const LandingPage: React.FC = () => {
                 <iframe title="Course overview video" src="https://iframe.mediadelivery.net/embed/489113/e68f78b5-c535-4e8f-aaee-8a44b514a9ec?autoplay=true&loop=true&muted=true&preload=true&responsive=true" loading="eager" style={{ border: 'none', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'transparent' }} allow="accelerometer; gyroscope; autoplay; encrypted-in-picture;" allowFullScreen={true} />
               </div>
 
-              {/* Course Thumbnails */}
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-3 w-full max-w-4xl mb-8">
-                {COURSES_LANDING.map((c) => (
-                  <div key={c.id} className="relative rounded-xl overflow-hidden aspect-[4/3] bg-slate-100 border border-slate-200 group cursor-pointer hover:border-blue-500/50 transition-all hover:scale-105">
-                    <img src={c.imageUrl} alt={c.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity" />
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-                      <span className="text-[10px] font-bold text-white/80 uppercase tracking-wider">{c.software}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+
             </div>
           </div>
         </section>
 
 
-        {/* 1.25. PRICING EXPLANATION — The Value Proposition */}
-        <section className="py-10 bg-orange-50/50 border-b border-orange-100">
-          <div className="max-w-4xl mx-auto px-5">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8 bg-white p-8 md:p-10 rounded-[32px] border border-orange-200 shadow-2xl shadow-orange-500/5 relative overflow-hidden reveal">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-              <div className="flex-1 text-center md:text-left relative z-10">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">
-                  <Sparkles size={12} /> Special Student Initiative
-                </div>
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-slate-900 mb-4 leading-tight">Designed for Students. <br/>Priced for Your Growth.</h3>
-                <p className="text-slate-600 text-lg font-medium leading-relaxed max-w-lg">
-                  We've kept the price low to help you grow in this industry without breaking the bank. 
-                  <span className="block mt-2 text-slate-900 font-bold italic">Your future shouldn't cost a fortune. That's our promise.</span>
-                </p>
-              </div>
-              <div className="flex flex-col items-center justify-center bg-gradient-to-br from-orange-500 to-orange-600 text-white px-10 py-8 rounded-[24px] shadow-2xl shadow-orange-500/30 transform hover:scale-105 transition-all cursor-pointer group premium-stroke relative z-10 w-full md:w-auto" onClick={openCheckout}>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-90 mb-2">Offer This Week Only</p>
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-xl text-orange-200/70 line-through font-bold">₹2,999</span>
-                  <span className="text-5xl font-black tracking-tighter">₹999</span>
-                </div>
-                <div className="h-0.5 w-12 bg-white/30 rounded-full mb-3"></div>
-                <p className="text-xs font-black bg-white/20 px-3 py-1 rounded-full uppercase tracking-wider">Join for 66% Off</p>
-                <ArrowRight className="mt-4 group-hover:translate-x-1 transition-transform" size={20} />
-              </div>
+        {/* ═══════ COURSE SLIDESHOW — Master Every Tool ═══════ */}
+        <section className="py-8 md:py-16 bg-white border-b border-gray-100 overflow-hidden relative">
+           <div className="container mx-auto px-4 mb-8">
+             <div className="text-center reveal">
+                 <div className="inline-flex items-center gap-2 text-blue-600 text-xs font-bold uppercase tracking-widest mb-2">
+                   <Sparkles size={14} />
+                   All 12 Premium Courses Included
+                 </div>
+                 <h2 className="text-2xl md:text-4xl font-display font-black text-gray-900 leading-tight">Master Every Tool Needed<br/>For Professional Design</h2>
+             </div>
+           </div>
+           
+           <div className="flex flex-col gap-3 md:gap-4 relative w-full overflow-hidden pb-4">
+            {/* ROW 1: Courses 1 to 6 */}
+            <div className="flex gap-3 md:gap-4 animate-scroll-right hover:pause w-max pl-4 md:pl-6">
+              {[...COURSES.slice(0, 6), ...COURSES.slice(0, 6)].map((course, i) => {
+                const globalIndex = i % 6;
+                return (
+                  <div key={`row1-${course.id}-${i}`} className="w-[140px] md:w-[150px] shrink-0 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div className="relative aspect-square overflow-hidden bg-gray-100">
+                      <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      
+                      {/* Number Badge */}
+                      <div className="absolute top-1.5 left-1.5 w-6 h-6 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center font-display font-bold text-gray-900 shadow-sm text-[10px] border border-gray-200">
+                        {globalIndex + 1}
+                      </div>
+                      
+                      {/* Software Badge */}
+                      <div className="absolute top-1.5 right-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full shadow-sm border border-gray-200">
+                        {course.software}
+                      </div>
+                      
+                      {/* View Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-lg">
+                          <Eye size={14} />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="p-2">
+                      <h3 className="font-display font-bold text-gray-900 text-xs md:text-sm mb-1 line-clamp-1 leading-tight" title={course.title}>{course.title}</h3>
+                      <div className="mt-1 pt-1 border-t border-gray-100">
+                        <div className="bg-emerald-50 text-emerald-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-emerald-100 w-full">
+                          <CheckCircle2 size={8}/> Included
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+            
+            {/* ROW 2: Courses 7 to 12 */}
+            <div className="flex gap-3 md:gap-4 animate-scroll-right hover:pause w-max pl-4 md:pl-6" style={{ animationDelay: '-22.5s' }}>
+              {[...COURSES.slice(6, 12), ...COURSES.slice(6, 12)].map((course, i) => {
+                const globalIndex = (i % 6) + 6;
+                return (
+                  <div key={`row2-${course.id}-${i}`} className="w-[140px] md:w-[150px] shrink-0 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div className="relative aspect-square overflow-hidden bg-gray-100">
+                      <img src={course.imageUrl} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      
+                      {/* Number Badge */}
+                      <div className="absolute top-1.5 left-1.5 w-6 h-6 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center font-display font-bold text-gray-900 shadow-sm text-[10px] border border-gray-200">
+                        {globalIndex + 1}
+                      </div>
+                      
+                      {/* Software Badge */}
+                      <div className="absolute top-1.5 right-1.5 bg-white/95 backdrop-blur-sm text-gray-900 text-[8px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded-full shadow-sm border border-gray-200">
+                        {course.software}
+                      </div>
+                      
+                      {/* View Overlay */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-lg">
+                          <Eye size={14} />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="p-2">
+                      <h3 className="font-display font-bold text-gray-900 text-xs md:text-sm mb-1 line-clamp-1 leading-tight" title={course.title}>{course.title}</h3>
+                      <div className="mt-1 pt-1 border-t border-gray-100">
+                        <div className="bg-emerald-50 text-emerald-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-emerald-100 w-full">
+                          <CheckCircle2 size={8}/> Included
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+
+
+        {/* ═══════ CTA #1 — After Course Showcase ═══════ */}
+        <section className="py-8 md:py-10 px-4 md:px-5">
+          <div className="max-w-3xl mx-auto">
+            <CtaWithTimer timeLeft={timeLeft} onClick={openPaymentModal} variant="orange" />
           </div>
         </section>
 
@@ -165,40 +358,7 @@ const LandingPage: React.FC = () => {
           </div>
         </section>
 
-        {/* 1.5. THE AI REALITY CHECK */}
-        <section className="py-16 md:py-20 bg-slate-900 border-y border-slate-800 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3" />
-          
-          <div className="max-w-4xl mx-auto px-5 relative z-10 text-center">
-            <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 bg-red-500/10 border border-red-500/20 rounded-full reveal">
-              <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-              <span className="text-xs font-bold text-red-500 tracking-wider uppercase">Urgent Industry Shift</span>
-            </div>
-            
-            <h2 className="text-3xl md:text-5xl font-display font-bold leading-tight mb-6 reveal">
-              AI Is Changing Everything. <br className="hidden md:block" /><span className="text-orange-500">Don't Get Left Behind.</span>
-            </h2>
-            
-            <p className="text-xl md:text-2xl text-slate-300 font-medium mb-12 leading-relaxed max-w-3xl mx-auto reveal">
-              It's true: slow, traditional drafting jobs are disappearing as AI takes over. We know it feels scary. <br className="hidden md:block" />
-              But here is the good news—<strong className="text-white border-b-2 border-orange-500">AI needs a creative director</strong>. We will patiently hold your hand and teach you how to partner with these tools, turning fear into your biggest advantage.
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 text-left max-w-3xl mx-auto">
-              <div className="bg-slate-800/50 border border-red-900/50 p-6 md:p-8 rounded-2xl backdrop-blur-sm reveal hover:border-red-500/30 transition-colors">
-                <div className="text-red-400 mb-4 bg-red-400/10 w-12 h-12 rounded-xl flex items-center justify-center"><X size={24} /></div>
-                <h3 className="text-xl font-bold text-white mb-3">The Old Approach is Dying</h3>
-                <p className="text-sm md:text-base text-slate-400 leading-relaxed">Spending 40 hours drawing 2D lines and hunting for material textures manually is no longer viable. Clients expect photorealistic 3D visuals instantly.</p>
-              </div>
-              <div className="bg-gradient-to-br from-orange-900/40 to-amber-900/20 border border-orange-500/30 p-6 md:p-8 rounded-2xl backdrop-blur-sm reveal shadow-[0_0_30px_rgba(249,115,22,0.15)] hover:border-orange-400/50 transition-colors">
-                <div className="text-orange-400 mb-4 bg-orange-400/10 w-12 h-12 rounded-xl flex items-center justify-center"><Sparkles size={24} /></div>
-                <h3 className="text-xl font-bold text-white mb-3">Your Irreplaceable Future</h3>
-                <p className="text-sm md:text-base text-slate-300 leading-relaxed">We will safely guide you to combine the precision of SketchUp with the speed of AI. You'll generate ideas in seconds and deliver polished renders in hours, completely stress-free.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         {/* 4. STUDENT WORK CAROUSEL — Visual Proof */}
         <section className="py-16 md:py-24 bg-slate-50 overflow-hidden border-b border-slate-200 grid-bg">
@@ -262,7 +422,7 @@ const LandingPage: React.FC = () => {
                 </ul>
                 <div className="mt-6 pt-6 border-t border-orange-100 flex items-center justify-between">
                   <span className="text-slate-600 text-sm italic font-bold">A complete learning ecosystem for just ₹999.</span>
-                  <button onClick={openCheckout} className="text-orange-600 font-bold text-sm hover:text-orange-800 flex items-center gap-1 group">Join Our Community <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" /></button>
+                  <button onClick={openPaymentModal} className="text-orange-600 font-bold text-sm hover:text-orange-800 flex items-center gap-1 group">Join Our Community <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" /></button>
                 </div>
               </div>
 
@@ -325,11 +485,18 @@ const LandingPage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row gap-6 items-center justify-center w-full">
                   <span className="text-slate-900 font-bold text-center">Lifetime Access + Free Updates</span>
                 </div>
-                <button onClick={openCheckout} className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold text-lg shadow-xl shadow-blue-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group premium-stroke">
-                  Access Everything Instantly <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
+                <button onClick={openPaymentModal} className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl font-bold text-lg shadow-xl shadow-blue-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group premium-stroke">
+                  <Download size={16} /> Access Everything Instantly <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </button>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* ═══════ CTA #2 — After Value Stack ═══════ */}
+        <section className="py-8 md:py-10 px-4 md:px-5 bg-white">
+          <div className="max-w-3xl mx-auto">
+            <CtaWithTimer timeLeft={timeLeft} onClick={openPaymentModal} variant="blue" />
           </div>
         </section>
 
@@ -398,12 +565,14 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          <CallToActionWidget 
-            timeLeft={timeLeft} 
-            onClick={openCheckout} 
-            headline="Let us hold your hand towards a brighter future." 
-            subtext="AI is moving fast, but you don't have to face it alone. 50,000+ students chose our supportive community. We are ready when you are." 
-          />
+          {/* ═══════ CTA #3 — Final CTA ═══════ */}
+          <div className="max-w-3xl mx-auto px-4 md:px-5">
+            <div className="text-center mb-6 md:mb-8">
+              <h3 className="text-xl md:text-3xl font-display font-bold text-slate-900 mb-2">Let us hold your hand towards a brighter future.</h3>
+              <p className="text-slate-500 text-xs md:text-sm">AI is moving fast, but you don't have to face it alone. 50,000+ students chose our supportive community.</p>
+            </div>
+            <CtaWithTimer timeLeft={timeLeft} onClick={openPaymentModal} variant="dark" />
+          </div>
         </section>
       </main>
 
@@ -412,19 +581,180 @@ const LandingPage: React.FC = () => {
         <div className="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-400"><span>Privacy</span><span>Terms</span><span>Support</span></div>
       </footer>
 
+      {/* ═══ STICKY BOTTOM BAR ═══ */}
       <div className={`fixed bottom-0 left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-t border-slate-200 p-2 shadow-[0_-4px_30px_rgba(15,23,42,0.08)] transition-transform duration-300 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
         <div className="max-w-7xl mx-auto">
-          <button onClick={openCheckout} className="w-full relative group overflow-hidden text-white rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all py-2.5 flex items-center px-4" style={{ background: 'linear-gradient(90deg,#f97316,#ea580c,#f97316)', boxShadow: '0 0 20px rgba(249,115,22,0.4)' }}>
+          <button onClick={openPaymentModal} className="w-full relative group overflow-hidden text-white rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all py-2.5 flex items-center px-4" style={{ background: 'linear-gradient(90deg,#f97316,#ea580c,#f97316)', boxShadow: '0 0 20px rgba(249,115,22,0.4)' }}>
             <div className="relative z-10 w-full flex items-center justify-between">
               <div className="flex flex-col items-start leading-tight gap-1">
-                <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-yellow-200 animate-pulse bg-black/20 px-2 py-0.5 rounded-md inline-block">⚠️ Offer Ends Soon</span>
-                <span className="text-[15px] md:text-lg font-black uppercase tracking-[0.05em] text-white">Download All Courses</span>
+                <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-yellow-200 animate-pulse bg-black/20 px-2 py-0.5 rounded-md inline-block">⚠️ Offer Ends In {formatTime(timeLeft.h)}:{formatTime(timeLeft.m)}:{formatTime(timeLeft.s)}</span>
+                <span className="text-[15px] md:text-lg font-black uppercase tracking-[0.05em] text-white">Download All Courses — ₹{BUNDLE_PRICE}</span>
               </div>
               <ArrowRight size={24} className="text-white group-hover:translate-x-1 transition-transform drop-shadow-md" />
             </div>
           </button>
         </div>
       </div>
+
+      {/* ═══════ PAYMENT MODAL ═══════ */}
+      {showPaymentModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => !isLoading && setShowPaymentModal(false)} />
+          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden animate-[fadeIn_0.3s_ease-out]">
+            <button aria-label="Close payment modal" onClick={() => !isLoading && setShowPaymentModal(false)} className="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded-full text-white transition-colors cursor-pointer">
+              <X size={16} />
+            </button>
+
+            {/* Header */}
+            <div className="bg-gray-900 text-white p-6 pb-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-3">
+                  <Sparkles size={14} className="fill-yellow-400" />
+                  Complete Bundle
+                </div>
+                <h3 className="text-2xl font-display font-bold mb-2">All {COURSES.length} Courses</h3>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-display font-black">₹{BUNDLE_PRICE}</span>
+                  <span className="text-gray-400 text-sm line-through">₹11,988</span>
+                  <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded-full">92% OFF</span>
+                </div>
+              </div>
+            </div>
+
+            {/* What's Included */}
+            <div className="p-6 pb-3">
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                {["12 Premium Courses", "10,000+ Textures", "Software Guides", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs text-gray-700 font-medium">
+                    <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
+                    {item}
+                  </div>
+                ))}
+              </div>
+
+              {/* Timer */}
+              <div className="bg-red-50 rounded-xl p-3 mb-4 flex items-center justify-between border border-red-100">
+                <div className="flex items-center gap-2">
+                  <Timer size={14} className="text-blue-600 animate-pulse" />
+                  <span className="text-xs font-bold text-gray-900">Offer ends in:</span>
+                </div>
+                <div className="flex items-center gap-0.5 font-display font-bold text-sm tabular-nums text-blue-600 bg-white px-2.5 py-1 rounded-md border border-red-100 shadow-sm">
+                  <span>{formatTime(timeLeft.h)}</span>
+                  <span className="text-gray-400">:</span>
+                  <span>{formatTime(timeLeft.m)}</span>
+                  <span className="text-gray-400">:</span>
+                  <span>{formatTime(timeLeft.s)}</span>
+                </div>
+              </div>
+
+              {/* Contact Inputs */}
+              <div className="space-y-3 mb-4">
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 px-1">Phone Number</label>
+                  <div className="relative">
+                    <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <span className="absolute left-9 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">+91</span>
+                    <input
+                      type="tel"
+                      placeholder="10-digit number"
+                      value={phone}
+                      onChange={(e) => { setPhone(e.target.value.replace(/\D/g, '').slice(0, 10)); setPhoneError(false); }}
+                      className={`w-full pl-16 pr-4 py-2.5 bg-gray-50 border ${phoneError ? 'border-red-500 bg-red-50' : 'border-gray-200'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all`}
+                    />
+                  </div>
+                  {phoneError && <p className="text-red-500 text-[10px] mt-1 px-1 font-bold">Enter a valid 10-digit number</p>}
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 px-1">Email Address</label>
+                  <div className="relative">
+                    <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => { setEmail(e.target.value); setEmailError(false); }}
+                      className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border ${emailError ? 'border-red-500 bg-red-50' : 'border-gray-200'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-all`}
+                    />
+                  </div>
+                  {emailError && <p className="text-red-500 text-[10px] mt-1 px-1 font-bold">Enter a valid email address</p>}
+                </div>
+              </div>
+
+              {paymentError && <p className="text-red-500 text-xs mb-3 text-center bg-red-50 p-2 rounded">{paymentError}</p>}
+
+              {/* Pay Button */}
+              <button
+                onClick={handlePayment}
+                disabled={isLoading}
+                className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 transition-all shadow-xl shadow-blue-500/20 hover:shadow-blue-500/30 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed group"
+              >
+                {isLoading ? (
+                  <><Loader2 className="animate-spin" size={20} /> Processing...</>
+                ) : (
+                  <>
+                    <Download size={18} />
+                    Pay ₹{BUNDLE_PRICE} & Download All
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </button>
+              <div className="flex items-center justify-center gap-2 mt-3 text-[10px] text-gray-400">
+                <Lock size={10} /> SSL Secured Payment • 7-Day Money-Back Guarantee
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ═══════ PAYMENT SUCCESS OVERLAY ═══════ */}
+      {paymentSuccess && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.5s_ease]">
+          <div className="bg-white rounded-[2rem] p-8 max-w-lg w-full text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-100 relative overflow-hidden max-h-[90vh] overflow-y-auto">
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+              <Check size={40} className="text-blue-600" strokeWidth={3} />
+            </div>
+            <h2 className="text-3xl font-display font-black text-gray-900 mb-2">Payment Successful!</h2>
+            <p className="text-gray-500 mb-6 leading-relaxed">
+              Your payment of <span className="font-bold text-gray-900">₹{BUNDLE_PRICE}</span> was received. Welcome to Avada!
+            </p>
+            <div className="bg-gray-50 rounded-2xl p-5 mb-6 text-left border border-gray-100">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles size={16} className="text-blue-600" />
+                <h3 className="font-bold text-gray-900">Your Course Access Link:</h3>
+              </div>
+              <p className="text-sm text-gray-600 mb-3 leading-relaxed">
+                Click the link below to access all your courses on Google Drive. <strong>Please bookmark or save this link securely.</strong>
+              </p>
+              <a
+                href="https://drive.google.com/drive/folders/1CCyv9u82HiYI8jnyULISfBoGMcbcqd9U?usp=drive_link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-3 px-4 rounded-xl text-center border border-blue-200 transition-colors break-all text-xs sm:text-sm"
+              >
+                Access Courses on Google Drive
+              </a>
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-4 mb-8 text-left border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Receipt Number</div>
+                <div className="font-mono text-xs text-gray-600 truncate">{paymentSuccess}</div>
+              </div>
+              <div className="sm:text-right w-full sm:w-auto p-3 bg-white rounded-lg border border-gray-100">
+                <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Support / WhatsApp</div>
+                <a href="https://wa.me/918545015333" target="_blank" rel="noopener noreferrer" className="font-bold text-green-600 hover:text-green-700">+91 8545015333</a>
+              </div>
+            </div>
+            <button
+              onClick={() => setPaymentSuccess(null)}
+              className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+            >
+              Close & Start Learning
+            </button>
+          </div>
+        </div>
+      )}
 
       <WhatsAppButton />
       <SocialProofToast />
