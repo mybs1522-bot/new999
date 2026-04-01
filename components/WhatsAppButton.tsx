@@ -10,11 +10,18 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ visible = true }
     const phoneNumber = '918454015333';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=Hi, I have a question about the design courses.`;
 
+    const handleWhatsAppClick = () => {
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+            (window as any).fbq('track', 'Contact');
+        }
+    };
+
     return (
         <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={handleWhatsAppClick}
             className="fixed bottom-20 right-4 md:bottom-24 md:right-8 z-50 group"
             aria-label="Chat on WhatsApp"
         >

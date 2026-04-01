@@ -102,13 +102,24 @@ const LandingPage: React.FC = () => {
 
   const formatTime = (val: number) => val.toString().padStart(2, '0');
   const validateEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
-  const openPaymentModal = () => setShowPaymentModal(true);
+  const openPaymentModal = () => {
+    setShowPaymentModal(true);
+    // Meta Pixel: InitiateCheckout
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'InitiateCheckout');
+    }
+  };
 
   const handlePayment = () => {
     let hasError = false;
     if (!phone || phone.length < 10) { setPhoneError(true); hasError = true; } else { setPhoneError(false); }
     if (!email || !validateEmail(email)) { setEmailError(true); hasError = true; } else { setEmailError(false); }
     if (hasError) return;
+
+    // Meta Pixel: AddPaymentInfo
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'AddPaymentInfo');
+    }
 
     setIsLoading(true);
     setPaymentError('');
@@ -122,6 +133,14 @@ const LandingPage: React.FC = () => {
         setIsLoading(false);
         setPaymentSuccess(paymentId);
         setShowPaymentModal(false);
+        
+        // Meta Pixel: Purchase
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Purchase', {
+            value: BUNDLE_PRICE,
+            currency: 'INR'
+          });
+        }
       },
       onCancel: () => {
         setIsLoading(false);
@@ -158,38 +177,35 @@ const LandingPage: React.FC = () => {
             <div className="flex flex-col items-center text-center pt-8 md:pt-16">
               <div className="mb-4 inline-flex items-center gap-2 px-4 py-1.5 bg-orange-50 border border-orange-200 rounded-full">
                 <CheckCircle size={14} className="text-orange-600" />
-                <span className="text-xs font-bold text-orange-700">Your Complete Journey to Professional 3D Excellence</span>
+                <span className="text-xs font-bold text-orange-700">Course + Skill Certificate + Freelance Projects + Free Software</span>
               </div>
               <div className="mb-6 inline-flex items-center gap-2 px-4 py-1.5 bg-slate-50 border border-slate-200 rounded-full">
                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                 <span className="text-xs font-medium text-slate-600">50,000+ Students Supported 24/7 by Our Team</span>
               </div>
               <h1 className="leading-[1.15] mb-6 text-slate-900 tracking-tight">
-                <span className="block text-slate-400 text-xs md:text-sm font-medium uppercase tracking-[0.3em] mb-3 font-sans">If you want to do</span>
-                <span className="block text-3xl md:text-4xl lg:text-[52px] font-display font-black">
-                  Planning & Designing
+                <span className="block text-lg md:text-xl lg:text-2xl font-display font-bold text-slate-600 mb-2">
+                  Learn Complete Interior and Exterior Designing and start taking personal projects.
                 </span>
-                <span className="block text-xl md:text-2xl lg:text-3xl font-serif italic text-slate-400 mt-1">
-                  of
+                <span className="block text-3xl md:text-4xl lg:text-[52px] font-display font-black">
+                  Learn to Design
                 </span>
                 <span className="block text-3xl md:text-4xl lg:text-[52px] font-display font-black mt-1">
-                  <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Interiors</span>
+                  <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Homes</span>
+                  <span className="text-slate-300 font-light mx-2">,</span>
+                  <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">Offices</span>
                   <span className="text-slate-300 font-light mx-2">&</span>
-                  <span className="bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">Exteriors</span>
+                  <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Villas</span>
                 </span>
-                <span className="block mt-3 md:mt-4">
-                  <span className="text-slate-400 text-sm md:text-lg font-medium">and</span>
-                  <span className="block text-2xl md:text-3xl lg:text-4xl font-display font-black mt-1">
-                    <span className="bg-gradient-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Learn AI</span>
-                    <span className="font-serif italic text-slate-400 text-xl md:text-2xl lg:text-3xl ml-2">for Design</span>
-                  </span>
+                <span className="block text-xl md:text-2xl lg:text-3xl font-serif italic text-slate-400 mt-2">
+                  and show real 3D to clients.
                 </span>
               </h1>
               <p className="text-lg md:text-2xl font-display font-bold text-slate-900 mb-3">
-                You're at the <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">right place.</span>
+                Learn <span className="bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">PDR</span> — Planning, Designing & Rendering
               </p>
               <p className="text-sm md:text-base text-slate-500 mb-8 leading-relaxed max-w-2xl mx-auto font-medium">
-                12 industry-standard courses. One affordable bundle. From AutoCAD to AI-powered rendering — everything you need to build a career you're proud of.
+                Skyrocket your career. Get the complete course, skill certificate, freelance projects & free software download — all in one bundle.
               </p>
               
               {/* New Story Section */}
