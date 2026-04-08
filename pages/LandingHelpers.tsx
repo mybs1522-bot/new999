@@ -52,7 +52,7 @@ export const FEAR_STATS = [
 export const Logo = () => (
   <div className="flex flex-col items-center text-center cursor-pointer group" onClick={() => window.location.href = '/'}>
     <span className="font-display font-bold text-lg tracking-tight leading-none text-slate-900 whitespace-nowrap">Avada</span>
-    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-blue-600 whitespace-nowrap mt-1">Design</span>
+    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-green-700 whitespace-nowrap mt-1">Design</span>
   </div>
 );
 
@@ -68,7 +68,7 @@ export const CallToActionWidget = ({ timeLeft, onClick, headline, subtext }: { t
   return (
     <div className="relative py-12 md:py-20 px-6 overflow-hidden">
       <div className="absolute inset-0 bg-slate-900"></div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 blur-[150px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-700/5 blur-[150px] rounded-full pointer-events-none"></div>
       <div className="max-w-2xl mx-auto relative z-10 text-center">
         {headline && <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-2 tracking-tight">{headline}</h3>}
         {subtext && <p className="text-zinc-400 text-sm mb-6">{subtext}</p>}
@@ -84,7 +84,7 @@ export const CallToActionWidget = ({ timeLeft, onClick, headline, subtext }: { t
           <p className="text-red-400 font-semibold text-sm mt-2">Special Offer — Don't miss this ₹999 steal deal</p>
         </div>
         <div className="w-full max-w-md mx-auto">
-          <button onClick={onClick} className="cta-primary w-full text-white px-8 py-4 md:py-5 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 group hover:scale-[1.03] active:scale-[0.98] premium-stroke" style={{ background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', boxShadow: '0 6px 20px -4px rgba(249,115,22,0.5), 0 12px 40px -8px rgba(234,88,12,0.3)', border: '1px solid rgba(255,255,255,0.15)' }}>
+          <button onClick={onClick} className="cta-primary w-full text-white px-8 py-4 md:py-5 rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 group hover:scale-[1.03] active:scale-[0.98] premium-stroke" style={{ background: 'linear-gradient(135deg, #15803d 0%, #166534 100%)', boxShadow: '0 6px 20px -4px rgba(21,128,61,0.5), 0 12px 40px -8px rgba(22,101,52,0.3)', border: '1px solid rgba(255,255,255,0.15)' }}>
             <span className="text-lg md:text-xl font-display font-bold uppercase tracking-widest relative z-10">Claim Your High-Paying Career</span>
             <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
           </button>
@@ -92,9 +92,9 @@ export const CallToActionWidget = ({ timeLeft, onClick, headline, subtext }: { t
         <div className="mt-4 flex items-center justify-center gap-4 md:gap-8 text-[9px] md:text-[11px] font-medium uppercase tracking-[0.15em] text-zinc-500">
           <div className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-500" /> 7-Day Money-Back</div>
           <div className="w-[1px] h-3 bg-zinc-700"></div>
-          <div className="flex items-center gap-1.5"><Zap size={14} className="text-blue-400" /> Instant Access</div>
+          <div className="flex items-center gap-1.5"><Zap size={14} className="text-green-600" /> Instant Access</div>
           <div className="w-[1px] h-3 bg-zinc-700 hidden sm:block"></div>
-          <div className="hidden sm:flex items-center gap-1.5"><Users size={14} className="text-blue-400" /> All Software Included Free</div>
+          <div className="hidden sm:flex items-center gap-1.5"><Users size={14} className="text-green-600" /> All Software Included Free</div>
         </div>
       </div>
     </div>
