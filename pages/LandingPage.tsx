@@ -652,16 +652,16 @@ const LandingPage: React.FC = () => {
             </button>
 
             {/* Header */}
-            <div className="bg-gray-900 text-white p-6 pb-8 relative overflow-hidden">
+            <div className="bg-gray-900 text-white px-5 py-4 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
               <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-3">
-                  <Sparkles size={14} className="fill-yellow-400" />
+                <div className="inline-flex items-center gap-1.5 text-yellow-400 text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                  <Sparkles size={12} className="fill-yellow-400" />
                   Complete Bundle
                 </div>
-                <h3 className="text-2xl font-display font-bold mb-2">All {COURSES.length} Courses</h3>
+                <h3 className="text-xl font-display font-bold mb-1">All {COURSES.length} Courses</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-display font-black">₹{BUNDLE_PRICE}</span>
+                  <span className="text-2xl font-display font-black">₹{BUNDLE_PRICE}</span>
                   <span className="text-gray-400 text-sm line-through">₹2,999</span>
                   <span className="bg-orange-500/20 text-orange-400 text-xs font-bold px-2 py-0.5 rounded-full">67% OFF</span>
                 </div>
@@ -669,7 +669,7 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* What's Included */}
-            <div className="p-6 pb-3">
+            <div className="px-5 pt-4 pb-2">
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {["12 Premium Courses", "10,000+ Textures", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-gray-700 font-medium">
@@ -684,7 +684,7 @@ const LandingPage: React.FC = () => {
               </div>
 
               {/* Timer */}
-              <div className="bg-red-50 rounded-xl p-3 mb-4 flex items-center justify-between border border-red-100">
+              <div className="bg-red-50 rounded-xl p-2.5 mb-3 flex items-center justify-between border border-red-100">
                 <div className="flex items-center gap-2">
                   <Timer size={14} className="text-orange-500 animate-pulse" />
                   <span className="text-xs font-bold text-gray-900">Offer ends in:</span>
@@ -699,7 +699,7 @@ const LandingPage: React.FC = () => {
               </div>
 
               {/* Contact Inputs */}
-              <div className="space-y-3 mb-4">
+              <div className="space-y-2 mb-3">
                 <div>
                   <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 px-1">Phone Number</label>
                   <div className="relative">
