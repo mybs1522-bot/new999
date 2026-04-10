@@ -646,7 +646,7 @@ const LandingPage: React.FC = () => {
             <span className="text-sm font-bold text-slate-900">{studentCount.toLocaleString('en-IN')}</span>
             <span className="text-xs text-slate-500">students already enrolled</span>
           </div>
-          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden animate-[fadeIn_0.3s_ease-out]">
+          <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-y-auto max-h-[85vh] animate-[fadeIn_0.3s_ease-out]">
             <button aria-label="Close payment modal" onClick={() => !isLoading && setShowPaymentModal(false)} className="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded-full text-white transition-colors cursor-pointer">
               <X size={16} />
             </button>
