@@ -181,7 +181,7 @@ const LandingPage: React.FC = () => {
 
               {/* Intro text */}
               <p className="text-sm md:text-base text-slate-700 mb-3 md:mb-5 max-w-md font-medium">
-                Learn Complete Interior and Exterior Designing and start taking personal projects — and earn <span className="text-orange-500 font-bold">₹50,000</span> to <span className="text-orange-500 font-bold">₹1,00,000</span> designing plans and renders.
+                Learn Complete Interior and Exterior Designing and start taking personal projects — and <span className="underline underline-offset-2 decoration-orange-400">earn <span className="text-orange-500 font-bold">₹50,000</span> to <span className="text-orange-500 font-bold">₹1,00,000</span> designing plans and renders</span>.
               </p>
 
               {/* Big headline */}
@@ -643,7 +643,7 @@ const LandingPage: React.FC = () => {
 
           {/* Timer with label above */}
           <div className="flex flex-col items-center gap-0.5 shrink-0">
-            <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">Offer ends in</span>
+            <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Offer ends in</span>
             <div className="flex items-center gap-0.5">
             {[formatTime(timeLeft.h), formatTime(timeLeft.m), formatTime(timeLeft.s)].map((val, i) => (
               <span key={i} className="flex items-center gap-0.5">
