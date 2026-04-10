@@ -16,16 +16,16 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
   const bgClass = variant === 'dark'
     ? 'bg-slate-900'
     : variant === 'blue'
-      ? 'bg-gradient-to-br from-green-700 to-green-800'
-      : 'bg-gradient-to-br from-green-500 to-green-600';
+      ? 'bg-gradient-to-br from-orange-700 to-orange-800'
+      : 'bg-gradient-to-br from-orange-500 to-orange-600';
   const btnClass = variant === 'dark'
-    ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg shadow-green-500/25'
+    ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-500/25'
     : variant === 'blue'
-      ? 'bg-white text-green-700 hover:bg-green-50 shadow-lg shadow-white/15'
+      ? 'bg-white text-orange-700 hover:bg-orange-50 shadow-lg shadow-white/15'
       : 'bg-slate-900 hover:bg-black shadow-lg shadow-black/25';
   const textColor = 'text-white';
-  const btnTextColor = variant === 'blue' ? 'text-green-700' : 'text-white';
-  const timerAccent = variant === 'green' ? 'text-green-200' : variant === 'blue' ? 'text-green-200' : 'text-green-400';
+  const btnTextColor = variant === 'blue' ? 'text-orange-700' : 'text-white';
+  const timerAccent = variant === 'green' ? 'text-orange-200' : variant === 'blue' ? 'text-orange-200' : 'text-orange-400';
   const timerBg = variant === 'dark' ? 'bg-slate-800 border-slate-700' : variant === 'blue' ? 'bg-white/15 border-white/20' : 'bg-white/20 border-white/30';
 
   return (
@@ -59,7 +59,7 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
         <div className="flex items-baseline gap-2">
           <span className={`text-sm md:text-lg ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'} line-through font-bold`}>₹2,999</span>
           <span className={`text-3xl md:text-4xl font-display font-black ${textColor}`}>₹{BUNDLE_PRICE}</span>
-          <span className={`${variant === 'dark' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/20 text-white'} text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-full`}>66% OFF</span>
+          <span className={`${variant === 'dark' ? 'bg-orange-500/20 text-orange-400' : 'bg-white/20 text-white'} text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-full`}>66% OFF</span>
         </div>
 
         {/* Button - full width on mobile, auto on desktop */}
@@ -154,73 +154,77 @@ const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans overflow-x-hidden selection:bg-green-100 grid-bg">
+    <div className="min-h-screen bg-white text-gray-900 font-sans overflow-x-hidden selection:bg-orange-100">
       {/* ═══ STICKY HEADER ═══ */}
       <header className="sticky top-0 z-[60] bg-white/80 backdrop-blur-2xl border-b border-slate-100/60 px-5 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Logo />
           <div className="flex items-center gap-4">
-            <button onClick={openPaymentModal} className="hidden md:block text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all premium-stroke" style={{ background: 'linear-gradient(135deg,#16a34a,#15803d)', boxShadow: '0 0 15px rgba(22,163,74,0.4)' }}>Join 50,000+ Students</button>
+            <button onClick={openPaymentModal} className="hidden md:block text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all premium-stroke" style={{ background: 'linear-gradient(135deg,#ea580c,#c2410c)', boxShadow: '0 0 15px rgba(234,88,12,0.35)' }}>Join 50,000+ Students</button>
           </div>
         </div>
       </header>
 
       <main>
         {/* 1. HERO — The Hook */}
-        <section className="relative pt-0 pb-10 md:pb-20 overflow-hidden" style={{ background: 'linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%)' }}>
+        <section className="relative pt-0 pb-10 md:pb-20 overflow-hidden" style={{ background: '#ffffff' }}>
           <div className="w-full px-4 md:max-w-4xl md:mx-auto relative z-10">
             <div className="flex flex-col items-center text-center pt-7 md:pt-14">
 
               {/* Top badge */}
-              <div className="mb-3 md:mb-5 inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 border border-green-200 rounded-full">
-                <CheckCircle2 size={14} className="text-green-600" />
-                <span className="text-xs font-semibold text-green-700">Start Making Money as a Designer</span>
+              <div className="mb-2 md:mb-3 inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-orange-200 rounded-full shadow-sm">
+                <CheckCircle2 size={12} className="text-orange-500" />
+                <span className="text-[11px] md:text-xs font-semibold text-slate-600">Course + Skill Certificate + Freelance Projects + Free Software</span>
               </div>
 
-              {/* Hello line */}
-              <p className="text-sm md:text-lg font-bold text-slate-800 mb-1 md:mb-2">
-                Hello <span className="text-green-600">Interior Designers & Architects</span>
-              </p>
+              {/* Social proof */}
+              <div className="mb-4 md:mb-5 inline-flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse shrink-0"></span>
+                <span className="text-[11px] md:text-xs text-slate-400 font-medium">50,000+ Students Supported 24/7 by Our Team</span>
+              </div>
 
-              {/* Subtitle */}
-              <p className="text-xs md:text-base text-slate-500 mb-3 md:mb-6 font-medium">
-                Stop wasting money on random courses.
+              {/* Intro text */}
+              <p className="text-sm md:text-base text-slate-500 mb-3 md:mb-5 max-w-md">
+                Learn Complete Interior and Exterior Designing and start taking personal projects.
               </p>
 
               {/* Big headline */}
-              <h1 className="tracking-tight mb-0">
-                <span className="block text-[2.4rem] leading-tight md:text-6xl lg:text-7xl font-display font-black text-slate-900">
-                  Learn. Earn.
+              <h1 className="tracking-tight mb-2 md:mb-3">
+                <span className="block text-[2.2rem] leading-tight md:text-6xl font-display font-black text-slate-900 mb-0.5">
+                  Learn to Design
                 </span>
-                <span className="block text-[2.4rem] leading-tight md:text-6xl lg:text-7xl font-display font-black text-green-600">
-                  All in one place.
+                <span className="block text-[2rem] leading-none md:text-5xl font-display font-black">
+                  <span className="text-orange-500">Homes</span><span className="text-slate-300 font-light text-2xl md:text-3xl mx-1">,</span><span className="text-slate-800">Offices</span><span className="text-slate-300 font-light text-2xl md:text-3xl mx-1"> &</span><span className="text-slate-500">Villas</span>
+                </span>
+                <span className="block text-lg md:text-2xl font-serif italic text-slate-400 mt-1 md:mt-2">
+                  and show real 3D to clients.
                 </span>
               </h1>
 
-              {/* Under-headline */}
-              <p className="text-xs md:text-base font-bold text-slate-800 mt-3 md:mt-5 mb-0.5 md:mb-1">
-                Courses, Software & Freelance Projects
+              {/* PDR line */}
+              <p className="text-sm md:text-base font-bold text-slate-800 mt-2 md:mt-4 mb-1">
+                Learn <span className="text-orange-500">PDR</span> — Planning, Designing & Rendering
               </p>
-              <p className="text-xs md:text-sm text-slate-500 mb-5 md:mb-10">
-                for Interior Designers and Architects.
+              <p className="text-xs md:text-sm text-slate-500 mb-5 md:mb-8 max-w-sm md:max-w-md">
+                Skyrocket your career. Get the complete course, skill certificate, freelance projects & free software download — all in one bundle.
               </p>
 
               {/* Story Block */}
-              <div className="w-full max-w-3xl mx-auto mb-6 md:mb-10 text-left bg-white p-5 md:p-8 rounded-2xl shadow-sm border border-green-100 relative overflow-hidden">
+              <div className="w-full max-w-3xl mx-auto mb-6 md:mb-10 text-left bg-white p-5 md:p-8 rounded-2xl shadow-sm border border-orange-100 relative overflow-hidden">
                 <p className="text-sm md:text-lg font-serif text-slate-800 leading-relaxed mb-3 italic">
-                  "In our business of Architecture and Design, <span className="font-bold text-slate-900 border-b-2 border-green-400">Planning, Design and Rendering</span> matter the most."
+                  "In our business of Architecture and Design, <span className="font-bold text-slate-900 border-b-2 border-orange-400">Planning, Design and Rendering</span> matter the most."
                 </p>
-                <div className="w-10 h-1 bg-green-700 rounded-full mb-3"></div>
+                <div className="w-10 h-1 bg-orange-700 rounded-full mb-3"></div>
                 <p className="text-xs md:text-base text-slate-600 leading-relaxed mb-3 font-medium">
                   And now, the question is no longer <em className="text-slate-800 font-bold">how</em> to do it. The real question is...
                 </p>
-                <p className="text-base md:text-2xl font-display font-black text-green-700 mb-4">
+                <p className="text-base md:text-2xl font-display font-black text-orange-700 mb-4">
                   How to do it FASTER?
                 </p>
-                <div className="flex items-start gap-3 p-3 md:p-4 bg-green-50 border border-green-100 rounded-xl">
+                <div className="flex items-start gap-3 p-3 md:p-4 bg-orange-50 border border-orange-100 rounded-xl">
                   <span className="text-xl md:text-2xl mt-0.5 shrink-0">🚀</span>
                   <p className="text-slate-700 font-medium leading-relaxed text-xs md:text-base">
-                    That's exactly why we built this. A complete blueprint — from software basics to client-ready renders — designed to make you <strong className="text-green-700">job or business ready in just one month.</strong>
+                    That's exactly why we built this. A complete blueprint — from software basics to client-ready renders — designed to make you <strong className="text-orange-700">job or business ready in just one month.</strong>
                   </p>
                 </div>
               </div>
@@ -232,7 +236,7 @@ const LandingPage: React.FC = () => {
 
               {/* CTA */}
               <div className="flex flex-col sm:flex-row gap-3 items-center mb-3 w-full sm:w-auto">
-                <button onClick={openPaymentModal} className="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl font-bold text-sm md:text-lg shadow-xl shadow-green-500/20 hover:shadow-green-500/30 hover:scale-[1.03] transition-all flex items-center justify-center gap-3 group premium-stroke whitespace-nowrap">
+                <button onClick={openPaymentModal} className="w-full sm:w-auto px-8 py-3.5 md:py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-2xl font-bold text-sm md:text-lg shadow-xl shadow-orange-500/20 hover:shadow-orange-500/30 hover:scale-[1.03] transition-all flex items-center justify-center gap-3 group premium-stroke whitespace-nowrap">
                   <Download size={18} className="shrink-0" />
                   Get All Courses & 24/7 Support <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </button>
@@ -275,7 +279,7 @@ const LandingPage: React.FC = () => {
         <section className="py-8 md:py-16 bg-white border-b border-gray-100 overflow-hidden relative">
            <div className="container mx-auto px-4 mb-8">
              <div className="text-center reveal">
-                 <div className="inline-flex items-center gap-2 text-green-700 text-xs font-bold uppercase tracking-widest mb-2">
+                 <div className="inline-flex items-center gap-2 text-orange-700 text-xs font-bold uppercase tracking-widest mb-2">
                    <Sparkles size={14} />
                    All 12 Premium Courses Included
                  </div>
@@ -305,7 +309,7 @@ const LandingPage: React.FC = () => {
                       
                       {/* View Overlay */}
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-700 shadow-lg">
+                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-lg">
                           <Eye size={14} />
                         </div>
                       </div>
@@ -314,7 +318,7 @@ const LandingPage: React.FC = () => {
                     <div className="p-2">
                       <h3 className="font-display font-bold text-gray-900 text-xs md:text-sm mb-1 line-clamp-1 leading-tight" title={course.title}>{course.title}</h3>
                       <div className="mt-1 pt-1 border-t border-gray-100">
-                        <div className="bg-emerald-50 text-emerald-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-emerald-100 w-full">
+                        <div className="bg-orange-50 text-orange-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-orange-100 w-full">
                           <CheckCircle2 size={8}/> Included
                         </div>
                       </div>
@@ -345,7 +349,7 @@ const LandingPage: React.FC = () => {
                       
                       {/* View Overlay */}
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-green-700 shadow-lg">
+                        <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center text-orange-700 shadow-lg">
                           <Eye size={14} />
                         </div>
                       </div>
@@ -354,7 +358,7 @@ const LandingPage: React.FC = () => {
                     <div className="p-2">
                       <h3 className="font-display font-bold text-gray-900 text-xs md:text-sm mb-1 line-clamp-1 leading-tight" title={course.title}>{course.title}</h3>
                       <div className="mt-1 pt-1 border-t border-gray-100">
-                        <div className="bg-emerald-50 text-emerald-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-emerald-100 w-full">
+                        <div className="bg-orange-50 text-orange-600 text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center justify-center gap-1 border border-orange-100 w-full">
                           <CheckCircle2 size={8}/> Included
                         </div>
                       </div>
@@ -380,16 +384,16 @@ const LandingPage: React.FC = () => {
         <section className="py-16 bg-white border-b border-slate-200">
           <div className="max-w-5xl mx-auto px-5">
             <div className="reveal text-center mb-10">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Invest in Yourself Today. <br className="hidden md:block" /><span className="text-emerald-600">Start making money in the industry.</span></h2>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Invest in Yourself Today. <br className="hidden md:block" /><span className="text-orange-600">Start making money in the industry.</span></h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {INCOME_TIERS.map((tier, i) => (
-                <div key={i} className="reveal bg-white border border-slate-200 rounded-2xl p-6 hover:border-green-600/40 transition-all shadow-soft flex flex-col justify-between">
+                <div key={i} className="reveal bg-white border border-slate-200 rounded-2xl p-6 hover:border-orange-600/40 transition-all shadow-soft flex flex-col justify-between">
                   <div className="flex items-center justify-between mb-4"><span className="text-sm font-bold text-slate-900 leading-tight w-2/3">{tier.label}</span><span className="text-3xl">{tier.icon}</span></div>
                   <div className="flex items-center justify-between">
                     <div><p className="text-[10px] font-mono text-slate-500 uppercase">Before</p><p className="text-slate-400 text-sm line-through">{tier.before}</p></div>
-                    <ArrowRight size={16} className="text-green-600" />
-                    <div className="text-right"><p className="text-[10px] font-mono text-green-700 uppercase">After</p><p className="text-emerald-600 text-sm font-bold">{tier.after}</p></div>
+                    <ArrowRight size={16} className="text-orange-600" />
+                    <div className="text-right"><p className="text-[10px] font-mono text-orange-700 uppercase">After</p><p className="text-orange-600 text-sm font-bold">{tier.after}</p></div>
                   </div>
                 </div>
               ))}
@@ -403,7 +407,7 @@ const LandingPage: React.FC = () => {
         <section className="py-16 md:py-24 bg-slate-50 overflow-hidden border-b border-slate-200 grid-bg">
           <div className="max-w-5xl mx-auto px-5 mb-12 text-center">
             <div className="reveal">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">See What Our <span className="text-green-600">Students Have Created</span></h2>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">See What Our <span className="text-orange-600">Students Have Created</span></h2>
               <p className="text-slate-600 text-lg max-w-2xl mx-auto italic font-serif">"With 24/7 team support, these students transformed their portfolios and confidence."</p>
             </div>
           </div>
@@ -429,28 +433,28 @@ const LandingPage: React.FC = () => {
         <section className="py-16 md:py-20 bg-slate-50 border-y border-slate-200 grid-bg">
           <div className="max-w-5xl mx-auto px-5">
             <div className="reveal text-center mb-10">
-              <p className="text-green-500 text-xs font-mono uppercase tracking-widest mb-3">Included with enrollment</p>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Everything You Need to Succeed, <span className="text-green-600">Provided Today</span></h2>
+              <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-3">Included with enrollment</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Everything You Need to Succeed, <span className="text-orange-600">Provided Today</span></h2>
               <p className="text-slate-600 text-base md:text-lg max-w-2xl mx-auto">A supportive bundle filled with all the software guides, 24/7 team support, and tools you need.</p>
             </div>
             <div className="reveal max-w-3xl mx-auto bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-soft">
               {VALUE_STACK_ITEMS.map((item, i) => (
                 <div key={i} className={`flex justify-between items-center px-6 py-4 ${i !== VALUE_STACK_ITEMS.length - 1 ? 'border-b border-slate-100' : ''}`}>
-                  <div className="flex items-center gap-3"><CheckCircle size={16} className="text-green-700 shrink-0" /><span className="text-sm text-slate-800 font-medium">{item.name}</span></div>
+                  <div className="flex items-center gap-3"><CheckCircle size={16} className="text-orange-700 shrink-0" /><span className="text-sm text-slate-800 font-medium">{item.name}</span></div>
                   <span className="text-sm font-bold text-slate-500">{item.value}</span>
                 </div>
               ))}
               
-              <div className="bg-emerald-50 border-t border-emerald-100 px-6 py-4 flex flex-col sm:flex-row gap-3 justify-between items-center">
-                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-emerald-600 shrink-0" /><span className="text-sm text-emerald-900 font-bold">All Software (Free/Student Edition Links)</span></div>
-                <span className="text-sm font-black text-emerald-600">INCLUDED</span>
+              <div className="bg-orange-50 border-t border-orange-100 px-6 py-4 flex flex-col sm:flex-row gap-3 justify-between items-center">
+                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-orange-600 shrink-0" /><span className="text-sm text-orange-900 font-bold">All Software (Free/Student Edition Links)</span></div>
+                <span className="text-sm font-black text-orange-600">INCLUDED</span>
               </div>
 
-              <div className="bg-green-50/50 border-t border-green-200 px-6 py-6 flex flex-col items-center gap-6 justify-center">
+              <div className="bg-orange-50/50 border-t border-orange-200 px-6 py-6 flex flex-col items-center gap-6 justify-center">
                 <div className="flex flex-col sm:flex-row gap-6 items-center justify-center w-full">
                   <span className="text-slate-900 font-bold text-center">Lifetime Access + Free Updates</span>
                 </div>
-                <button onClick={openPaymentModal} className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-green-700 to-green-800 text-white rounded-xl font-bold text-lg shadow-xl shadow-green-700/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group premium-stroke whitespace-nowrap">
+                <button onClick={openPaymentModal} className="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-orange-700 to-orange-800 text-white rounded-xl font-bold text-lg shadow-xl shadow-orange-700/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group premium-stroke whitespace-nowrap">
                   <Download size={16} /> Access Everything Instantly <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </button>
               </div>
@@ -471,7 +475,7 @@ const LandingPage: React.FC = () => {
             {FEAR_STATS.map((s, i) => (
               <div key={i} className="text-center reveal">
                 <span className="text-2xl mb-2 block">{s.icon}</span>
-                <span className="text-3xl md:text-4xl font-display font-black text-green-700">{s.stat}</span>
+                <span className="text-3xl md:text-4xl font-display font-black text-orange-700">{s.stat}</span>
                 <p className="text-xs text-slate-500 mt-1 leading-snug">{s.label}</p>
               </div>
             ))}
@@ -482,29 +486,29 @@ const LandingPage: React.FC = () => {
         <section className="py-16 md:py-28 grid-bg bg-white border-b border-slate-200">
           <div className="max-w-3xl mx-auto px-5">
             <div className="reveal text-center mb-12">
-              <p className="text-green-500 text-xs font-mono uppercase tracking-widest mb-4">A Supportive Message from Our Team</p>
+              <p className="text-orange-500 text-xs font-mono uppercase tracking-widest mb-4">A Supportive Message from Our Team</p>
               <h2 className="text-3xl md:text-5xl font-serif italic text-slate-900 mb-8 leading-snug">"We believe in practical, hands-on learning with experts who are always ready to help you."</h2>
             </div>
             <div className="reveal space-y-6 text-slate-600 text-base md:text-lg leading-relaxed">
               <p>Learning complex software can feel overwhelming <strong className="text-slate-900">when you're doing it alone.</strong></p>
               <p>That's why our program is built differently. You aren't just getting tutorial videos; you're joining a community where our team reviews your work, answers your technical questions, and cheers you on as you improve.</p>
-              <p>Whether you are a student, a freelancer, or a studio owner, <strong className="text-green-600">we are here to support your transition</strong> into modern, high-quality 3D rendering. No more struggling with endless YouTube tutorials that leave you confused.</p>
+              <p>Whether you are a student, a freelancer, or a studio owner, <strong className="text-orange-600">we are here to support your transition</strong> into modern, high-quality 3D rendering. No more struggling with endless YouTube tutorials that leave you confused.</p>
               <p>You don't need to spend lakhs of rupees on expensive, outdated courses to build a portfolio you can be incredibly proud of.</p>
               
-              <div className="my-10 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-6 md:p-8 shadow-soft">
+              <div className="my-10 bg-gradient-to-br from-orange-50 to-orange-50 border border-orange-200 rounded-2xl p-6 md:p-8 shadow-soft">
                 <p className="font-bold text-slate-900 text-xl mb-4">Here is How We Support You:</p>
                 <ul className="space-y-3">
-                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-green-500 shrink-0" /><span className="text-slate-800">12 Comprehensive Courses structured compassionately for beginners.</span></li>
-                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-green-500 shrink-0" /><span className="text-slate-800">Direct links to free/student versions so you save your money.</span></li>
-                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-green-500 shrink-0" /><span className="text-slate-800">24/7 support from team, installation help to course doubts—whenever you're stuck, we're here.</span></li>
+                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-orange-500 shrink-0" /><span className="text-slate-800">12 Comprehensive Courses structured compassionately for beginners.</span></li>
+                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-orange-500 shrink-0" /><span className="text-slate-800">Direct links to free/student versions so you save your money.</span></li>
+                  <li className="flex items-center gap-3"><CheckCircle size={18} className="text-orange-500 shrink-0" /><span className="text-slate-800">24/7 support from team, installation help to course doubts—whenever you're stuck, we're here.</span></li>
                 </ul>
-                <div className="mt-6 pt-6 border-t border-green-100 flex items-center justify-between">
+                <div className="mt-6 pt-6 border-t border-orange-100 flex items-center justify-between">
                   <span className="text-slate-600 text-sm italic font-bold">A complete learning ecosystem for just ₹999.</span>
-                  <button onClick={openPaymentModal} className="text-green-600 font-bold text-sm hover:text-green-800 flex items-center gap-1 group">Join Our Community <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" /></button>
+                  <button onClick={openPaymentModal} className="text-orange-600 font-bold text-sm hover:text-orange-800 flex items-center gap-1 group">Join Our Community <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" /></button>
                 </div>
               </div>
 
-              <p className="text-slate-900 font-semibold text-lg md:text-xl border-l-4 border-green-500 pl-4 bg-green-50 p-4 rounded-r-xl">Investing in your education is the best step you can take for your creative journey. Our team is excited to welcome you and help you build something amazing.</p>
+              <p className="text-slate-900 font-semibold text-lg md:text-xl border-l-4 border-orange-500 pl-4 bg-orange-50 p-4 rounded-r-xl">Investing in your education is the best step you can take for your creative journey. Our team is excited to welcome you and help you build something amazing.</p>
             </div>
           </div>
         </section>
@@ -513,7 +517,7 @@ const LandingPage: React.FC = () => {
         {/* 5. OLD vs NEW — The Contrast */}
         <section className="py-16 md:py-24 bg-white grid-bg">
           <div className="max-w-5xl mx-auto px-5">
-            <div className="reveal text-center mb-12"><h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">The Lonely, Frustrating Path <br className="hidden md:block" />vs. <span className="text-emerald-600">Our Hand-Holding Blueprint</span></h2></div>
+            <div className="reveal text-center mb-12"><h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">The Lonely, Frustrating Path <br className="hidden md:block" />vs. <span className="text-orange-600">Our Hand-Holding Blueprint</span></h2></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="reveal grid-bg border border-red-200 rounded-2xl p-8 shadow-soft">
                 <div className="flex items-center gap-3 mb-6"><div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center"><X size={20} className="text-red-500" /></div><h3 className="text-xl font-bold text-red-500">The Old Struggle</h3></div>
@@ -526,11 +530,11 @@ const LandingPage: React.FC = () => {
                   ))}
                 </ul>
               </div>
-              <div className="reveal bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-8 shadow-soft">
-                <div className="flex items-center gap-3 mb-6"><div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center"><CheckCircle size={20} className="text-emerald-600" /></div><h3 className="text-xl font-bold text-slate-900">Our Supportive System</h3></div>
+              <div className="reveal bg-gradient-to-br from-orange-50 to-slate-50 border border-orange-200 rounded-2xl p-8 shadow-soft">
+                <div className="flex items-center gap-3 mb-6"><div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center"><CheckCircle size={20} className="text-orange-600" /></div><h3 className="text-xl font-bold text-slate-900">Our Supportive System</h3></div>
                 <ul className="space-y-4">
                   {['A friendly, step-by-step pipeline: AutoCAD → SketchUp → V-Ray → Lumion → AI', 'AI handles the heavy lifting. You focus on creativity. 10x your output stress-free.', 'A stunning, professional portfolio built safely in just 15 days—even from zero', 'All necessary software links provided—say goodbye to expensive licenses', '24/7 support from team, installation help to course doubts'].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-slate-700 text-sm"><CheckCircle size={14} className="text-green-700 mt-1 shrink-0" />{item}</li>
+                    <li key={i} className="flex items-start gap-3 text-slate-700 text-sm"><CheckCircle size={14} className="text-orange-700 mt-1 shrink-0" />{item}</li>
                   ))}
                 </ul>
               </div>
@@ -542,20 +546,20 @@ const LandingPage: React.FC = () => {
         <section className="py-16 md:py-24 bg-white overflow-hidden grid-bg">
           <div className="max-w-5xl mx-auto px-5 mb-12">
             <div className="text-center mb-12">
-              <p className="text-green-700 text-xs font-mono uppercase tracking-widest mb-4">Student Reviews</p>
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Students & <span className="text-green-700">Professionals</span></h2>
+              <p className="text-orange-700 text-xs font-mono uppercase tracking-widest mb-4">Student Reviews</p>
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Students & <span className="text-orange-700">Professionals</span></h2>
               <p className="text-slate-600 text-lg">50,000+ learners • 4.9★ average rating</p>
             </div>
 
             {/* Featured Transformations */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
               {TRANSFORMATION_STORIES.map((story, i) => (
-                <div key={i} className="reveal bg-gradient-to-br from-slate-50 to-green-50 border border-slate-200 rounded-2xl p-8 shadow-soft relative overflow-hidden transition-all hover:border-green-300">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-green-700/10 rounded-full blur-3xl"></div>
+                <div key={i} className="reveal bg-gradient-to-br from-slate-50 to-orange-50 border border-slate-200 rounded-2xl p-8 shadow-soft relative overflow-hidden transition-all hover:border-orange-300">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-orange-700/10 rounded-full blur-3xl"></div>
                   <span className="text-4xl mb-4 block">{story.emoji}</span>
-                  <div className="flex items-center gap-2 mb-6"><span className="font-bold text-slate-900 text-lg">{story.name}</span><span className="text-sm font-medium text-green-700">• {story.role}</span></div>
+                  <div className="flex items-center gap-2 mb-6"><span className="font-bold text-slate-900 text-lg">{story.name}</span><span className="text-sm font-medium text-orange-700">• {story.role}</span></div>
                   <div className="mb-4"><p className="text-[10px] font-mono uppercase text-slate-400 mb-1 tracking-wider">Before</p><p className="text-slate-600 text-sm leading-relaxed">{story.before}</p></div>
-                  <div><p className="text-[10px] font-mono uppercase text-green-700 mb-1 tracking-wider">After</p><p className="text-slate-900 text-base font-bold leading-relaxed">{story.after}</p></div>
+                  <div><p className="text-[10px] font-mono uppercase text-orange-700 mb-1 tracking-wider">After</p><p className="text-slate-900 text-base font-bold leading-relaxed">{story.after}</p></div>
                 </div>
               ))}
             </div>
@@ -564,13 +568,13 @@ const LandingPage: React.FC = () => {
           <div className="flex flex-col gap-6">
             <div className="flex gap-6 animate-scroll-left hover:pause">
               {[...TESTIMONIALS_LANDING, ...TESTIMONIALS_LANDING].map((t, i) => (
-                <div key={i} className="w-[350px] shrink-0 bg-white border border-slate-200 p-8 rounded-3xl hover:border-green-200 transition-all shadow-soft">
-                  <div className="flex gap-1 mb-4">{[...Array(5)].map((_, j) => <Star key={j} size={14} className="fill-green-700 text-green-700" />)}</div>
+                <div key={i} className="w-[350px] shrink-0 bg-white border border-slate-200 p-8 rounded-3xl hover:border-orange-200 transition-all shadow-soft">
+                  <div className="flex gap-1 mb-4">{[...Array(5)].map((_, j) => <Star key={j} size={14} className="fill-orange-700 text-orange-700" />)}</div>
                   <p className="text-slate-700 text-sm leading-relaxed mb-6 italic">"{t.content}"</p>
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-green-50 border border-green-100 flex items-center justify-center font-bold text-green-700">{t.name[0]}</div>
+                    <div className="w-10 h-10 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center font-bold text-orange-700">{t.name[0]}</div>
                     <div className="text-left">
-                      <p className="text-sm font-bold text-slate-900 flex items-center gap-1">{t.name} <CheckCircle size={12} className="text-emerald-600" /></p>
+                      <p className="text-sm font-bold text-slate-900 flex items-center gap-1">{t.name} <CheckCircle size={12} className="text-orange-600" /></p>
                       <p className="text-[10px] text-slate-500 uppercase tracking-widest">{t.role} • {t.location}</p>
                     </div>
                   </div>
@@ -622,7 +626,7 @@ const LandingPage: React.FC = () => {
       {/* ═══ STICKY BOTTOM BAR ═══ */}
       <div className={`fixed bottom-0 left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-t border-slate-200 p-2 shadow-[0_-4px_30px_rgba(15,23,42,0.08)] transition-transform duration-300 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
         <div className="max-w-7xl mx-auto">
-          <button onClick={openPaymentModal} className="w-full relative group overflow-hidden text-white rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all py-2.5 flex items-center px-4" style={{ background: 'linear-gradient(90deg,#16a34a,#15803d,#16a34a)', boxShadow: '0 0 20px rgba(22,163,74,0.4)' }}>
+          <button onClick={openPaymentModal} className="w-full relative group overflow-hidden text-white rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all py-2.5 flex items-center px-4" style={{ background: 'linear-gradient(90deg,#ea580c,#c2410c,#ea580c)', boxShadow: '0 0 20px rgba(234,88,12,0.35)' }}>
             <div className="relative z-10 w-full flex items-center justify-between">
               <div className="flex flex-col items-start leading-tight gap-1">
                 <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-yellow-200 animate-pulse bg-black/20 px-2 py-0.5 rounded-md inline-block">⚠️ Offer Ends In {formatTime(timeLeft.h)}:{formatTime(timeLeft.m)}:{formatTime(timeLeft.s)}</span>
@@ -645,7 +649,7 @@ const LandingPage: React.FC = () => {
 
             {/* Header */}
             <div className="bg-gray-900 text-white p-6 pb-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-green-700/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
+              <div className="absolute top-0 right-0 w-48 h-48 bg-orange-700/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-3">
                   <Sparkles size={14} className="fill-yellow-400" />
@@ -655,7 +659,7 @@ const LandingPage: React.FC = () => {
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl font-display font-black">₹{BUNDLE_PRICE}</span>
                   <span className="text-gray-400 text-sm line-through">₹2,999</span>
-                  <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded-full">67% OFF</span>
+                  <span className="bg-orange-500/20 text-orange-400 text-xs font-bold px-2 py-0.5 rounded-full">67% OFF</span>
                 </div>
               </div>
             </div>
@@ -665,12 +669,12 @@ const LandingPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {["12 Premium Courses", "10,000+ Textures", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-gray-700 font-medium">
-                    <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
+                    <CheckCircle2 size={12} className="text-orange-500 shrink-0" />
                     {item}
                   </div>
                 ))}
-                <div className="flex items-center gap-2 text-xs font-bold col-span-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2 text-green-700">
-                  <Download size={12} className="text-green-700 shrink-0" />
+                <div className="flex items-center gap-2 text-xs font-bold col-span-2 bg-orange-50 border border-orange-200 rounded-lg px-3 py-2 text-orange-700">
+                  <Download size={12} className="text-orange-700 shrink-0" />
                   Software Download — All Links Included
                 </div>
               </div>
@@ -678,10 +682,10 @@ const LandingPage: React.FC = () => {
               {/* Timer */}
               <div className="bg-red-50 rounded-xl p-3 mb-4 flex items-center justify-between border border-red-100">
                 <div className="flex items-center gap-2">
-                  <Timer size={14} className="text-green-700 animate-pulse" />
+                  <Timer size={14} className="text-orange-700 animate-pulse" />
                   <span className="text-xs font-bold text-gray-900">Offer ends in:</span>
                 </div>
-                <div className="flex items-center gap-0.5 font-display font-bold text-sm tabular-nums text-green-700 bg-white px-2.5 py-1 rounded-md border border-red-100 shadow-sm">
+                <div className="flex items-center gap-0.5 font-display font-bold text-sm tabular-nums text-orange-700 bg-white px-2.5 py-1 rounded-md border border-red-100 shadow-sm">
                   <span>{formatTime(timeLeft.h)}</span>
                   <span className="text-gray-400">:</span>
                   <span>{formatTime(timeLeft.m)}</span>
@@ -729,7 +733,7 @@ const LandingPage: React.FC = () => {
               <button
                 onClick={handlePayment}
                 disabled={isLoading}
-                className="w-full py-4 bg-green-700 hover:bg-green-800 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 transition-all shadow-xl shadow-green-700/20 hover:shadow-green-700/30 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed group"
+                className="w-full py-4 bg-orange-700 hover:bg-orange-800 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 transition-all shadow-xl shadow-orange-700/20 hover:shadow-orange-700/30 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed group"
               >
                 {isLoading ? (
                   <><Loader2 className="animate-spin" size={20} /> Processing...</>
@@ -753,9 +757,9 @@ const LandingPage: React.FC = () => {
       {paymentSuccess && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-[fadeIn_0.5s_ease]">
           <div className="bg-white rounded-[2rem] p-8 max-w-lg w-full text-center shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-100 relative overflow-hidden max-h-[90vh] overflow-y-auto">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-600 to-green-700"></div>
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-              <Check size={40} className="text-green-700" strokeWidth={3} />
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-orange-600 to-orange-700"></div>
+            <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+              <Check size={40} className="text-orange-700" strokeWidth={3} />
             </div>
             <h2 className="text-3xl font-display font-black text-gray-900 mb-2">Payment Successful!</h2>
             <p className="text-gray-500 mb-6 leading-relaxed">
@@ -763,7 +767,7 @@ const LandingPage: React.FC = () => {
             </p>
             <div className="bg-gray-50 rounded-2xl p-5 mb-6 text-left border border-gray-100">
               <div className="flex items-center gap-2 mb-2">
-                <Sparkles size={16} className="text-green-700" />
+                <Sparkles size={16} className="text-orange-700" />
                 <h3 className="font-bold text-gray-900">Your Course Access Link:</h3>
               </div>
               <p className="text-sm text-gray-600 mb-3 leading-relaxed">
@@ -773,7 +777,7 @@ const LandingPage: React.FC = () => {
                 href="https://drive.google.com/drive/folders/1CCyv9u82HiYI8jnyULISfBoGMcbcqd9U?usp=drive_link"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-green-50 hover:bg-green-100 text-green-700 font-bold py-3 px-4 rounded-xl text-center border border-green-200 transition-colors break-all text-xs sm:text-sm"
+                className="block w-full bg-orange-50 hover:bg-orange-100 text-orange-700 font-bold py-3 px-4 rounded-xl text-center border border-orange-200 transition-colors break-all text-xs sm:text-sm"
               >
                 Access Courses on Google Drive
               </a>
@@ -785,7 +789,7 @@ const LandingPage: React.FC = () => {
               </div>
               <div className="sm:text-right w-full sm:w-auto p-3 bg-white rounded-lg border border-gray-100">
                 <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Support / WhatsApp</div>
-                <a href="https://wa.me/918545015333" target="_blank" rel="noopener noreferrer" className="font-bold text-green-600 hover:text-green-700">+91 8545015333</a>
+                <a href="https://wa.me/918545015333" target="_blank" rel="noopener noreferrer" className="font-bold text-orange-600 hover:text-orange-700">+91 8545015333</a>
               </div>
             </div>
             <button
