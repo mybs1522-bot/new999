@@ -28,11 +28,11 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
   const timerBg = variant === 'dark' ? 'bg-slate-800 border-slate-700' : variant === 'blue' ? 'bg-white/15 border-white/20' : 'bg-white/20 border-white/30';
 
   return (
-    <div className={`${bgClass} rounded-2xl md:rounded-3xl px-5 py-6 md:p-10 relative overflow-hidden`}>
+    <div className={`${bgClass} rounded-2xl px-5 py-6 relative overflow-hidden max-w-sm mx-auto`}>
       <div className="absolute top-0 right-0 w-60 h-60 bg-white/5 rounded-full blur-[80px] -mr-16 -mt-16 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/5 rounded-full blur-[60px] -ml-10 -mb-10 pointer-events-none" />
 
-      <div className="relative z-10 flex flex-col items-center text-center gap-4 md:gap-5">
+      <div className="relative z-10 flex flex-col items-center text-center gap-3">
         {/* Timer label */}
         <div className="flex items-center gap-1.5">
           <Timer size={14} className={`${timerAccent} animate-pulse`} />
@@ -40,16 +40,16 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
         </div>
 
         {/* Timer digits - compact on mobile */}
-        <div className="flex items-center gap-1.5 md:gap-2.5">
+        <div className="flex items-center gap-1.5">
           {[{ val: f(timeLeft.h), label: 'HRS' }, { val: f(timeLeft.m), label: 'MIN' }, { val: f(timeLeft.s), label: 'SEC' }].map((unit, i) => (
             <React.Fragment key={i}>
               <div className="flex flex-col items-center">
-                <div className={`${timerBg} border rounded-lg md:rounded-xl px-3 py-1.5 md:px-4 md:py-2.5`}>
-                  <span className={`text-xl md:text-3xl font-display font-black tabular-nums ${textColor}`}>{unit.val}</span>
+                <div className={`${timerBg} border rounded-lg px-2.5 py-1`}>
+                  <span className={`text-lg font-display font-black tabular-nums ${textColor}`}>{unit.val}</span>
                 </div>
-                <span className={`text-[8px] md:text-[9px] font-bold uppercase tracking-widest mt-1 ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'}`}>{unit.label}</span>
+                <span className={`text-[7px] font-bold uppercase tracking-widest mt-0.5 ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'}`}>{unit.label}</span>
               </div>
-              {i < 2 && <span className={`text-lg md:text-2xl font-bold ${variant === 'dark' ? 'text-slate-600' : 'text-white/30'} -mt-3`}>:</span>}
+              {i < 2 && <span className={`text-base font-bold ${variant === 'dark' ? 'text-slate-600' : 'text-white/30'} -mt-3`}>:</span>}
             </React.Fragment>
           ))}
         </div>
@@ -64,7 +64,7 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
         {/* Button - full width on mobile, auto on desktop */}
         <button
           onClick={onClick}
-          className={`${btnClass} ${btnTextColor} font-bold text-sm md:text-base px-6 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl flex items-center justify-center gap-2 md:gap-3 group hover:scale-[1.02] active:scale-[0.98] transition-all w-full sm:w-auto`}
+          className={`${btnClass} ${btnTextColor} font-bold text-sm px-6 py-3 rounded-xl flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-[0.98] transition-all w-full`}
         >
           <Download size={16} className="shrink-0" />
           <span>Download All 12 Courses — ₹{BUNDLE_PRICE}</span>
