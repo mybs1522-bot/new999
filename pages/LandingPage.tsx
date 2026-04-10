@@ -175,13 +175,13 @@ const LandingPage: React.FC = () => {
               {/* Top badge */}
               <div className="mb-2 md:mb-3 inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-orange-200 rounded-full shadow-sm">
                 <CheckCircle2 size={12} className="text-orange-500" />
-                <span className="text-[11px] md:text-xs font-semibold text-slate-600">Course + Skill Certificate + Freelance Projects + Free Software</span>
+                <span className="text-[11px] md:text-xs font-semibold text-slate-600">Learn Interior & Exterior Design + <span className="text-orange-500 font-bold">AI</span></span>
               </div>
 
 
               {/* Intro text */}
               <p className="text-sm md:text-base text-slate-700 mb-3 md:mb-5 max-w-md font-medium">
-                Turn your designs into <span className="underline underline-offset-2 decoration-orange-400"><span className="text-orange-500 font-bold">₹50,000</span>–<span className="text-orange-500 font-bold">₹1,00,000</span>/month</span>.
+                Start charging <span className="underline underline-offset-2 decoration-orange-400"><span className="text-orange-500 font-bold">₹50,000</span>–<span className="text-orange-500 font-bold">₹1,00,000</span></span> for designing and rendering.
               </p>
 
               {/* Big headline */}
