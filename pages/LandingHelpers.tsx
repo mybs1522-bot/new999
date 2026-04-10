@@ -106,20 +106,17 @@ export const SocialProofToast: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [idx, setIdx] = useState(0);
   useEffect(() => {
-    const show = () => { setVisible(true); setTimeout(() => { setVisible(false); setTimeout(() => setIdx(p => (p + 1) % RAW_JOINERS.length), 500); }, 4000); };
-    const t1 = setTimeout(show, 6000);
-    const t2 = setInterval(show, 15000);
+    const show = () => { setVisible(true); setTimeout(() => { setVisible(false); setTimeout(() => setIdx(p => (p + 1) % RAW_JOINERS.length), 400); }, 2500); };
+    const t1 = setTimeout(show, 8000);
+    const t2 = setInterval(show, 22000);
     return () => { clearTimeout(t1); clearInterval(t2); };
   }, []);
   const j = RAW_JOINERS[idx];
   return (
-    <div className={`fixed bottom-20 left-4 z-[70] transition-all duration-500 ${visible ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
-      <div className="bg-white/95 backdrop-blur-xl border border-slate-200 rounded-2xl px-5 py-3 shadow-2xl flex items-center gap-3 max-w-xs">
-        <div className="w-8 h-8 bg-orange-50 rounded-full flex items-center justify-center shrink-0"><CheckCircle size={16} className="text-orange-600" /></div>
-        <div>
-          <p className="text-sm font-bold text-slate-900">{j.name} from {j.city}</p>
-          <p className="text-xs text-slate-500">just enrolled • {j.time}</p>
-        </div>
+    <div className={`fixed bottom-20 left-3 z-[70] transition-all duration-400 ${visible ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'}`}>
+      <div className="bg-white/95 backdrop-blur-xl border border-slate-100 rounded-full px-3 py-1.5 shadow-md flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0"></span>
+        <p className="text-[11px] font-medium text-slate-600 whitespace-nowrap"><span className="font-bold text-slate-800">{j.name}</span> from {j.city} just enrolled</p>
       </div>
     </div>
   );
