@@ -360,29 +360,6 @@ const LandingPage: React.FC = () => {
         </section>
 
 
-        {/* 6. INCOME TIERS — The ROI */}
-        <section className="py-16 bg-white border-b border-slate-200">
-          <div className="max-w-5xl mx-auto px-5">
-            <div className="reveal text-center mb-10">
-              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Invest in Yourself Today. <br className="hidden md:block" /><span className="text-orange-600">Start making money in the industry.</span></h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-              {INCOME_TIERS.map((tier, i) => (
-                <div key={i} className="reveal bg-white border border-slate-200 rounded-2xl p-6 hover:border-orange-600/40 transition-all shadow-soft flex flex-col justify-between">
-                  <div className="flex items-center justify-between mb-4"><span className="text-sm font-bold text-slate-900 leading-tight w-2/3">{tier.label}</span><span className="text-3xl">{tier.icon}</span></div>
-                  <div className="flex items-center justify-between">
-                    <div><p className="text-[10px] font-mono text-slate-500 uppercase">Before</p><p className="text-slate-400 text-sm line-through">{tier.before}</p></div>
-                    <ArrowRight size={16} className="text-orange-600" />
-                    <div className="text-right"><p className="text-[10px] font-mono text-orange-500 uppercase">After</p><p className="text-orange-600 text-sm font-bold">{tier.after}</p></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-
-
         {/* 4. STUDENT WORK CAROUSEL — Visual Proof */}
         <section className="py-16 md:py-24 bg-slate-50 overflow-hidden border-b border-slate-200 grid-bg">
           <div className="max-w-5xl mx-auto px-5 mb-12 text-center">
@@ -403,6 +380,28 @@ const LandingPage: React.FC = () => {
               {[...PAGE_PREVIEWS_ROW2, ...PAGE_PREVIEWS_ROW2].map((img, i) => (
                 <div key={i} className="w-[200px] md:w-[400px] shrink-0 aspect-video rounded-xl md:rounded-2xl overflow-hidden border border-slate-200 shadow-2xl relative group bg-slate-100">
                   <img src={img} alt="Student Work" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+
+        {/* 6. INCOME TIERS — The ROI */}
+        <section className="py-16 bg-white border-b border-slate-200">
+          <div className="max-w-5xl mx-auto px-5">
+            <div className="reveal text-center mb-10">
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4">Invest in Yourself Today. <br className="hidden md:block" /><span className="text-orange-600">Start making money in the industry.</span></h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {INCOME_TIERS.map((tier, i) => (
+                <div key={i} className="reveal bg-white border border-slate-200 rounded-2xl p-6 hover:border-orange-600/40 transition-all shadow-soft flex flex-col justify-between">
+                  <div className="flex items-center justify-between mb-4"><span className="text-sm font-bold text-slate-900 leading-tight w-2/3">{tier.label}</span><span className="text-3xl">{tier.icon}</span></div>
+                  <div className="flex items-center justify-between">
+                    <div><p className="text-[10px] font-mono text-slate-500 uppercase">Before</p><p className="text-slate-400 text-sm line-through">{tier.before}</p></div>
+                    <ArrowRight size={16} className="text-orange-600" />
+                    <div className="text-right"><p className="text-[10px] font-mono text-orange-500 uppercase">After</p><p className="text-orange-600 text-sm font-bold">{tier.after}</p></div>
+                  </div>
                 </div>
               ))}
             </div>
