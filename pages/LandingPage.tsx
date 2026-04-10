@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Star, CheckCircle, CheckCircle2, X, ChevronDown, Sparkles, Eye, Download, Phone, Mail, Lock, Loader2, Timer, Check } from 'lucide-react';
 import { COURSES, BUNDLE_PRICE } from '../constants';
-import { WhatsAppButton } from '../components/WhatsAppButton';
 import { openRazorpayCheckout } from '../services/razorpay';
 import {
   Logo, SocialProofToast,
@@ -834,7 +833,6 @@ const LandingPage: React.FC = () => {
         </div>
       )}
 
-      <WhatsAppButton />
       <SocialProofToast />
     </div>
   );
