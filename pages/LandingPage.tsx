@@ -179,14 +179,9 @@ const LandingPage: React.FC = () => {
                 <span className="text-[11px] md:text-xs font-semibold text-slate-600">Course + Skill Certificate + Freelance Projects + Free Software</span>
               </div>
 
-              {/* Social proof */}
-              <div className="mb-4 md:mb-5 inline-flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse shrink-0"></span>
-                <span className="text-[11px] md:text-xs text-slate-400 font-medium">50,000+ Students Supported 24/7 by Our Team</span>
-              </div>
 
               {/* Intro text */}
-              <p className="text-sm md:text-base text-slate-500 mb-3 md:mb-5 max-w-md">
+              <p className="text-sm md:text-base text-slate-700 mb-3 md:mb-5 max-w-md font-medium">
                 Learn Complete Interior and Exterior Designing and start taking personal projects.
               </p>
 
@@ -196,9 +191,9 @@ const LandingPage: React.FC = () => {
                   Learn to Design
                 </span>
                 <span className="block text-[2rem] leading-none md:text-5xl font-display font-black">
-                  <span className="text-orange-500">Homes</span><span className="text-slate-300 font-light text-2xl md:text-3xl mx-1">,</span><span className="text-slate-800">Offices</span><span className="text-slate-300 font-light text-2xl md:text-3xl mx-1"> &</span><span className="text-slate-500">Villas</span>
+                  <span className="text-orange-500">Homes</span><span className="text-slate-400 font-light text-2xl md:text-3xl mx-1">,</span><span className="text-slate-900">Offices</span><span className="text-slate-400 font-light text-2xl md:text-3xl mx-1"> &</span><span className="text-slate-700">Villas</span>
                 </span>
-                <span className="block text-lg md:text-2xl font-serif italic text-slate-400 mt-1 md:mt-2">
+                <span className="block text-lg md:text-2xl font-serif italic text-slate-600 mt-1 md:mt-2">
                   and show real 3D to clients.
                 </span>
               </h1>
@@ -207,7 +202,7 @@ const LandingPage: React.FC = () => {
               <p className="text-sm md:text-base font-bold text-slate-800 mt-2 md:mt-4 mb-1">
                 Learn <span className="text-orange-500">PDR</span> — Planning, Designing & Rendering
               </p>
-              <p className="text-xs md:text-sm text-slate-500 mb-5 md:mb-8 max-w-sm md:max-w-md">
+              <p className="text-xs md:text-sm text-slate-700 mb-5 md:mb-8 max-w-sm md:max-w-md">
                 Skyrocket your career. Get the complete course, skill certificate, freelance projects & free software download — all in one bundle.
               </p>
 
