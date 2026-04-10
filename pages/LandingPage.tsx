@@ -159,7 +159,6 @@ const LandingPage: React.FC = () => {
       {/* ═══ STICKY HEADER ═══ */}
       <header className="sticky top-0 z-[60] bg-white/80 backdrop-blur-2xl border-b border-slate-100/60 px-5 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Logo />
           <div className="flex items-center gap-4">
             <button onClick={openPaymentModal} className="hidden md:block text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-all premium-stroke" style={{ background: 'linear-gradient(135deg,#f97316,#ea580c)', boxShadow: '0 0 20px rgba(249,115,22,0.45)' }}>Join 50,000+ Students</button>
           </div>
@@ -239,35 +238,15 @@ const LandingPage: React.FC = () => {
               </div>
               <p className="text-[10px] md:text-xs text-slate-500 mb-7 md:mb-10 font-bold">24/7 Team Support • Free Software • 7-Day Money-Back Guarantee</p>
 
-              {/* Note-style attention box */}
-              <div className="w-full mb-6 text-left bg-amber-50 border border-amber-200 rounded-2xl px-5 py-5 shadow-sm relative overflow-hidden" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
-                {/* left accent bar */}
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-400 rounded-l-2xl"></div>
-                {/* pin emoji */}
-                <span className="absolute top-3 right-4 text-lg opacity-40">📌</span>
-
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-600 mb-2 ml-2" style={{ fontFamily: 'system-ui, sans-serif' }}>What you'll learn to design</p>
-
-                <p className="text-lg md:text-2xl font-bold text-slate-900 leading-snug mb-1 ml-2">
-                  <em>Homes</em><span className="text-slate-300 mx-1 font-light">,</span>
-                  <em>Offices</em><span className="text-slate-300 mx-1 font-light"> &</span>
-                  <em>Villas</em>
-                </p>
-                <p className="text-sm md:text-base text-slate-600 mb-4 ml-2">
-                  and show <strong className="text-slate-900">real 3D renders</strong> to clients.
-                </p>
-
-                <div className="border-t border-amber-200 pt-3 ml-2 space-y-2">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-600 mb-1" style={{ fontFamily: 'system-ui, sans-serif' }}>After completing this course</p>
-                  <p className="text-sm md:text-base text-slate-900">
-                    💼 <strong><em>Get a Better Job</em></strong>
-                    <span className="text-slate-500 text-xs ml-2">— land higher-paying design roles</span>
-                  </p>
-                  <p className="text-slate-400 text-xs font-medium ml-5">— or —</p>
-                  <p className="text-sm md:text-base text-slate-900">
-                    🏢 <strong><em>Start Your Own Design Firm</em></strong>
-                    <span className="text-slate-500 text-xs ml-2">— take freelance & studio projects</span>
-                  </p>
+              {/* Outcome strip */}
+              <div className="w-full mb-6 flex gap-2">
+                <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl px-3 py-3 text-left">
+                  <p className="text-base font-black text-slate-900">💼 Get a Better Job</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Higher-paying design roles</p>
+                </div>
+                <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl px-3 py-3 text-left">
+                  <p className="text-base font-black text-slate-900">🏢 Own Design Firm</p>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Freelance & studio projects</p>
                 </div>
               </div>
 
