@@ -634,31 +634,29 @@ const LandingPage: React.FC = () => {
 
       {/* ═══ STICKY BOTTOM BAR ═══ */}
       <div className={`fixed bottom-0 left-0 right-0 z-[70] transition-transform duration-500 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
-        <button onClick={openPaymentModal} className="w-full bg-white/98 backdrop-blur-2xl border-t border-slate-100 shadow-[0_-1px_40px_rgba(15,23,42,0.12)] px-4 py-3 flex items-center justify-between gap-3 active:bg-slate-50 transition-colors group">
+        <button onClick={openPaymentModal} className="w-full bg-white/98 backdrop-blur-2xl border-t border-slate-100 shadow-[0_-1px_40px_rgba(15,23,42,0.12)] px-4 py-2.5 flex items-center gap-3 active:bg-slate-50 transition-colors group">
 
-          {/* Price */}
-          <div className="shrink-0">
-            <span className="text-base md:text-lg font-black text-slate-900">₹{BUNDLE_PRICE}</span>
-          </div>
-
-          {/* Timer with label above */}
-          <div className="flex flex-col items-center gap-0.5 shrink-0">
-            <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Offer ends in</span>
+          {/* Left: price + label + timer */}
+          <div className="flex flex-col items-start gap-0.5 shrink-0">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-base font-black text-slate-900">₹{BUNDLE_PRICE}</span>
+              <span className="text-[10px] font-black text-slate-900 uppercase tracking-wide">Offer ends in</span>
+            </div>
             <div className="flex items-center gap-0.5">
-            {[formatTime(timeLeft.h), formatTime(timeLeft.m), formatTime(timeLeft.s)].map((val, i) => (
-              <span key={i} className="flex items-center gap-0.5">
-                <span className="bg-slate-900 text-white text-[11px] font-black font-mono px-1.5 py-0.5 rounded tabular-nums">{val}</span>
-                {i < 2 && <span className="text-slate-400 text-[10px] font-bold mx-0.5">:</span>}
-              </span>
-            ))}
+              {[formatTime(timeLeft.h), formatTime(timeLeft.m), formatTime(timeLeft.s)].map((val, i) => (
+                <span key={i} className="flex items-center gap-0.5">
+                  <span className="bg-slate-900 text-white text-[11px] font-black font-mono px-1.5 py-0.5 rounded tabular-nums">{val}</span>
+                  {i < 2 && <span className="text-slate-400 text-[10px] font-bold mx-0.5">:</span>}
+                </span>
+              ))}
             </div>
           </div>
 
-          {/* Download Now 3D button */}
-          <div className="shrink-0 flex items-center gap-1.5 bg-slate-900 text-white text-[11px] md:text-xs font-bold px-4 py-2 rounded-xl group-hover:bg-black group-active:translate-y-px transition-all"
+          {/* Right: Download Now button fills remaining space */}
+          <div className="flex-1 flex items-center justify-center gap-1.5 bg-slate-900 text-white text-xs font-bold py-3 rounded-xl group-hover:bg-black group-active:translate-y-px transition-all"
             style={{ boxShadow: '0 4px 0 #000, 0 6px 12px rgba(0,0,0,0.3)' }}>
             Download Now
-            <ArrowRight size={12} />
+            <ArrowRight size={13} />
           </div>
 
         </button>
