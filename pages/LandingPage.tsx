@@ -626,17 +626,34 @@ const LandingPage: React.FC = () => {
       </footer>
 
       {/* ═══ STICKY BOTTOM BAR ═══ */}
-      <div className={`fixed bottom-0 left-0 right-0 z-[70] bg-white/95 backdrop-blur-xl border-t border-slate-200 p-2 shadow-[0_-4px_30px_rgba(15,23,42,0.08)] transition-transform duration-300 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
-        <div className="max-w-7xl mx-auto">
-          <button onClick={openPaymentModal} className="w-full relative group overflow-hidden text-white rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all py-2.5 flex items-center px-4" style={{ background: 'linear-gradient(90deg,#f97316,#ea580c,#f97316)', boxShadow: '0 0 20px rgba(249,115,22,0.45)' }}>
-            <div className="relative z-10 w-full flex items-center justify-between">
-              <div className="flex flex-col items-start leading-tight gap-1">
-                <span className="text-[11px] md:text-sm font-black uppercase tracking-widest text-yellow-200 animate-pulse bg-black/20 px-2 py-0.5 rounded-md inline-block">⚠️ Offer Ends In {formatTime(timeLeft.h)}:{formatTime(timeLeft.m)}:{formatTime(timeLeft.s)}</span>
-                <span className="text-[15px] md:text-lg font-black uppercase tracking-[0.05em] text-white">Download All Courses — ₹{BUNDLE_PRICE}</span>
-              </div>
-              <ArrowRight size={24} className="text-white group-hover:translate-x-1 transition-transform drop-shadow-md" />
+      <div className={`fixed bottom-0 left-0 right-0 z-[70] bg-white/98 backdrop-blur-2xl border-t border-slate-100 px-4 py-3 shadow-[0_-1px_40px_rgba(15,23,42,0.10)] transition-transform duration-500 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
+        <div className="max-w-3xl mx-auto flex items-center justify-between gap-3">
+
+          {/* Timer group */}
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest hidden sm:block">Offer ends</span>
+            <div className="flex items-center gap-1">
+              {[formatTime(timeLeft.h), formatTime(timeLeft.m), formatTime(timeLeft.s)].map((val, i) => (
+                <span key={i} className="flex items-center gap-1">
+                  <span className="bg-slate-900 text-white text-xs font-black font-mono px-2 py-1 rounded-md tabular-nums tracking-wider">{val}</span>
+                  {i < 2 && <span className="text-slate-400 font-bold text-xs">:</span>}
+                </span>
+              ))}
             </div>
+          </div>
+
+          {/* Label */}
+          <div className="flex flex-col items-center flex-1 min-w-0">
+            <span className="text-xs md:text-sm font-bold text-slate-900 truncate">All Courses + Software + Certificate</span>
+            <span className="text-[10px] text-slate-400 font-medium">One-time · Lifetime access</span>
+          </div>
+
+          {/* CTA pill */}
+          <button onClick={openPaymentModal} className="shrink-0 flex items-center gap-2 bg-slate-900 hover:bg-black text-white text-xs md:text-sm font-bold px-4 md:px-6 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 group">
+            <span>₹{BUNDLE_PRICE}</span>
+            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
           </button>
+
         </div>
       </div>
 
