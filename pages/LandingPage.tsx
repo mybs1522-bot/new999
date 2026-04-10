@@ -181,7 +181,7 @@ const LandingPage: React.FC = () => {
 
               {/* Intro text */}
               <p className="text-sm md:text-base text-slate-700 mb-3 md:mb-5 max-w-md font-medium">
-                Learn Complete Interior and Exterior Designing and start taking personal projects — and <span className="underline underline-offset-2 decoration-orange-400">earn <span className="text-orange-500 font-bold">₹50,000</span> to <span className="text-orange-500 font-bold">₹1,00,000</span> designing plans and renders</span>.
+                Turn your designs into <span className="underline underline-offset-2 decoration-orange-400"><span className="text-orange-500 font-bold">₹50,000</span>–<span className="text-orange-500 font-bold">₹1,00,000</span>/month</span>.
               </p>
 
               {/* Big headline */}
@@ -201,8 +201,8 @@ const LandingPage: React.FC = () => {
               <p className="text-sm md:text-base font-bold text-slate-800 mt-2 md:mt-4 mb-1">
                 Learn <span className="text-orange-500">PDR</span> — Planning, Designing & Rendering
               </p>
-              <p className="text-xs md:text-sm text-slate-700 mb-5 md:mb-8 max-w-sm md:max-w-md">
-                Skyrocket your career. Get the complete course, skill certificate, freelance projects & free software download — all in one bundle.
+              <p className="text-xs md:text-sm text-slate-500 mb-5 md:mb-8 max-w-sm md:max-w-md">
+                One bundle. Everything included.
               </p>
 
               {/* Story Block */}
@@ -212,7 +212,7 @@ const LandingPage: React.FC = () => {
                 </p>
                 <div className="w-10 h-1 bg-orange-500 rounded-full mb-3"></div>
                 <p className="text-xs md:text-base text-slate-600 leading-relaxed mb-3 font-medium">
-                  And now, the question is no longer <em className="text-slate-800 font-bold">how</em> to do it. The real question is...
+                  The question isn't <em className="text-slate-800 font-bold">if</em> you can. It's...
                 </p>
                 <p className="text-base md:text-2xl font-display font-black text-orange-500 mb-4">
                   How to do it FASTER?
