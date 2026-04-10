@@ -744,7 +744,7 @@ const LandingPage: React.FC = () => {
                 ) : (
                   <>
                     <Download size={18} />
-                    Pay ₹{BUNDLE_PRICE} & Download All
+                    Get All Courses
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
