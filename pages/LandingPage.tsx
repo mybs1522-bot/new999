@@ -64,7 +64,7 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
           style={{ boxShadow: '0 0 0 2px #f97316, 0 0 16px rgba(249,115,22,0.4)' }}
         >
           <Download size={16} className="shrink-0" />
-          <span>Download All 12 Courses — ₹{BUNDLE_PRICE}</span>
+          <span>Download All 12 Courses</span>
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform shrink-0" />
         </button>
 
