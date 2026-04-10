@@ -14,18 +14,14 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
   const f = (v: number) => v.toString().padStart(2, '0');
   const bgClass = variant === 'dark'
     ? 'bg-slate-900'
-    : variant === 'blue'
-      ? 'bg-gradient-to-br from-orange-500 to-orange-600'
-      : 'bg-gradient-to-br from-orange-500 to-orange-600';
+    : 'bg-white border border-slate-200';
   const btnClass = variant === 'dark'
-    ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-500 shadow-lg shadow-orange-500/25'
-    : variant === 'blue'
-      ? 'bg-white text-orange-500 hover:bg-orange-50 shadow-lg shadow-white/15'
-      : 'bg-slate-900 hover:bg-black shadow-lg shadow-black/25';
+    ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-500'
+    : 'bg-slate-900 hover:bg-black';
   const textColor = 'text-white';
-  const btnTextColor = variant === 'blue' ? 'text-orange-500' : 'text-white';
-  const timerAccent = variant === 'green' ? 'text-orange-200' : variant === 'blue' ? 'text-orange-200' : 'text-orange-400';
-  const timerBg = variant === 'dark' ? 'bg-slate-800 border-slate-700' : variant === 'blue' ? 'bg-white/15 border-white/20' : 'bg-white/20 border-white/30';
+  const btnTextColor = 'text-white';
+  const timerAccent = variant === 'dark' ? 'text-orange-400' : 'text-orange-500';
+  const timerBg = variant === 'dark' ? 'bg-slate-800 border-slate-700' : 'bg-orange-50 border-orange-200';
 
   return (
     <div className={`${bgClass} rounded-2xl px-5 py-6 relative overflow-hidden max-w-sm mx-auto`}>
@@ -40,38 +36,39 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
         </div>
 
         {/* Timer digits - compact on mobile */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           {[{ val: f(timeLeft.h), label: 'HRS' }, { val: f(timeLeft.m), label: 'MIN' }, { val: f(timeLeft.s), label: 'SEC' }].map((unit, i) => (
             <React.Fragment key={i}>
               <div className="flex flex-col items-center">
-                <div className={`${timerBg} border rounded-lg px-2.5 py-1`}>
-                  <span className={`text-lg font-display font-black tabular-nums ${textColor}`}>{unit.val}</span>
+                <div className={`${timerBg} border rounded-md px-2 py-0.5`}>
+                  <span className={`text-sm font-black tabular-nums font-mono ${variant === 'dark' ? 'text-white' : 'text-slate-900'}`}>{unit.val}</span>
                 </div>
-                <span className={`text-[7px] font-bold uppercase tracking-widest mt-0.5 ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'}`}>{unit.label}</span>
+                <span className={`text-[6px] font-bold uppercase tracking-widest mt-0.5 ${variant === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>{unit.label}</span>
               </div>
-              {i < 2 && <span className={`text-base font-bold ${variant === 'dark' ? 'text-slate-600' : 'text-white/30'} -mt-3`}>:</span>}
+              {i < 2 && <span className={`text-xs font-bold ${variant === 'dark' ? 'text-slate-600' : 'text-slate-300'} -mt-3`}>:</span>}
             </React.Fragment>
           ))}
         </div>
 
         {/* Price - tighter on mobile */}
         <div className="flex items-baseline gap-2">
-          <span className={`text-sm md:text-lg ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'} line-through font-bold`}>₹2,999</span>
-          <span className={`text-3xl md:text-4xl font-display font-black ${textColor}`}>₹{BUNDLE_PRICE}</span>
-          <span className={`${variant === 'dark' ? 'bg-orange-500/20 text-orange-400' : 'bg-white/20 text-white'} text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-full`}>66% OFF</span>
+          <span className={`text-sm ${variant === 'dark' ? 'text-slate-500' : 'text-slate-400'} line-through font-bold`}>₹2,999</span>
+          <span className={`text-3xl font-display font-black ${variant === 'dark' ? 'text-white' : 'text-slate-900'}`}>₹{BUNDLE_PRICE}</span>
+          <span className="bg-orange-100 text-orange-500 text-[9px] font-bold px-1.5 py-0.5 rounded-full">66% OFF</span>
         </div>
 
         {/* Button - full width on mobile, auto on desktop */}
         <button
           onClick={onClick}
           className={`${btnClass} ${btnTextColor} font-bold text-sm px-6 py-3 rounded-xl flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-[0.98] transition-all w-full`}
+          style={{ boxShadow: '0 0 0 2px #f97316, 0 0 16px rgba(249,115,22,0.4)' }}
         >
           <Download size={16} className="shrink-0" />
           <span>Download All 12 Courses — ₹{BUNDLE_PRICE}</span>
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform shrink-0" />
         </button>
 
-        <p className={`text-[10px] md:text-xs font-medium ${variant === 'dark' ? 'text-slate-500' : 'text-white/50'}`}>Lifetime access • All software included • 7-day money-back</p>
+        <p className={`text-[10px] font-medium ${variant === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>Lifetime access • All software included • 7-day money-back</p>
       </div>
     </div>
   );
