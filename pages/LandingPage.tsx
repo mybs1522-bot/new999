@@ -626,35 +626,35 @@ const LandingPage: React.FC = () => {
       </footer>
 
       {/* ═══ STICKY BOTTOM BAR ═══ */}
-      <div className={`fixed bottom-0 left-0 right-0 z-[70] bg-white/98 backdrop-blur-2xl border-t border-slate-100 px-4 py-3 shadow-[0_-1px_40px_rgba(15,23,42,0.10)] transition-transform duration-500 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
-        <div className="max-w-3xl mx-auto flex items-center justify-between gap-3">
+      <div className={`fixed bottom-0 left-0 right-0 z-[70] transition-transform duration-500 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
+        <button onClick={openPaymentModal} className="w-full bg-white/98 backdrop-blur-2xl border-t border-slate-100 shadow-[0_-1px_40px_rgba(15,23,42,0.12)] px-4 py-2.5 flex items-center justify-between gap-2 active:bg-slate-50 transition-colors group">
 
-          {/* Timer group */}
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest hidden sm:block">Offer ends</span>
-            <div className="flex items-center gap-1">
-              {[formatTime(timeLeft.h), formatTime(timeLeft.m), formatTime(timeLeft.s)].map((val, i) => (
-                <span key={i} className="flex items-center gap-1">
-                  <span className="bg-slate-900 text-white text-xs font-black font-mono px-2 py-1 rounded-md tabular-nums tracking-wider">{val}</span>
-                  {i < 2 && <span className="text-slate-400 font-bold text-xs">:</span>}
-                </span>
-              ))}
-            </div>
+          {/* Timer — compact */}
+          <div className="flex items-center gap-1 shrink-0">
+            <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest hidden sm:block mr-1">Ends</span>
+            {[formatTime(timeLeft.h), formatTime(timeLeft.m), formatTime(timeLeft.s)].map((val, i) => (
+              <span key={i} className="flex items-center gap-0.5">
+                <span className="bg-slate-900 text-white text-[10px] font-black font-mono px-1.5 py-0.5 rounded tabular-nums">{val}</span>
+                {i < 2 && <span className="text-slate-300 text-[10px] font-bold">:</span>}
+              </span>
+            ))}
           </div>
 
           {/* Label */}
-          <div className="flex flex-col items-center flex-1 min-w-0">
-            <span className="text-xs md:text-sm font-bold text-slate-900 truncate">All Courses + Software + Certificate</span>
-            <span className="text-[10px] text-slate-400 font-medium">One-time · Lifetime access</span>
+          <div className="flex flex-col items-center flex-1 min-w-0 px-2">
+            <span className="text-xs md:text-sm font-bold text-slate-900 truncate">All Courses + Certificate</span>
+            <span className="text-[9px] text-slate-400">One-time · ₹{BUNDLE_PRICE}</span>
           </div>
 
-          {/* CTA pill */}
-          <button onClick={openPaymentModal} className="shrink-0 flex items-center gap-2 bg-slate-900 hover:bg-black text-white text-xs md:text-sm font-bold px-4 md:px-6 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 group">
-            <span>₹{BUNDLE_PRICE}</span>
-            <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-          </button>
+          {/* 3D Download button */}
+          <div className="shrink-0 flex items-center gap-1.5 bg-slate-900 text-white text-[11px] md:text-xs font-bold px-3 md:px-4 py-2 rounded-xl group-hover:bg-black group-active:translate-y-px transition-all"
+            style={{ boxShadow: '0 4px 0 #000, 0 6px 12px rgba(0,0,0,0.3)' }}>
+            <span className="hidden sm:inline">Download Now</span>
+            <span className="sm:hidden">Get</span>
+            <ArrowRight size={13} />
+          </div>
 
-        </div>
+        </button>
       </div>
 
       {/* ═══════ PAYMENT MODAL ═══════ */}
