@@ -217,17 +217,17 @@ const LandingPage: React.FC = () => {
                 <p className="text-base md:text-2xl font-display font-black text-orange-500 mb-4">
                   How to do it FASTER?
                 </p>
+                {/* Hero Video */}
+                <div className="w-full mb-4 overflow-hidden rounded-xl shadow-xl" style={{ position: 'relative', paddingTop: '56.25%' }}>
+                  <iframe src="https://iframe.mediadelivery.net/embed/489113/a214b199-e64a-4eaf-af70-edfbc586e5fd?autoplay=true&loop=true&muted=true&preload=true&responsive=true" loading="lazy" style={{ border: 0, position: 'absolute', top: 0, height: '100%', width: '100%' }} allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowFullScreen={true} />
+                </div>
+
                 <div className="flex items-start gap-3 p-3 md:p-4 bg-orange-50 border border-orange-100 rounded-xl">
                   <span className="text-xl md:text-2xl mt-0.5 shrink-0">🚀</span>
                   <p className="text-slate-700 font-medium leading-relaxed text-xs md:text-base">
                     That's exactly why we built this. A complete blueprint — from software basics to client-ready renders — designed to make you <strong className="text-orange-500">job or business ready in just one month.</strong>
                   </p>
                 </div>
-              </div>
-
-              {/* Hero Video */}
-              <div className="w-full mb-6 overflow-hidden rounded-2xl shadow-2xl" style={{ position: 'relative', paddingTop: '56.25%' }}>
-                <iframe src="https://iframe.mediadelivery.net/embed/489113/a214b199-e64a-4eaf-af70-edfbc586e5fd?autoplay=true&loop=true&muted=true&preload=true&responsive=true" loading="lazy" style={{ border: 0, position: 'absolute', top: 0, height: '100%', width: '100%' }} allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowFullScreen={true} />
               </div>
 
               {/* CTA */}
