@@ -636,20 +636,22 @@ const LandingPage: React.FC = () => {
       <div className={`fixed bottom-0 left-0 right-0 z-[70] transition-transform duration-500 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
         <button onClick={openPaymentModal} className="w-full bg-white/98 backdrop-blur-2xl border-t border-slate-100 shadow-[0_-1px_40px_rgba(15,23,42,0.12)] px-4 py-3 flex items-center justify-between gap-3 active:bg-slate-50 transition-colors group">
 
-          {/* Price + offer label */}
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Price */}
+          <div className="shrink-0">
             <span className="text-base md:text-lg font-black text-slate-900">₹{BUNDLE_PRICE}</span>
-            <span className="text-[10px] font-semibold text-slate-400 hidden sm:block">Offer ends in</span>
           </div>
 
-          {/* Timer */}
-          <div className="flex items-center gap-0.5 shrink-0">
+          {/* Timer with label above */}
+          <div className="flex flex-col items-center gap-0.5 shrink-0">
+            <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest">Offer ends in</span>
+            <div className="flex items-center gap-0.5">
             {[formatTime(timeLeft.h), formatTime(timeLeft.m), formatTime(timeLeft.s)].map((val, i) => (
               <span key={i} className="flex items-center gap-0.5">
                 <span className="bg-slate-900 text-white text-[11px] font-black font-mono px-1.5 py-0.5 rounded tabular-nums">{val}</span>
                 {i < 2 && <span className="text-slate-400 text-[10px] font-bold mx-0.5">:</span>}
               </span>
             ))}
+            </div>
           </div>
 
           {/* Download Now 3D button */}
