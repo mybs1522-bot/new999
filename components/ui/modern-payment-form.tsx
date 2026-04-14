@@ -91,13 +91,12 @@ const StripeInputWrap = ({ children }: { children: React.ReactNode }) => (
 
 interface CheckoutFormProps {
   email: string;
-  clientSecret: string;
   onSuccess: () => void;
   onBack?: () => void;
   amount: string;
 }
 
-function CheckoutForm({ email, clientSecret, onSuccess, onBack, amount }: CheckoutFormProps) {
+function CheckoutForm({ email, onSuccess, onBack, amount }: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -113,6 +112,15 @@ function CheckoutForm({ email, clientSecret, onSuccess, onBack, amount }: Checko
     if ((window as any).fbq) (window as any).fbq('track', 'AddPaymentInfo');
     setIsLoading(true);
     setMessage("");
+
+    let clientSecret: string;
+    try {
+      clientSecret = await createPaymentIntent(email);
+    } catch (err: any) {
+      setMessage(err?.message ?? "Failed to initialise payment. Please try again.");
+      setIsLoading(false);
+      return;
+    }
 
     const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
@@ -205,62 +213,18 @@ export default function ModernPaymentForm({
   amount = "$49",
   bare = false,
 }: ModernPaymentFormProps) {
-  const [clientSecret, setClientSecret] = useState("");
-  const [initError, setInitError] = useState("");
-
-  useEffect(() => {
-    setClientSecret("");
-    setInitError("");
-    createPaymentIntent(email)
-      .then(setClientSecret)
-      .catch((err: Error) => {
-        console.error("[ModernPaymentForm] init error:", err);
-        setInitError(err?.message ?? "Failed to initialise payment. Please go back and try again.");
-      });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);  // run once on mount — email used at confirmCardPayment time
-
-  const wrap = (content: React.ReactNode, padded = true) =>
+  const wrap = (content: React.ReactNode) =>
     bare ? (
-      <div className={`border-t border-gray-100 mt-3${padded ? " pt-4" : ""}`}>{content}</div>
+      <div className="border-t border-gray-100 mt-3 pt-4">{content}</div>
     ) : (
       <Card className="max-w-md w-full rounded-2xl shadow-2xl border-0">
-        <CardContent className={padded ? "p-6" : "p-8"}>{content}</CardContent>
+        <CardContent className="p-6">{content}</CardContent>
       </Card>
     );
 
-  if (initError) {
-    const fallbackUrl = FALLBACK_STRIPE_LINK
-      ? `${FALLBACK_STRIPE_LINK}?prefilled_email=${encodeURIComponent(email)}`
-      : null;
-    return wrap(
-      <div className="text-center space-y-4">
-        <p className="text-red-500 text-sm font-medium">{initError}</p>
-        {fallbackUrl && (
-          <a href={fallbackUrl} className="block w-full bg-gray-900 hover:bg-black text-white font-bold rounded-xl py-3 text-sm transition-all">
-            Pay {amount} via Stripe Checkout →
-          </a>
-        )}
-        {onBack && (
-          <button onClick={onBack} className="text-gray-600 text-sm font-semibold hover:underline">← Go back</button>
-        )}
-      </div>
-    );
-  }
-
-  if (!clientSecret) {
-    return wrap(
-      <div className="flex flex-col items-center justify-center gap-3 py-5">
-        <Loader2 size={26} className="animate-spin text-gray-900" />
-        <p className="text-gray-500 text-sm font-medium">Preparing secure checkout…</p>
-      </div>,
-      false
-    );
-  }
-
   return wrap(
     <Elements stripe={stripePromise} options={{ appearance }}>
-      <CheckoutForm email={email} clientSecret={clientSecret} onSuccess={onSuccess} onBack={onBack} amount={amount} />
+      <CheckoutForm email={email} onSuccess={onSuccess} onBack={onBack} amount={amount} />
     </Elements>
   );
 }
