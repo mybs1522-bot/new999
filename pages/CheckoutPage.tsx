@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Course } from '../types';
 import { COURSES, COURSE_CATEGORIES, BUNDLE_PRICE, TESTIMONIALS, FAQ_ITEMS } from '../constants';
-import { ChevronDown, Sparkles, ArrowRight, Timer, Star, CheckCircle2, Zap, Check, Download, Phone, Mail, Lock, Loader2, X, Eye } from 'lucide-react';
-import { openRazorpayCheckout } from '../services/razorpay';
+import { ChevronDown, Sparkles, ArrowRight, Timer, Star, CheckCircle2, Zap, Check, Download, Mail, Lock, Loader2, X, Eye } from 'lucide-react';
+import ModernPaymentForm from '../components/ui/modern-payment-form';
 import { CourseDetailModal } from '../components/CourseDetailModal';
 import { TextMarquee } from '../components/ui/text-marquee';
 
@@ -18,7 +18,7 @@ const Logo = () => (
       <span className="text-[7px] font-bold uppercase tracking-widest text-gray-400 flex justify-between w-full leading-none">
         <span>DESIGN</span>
         <span>•</span>
-        <span className="text-brand-primary font-black">₹{BUNDLE_PRICE}</span>
+        <span className="text-brand-accent font-black">$49</span>
       </span>
     </div>
   </div>
@@ -30,14 +30,15 @@ const CheckoutPage: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState({ h: 2, m: 23, s: 49 });
   const [detailCourse, setDetailCourse] = useState<Course | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
-  const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneError, setPhoneError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [paymentError, setPaymentError] = useState('');
   const [highlightIndex, setHighlightIndex] = useState<number>(-1);
   const [mobileSlideIndex, setMobileSlideIndex] = useState(0);
+
+  // Meta Pixel: ViewContent on mount
+  useEffect(() => { if ((window as any).fbq) (window as any).fbq('track', 'ViewContent', { content_name: 'Avada Design Bundle', value: 49, currency: 'USD' }); }, []);
 
   // Auto-slide for mobile showcase
   useEffect(() => {
@@ -94,35 +95,14 @@ const CheckoutPage: React.FC = () => {
   const formatTime = (val: number) => val.toString().padStart(2, '0');
   const validateEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
-  const handlePayment = () => {
-    let hasError = false;
-    if (!phone || phone.length < 10) { setPhoneError(true); hasError = true; } else { setPhoneError(false); }
-    if (!email || !validateEmail(email)) { setEmailError(true); hasError = true; } else { setEmailError(false); }
-    if (hasError) return;
+  const openPaymentModal = () => {
+    setShowPaymentModal(true);
+    if ((window as any).fbq) (window as any).fbq('track', 'InitiateCheckout');
+  };
 
-    setIsLoading(true);
-    setPaymentError('');
-
-    openRazorpayCheckout({
-      amount: BUNDLE_PRICE,
-      courseIds: COURSES.map(c => c.id),
-      userPhone: phone,
-      userEmail: email,
-      onSuccess: (paymentId) => {
-        setIsLoading(false);
-        setPaymentSuccess(paymentId);
-        setShowPaymentModal(false);
-      },
-      onCancel: () => {
-        setIsLoading(false);
-        console.log('Payment cancelled by user');
-      },
-      onError: (err) => {
-        setIsLoading(false);
-        setPaymentError('Payment failed. Please try again or contact support.');
-        console.error('Razorpay Error:', err);
-      }
-    });
+  const handlePaymentSuccess = () => {
+    setShowPaymentModal(false);
+    setPaymentSuccess('stripe-payment-completed');
   };
 
   const scrollToCourses = () => {
@@ -193,7 +173,7 @@ const CheckoutPage: React.FC = () => {
         <div className="container mx-auto flex items-center justify-center gap-4 sm:gap-8 text-sm">
           <div className="flex items-center gap-2 shrink-0">
             <Zap size={14} className="text-yellow-400 fill-yellow-400" />
-            <span className="text-xs sm:text-sm font-bold">All 12 courses for just <span className="text-brand-accent">₹{BUNDLE_PRICE}</span></span>
+            <span className="text-xs sm:text-sm font-bold">All 12 courses for just <span className="text-brand-accent">$49</span></span>
           </div>
           <div className="w-px h-4 bg-gray-700 hidden sm:block"></div>
           <div className="flex items-center gap-2 shrink-0">
@@ -214,11 +194,11 @@ const CheckoutPage: React.FC = () => {
         <div className="container mx-auto flex items-center justify-between">
           <Logo />
           <button
-            onClick={() => setShowPaymentModal(true)}
+            onClick={openPaymentModal}
             className="flex items-center gap-2 bg-gray-900 text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-black transition-colors"
           >
             <Download size={14} className="text-yellow-400" />
-            <span className="hidden sm:inline">Download All Courses —</span> ₹{BUNDLE_PRICE}
+            <span className="hidden sm:inline">Download All Courses —</span> $49
           </button>
         </div>
       </nav>
@@ -327,7 +307,7 @@ const CheckoutPage: React.FC = () => {
               <h2 className="text-xl md:text-3xl font-display font-black text-gray-900 leading-tight mb-1 tracking-tight">
                 Learn <span className="text-brand-primary uppercase">Design, Planning & Rendering</span>
               </h2>
-              <p className="text-[10px] md:text-sm text-gray-600 font-medium italic leading-relaxed">
+              <p className="text-[10px] text-gray-600 font-medium italic leading-relaxed">
                 Because <span className="relative inline-block px-1.5 py-0.5">
                   <span className="relative z-10 font-bold text-gray-900 not-italic uppercase tracking-tight">Skills are more important</span>
                   <span className="absolute inset-x-0 bottom-0.5 h-1.5 bg-yellow-300/40 -rotate-1 rounded-sm transform scale-x-110"></span>
@@ -335,11 +315,11 @@ const CheckoutPage: React.FC = () => {
               </p>
             </div>
             <button
-              onClick={() => setShowPaymentModal(true)}
+              onClick={openPaymentModal}
               className="mt-6 md:mt-8 inline-flex items-center gap-1.5 md:gap-3 px-5 md:px-10 py-3.5 md:py-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl md:rounded-2xl font-bold text-[13px] md:text-lg shadow-xl shadow-blue-500/30 hover:shadow-blue-500/40 hover:scale-[1.02] transition-all group w-full sm:w-auto justify-center animate-shimmer border border-blue-400/50"
             >
               <Download size={16} className="md:w-5 md:h-5 shrink-0" />
-              <span className="whitespace-nowrap">Download All Courses — ₹{BUNDLE_PRICE}</span>
+              <span className="whitespace-nowrap">Download All Courses — $49</span>
               <ArrowRight size={16} className="md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
             <p className="mt-4 text-xs md:text-sm text-gray-500 font-medium max-w-[280px] md:max-w-none mx-auto leading-relaxed">Lifetime access • All software included free • 7-day money-back guarantee</p>
@@ -349,7 +329,7 @@ const CheckoutPage: React.FC = () => {
         <section className="bg-gray-50 border-y border-gray-100 py-6 md:py-10 grid-bg">
           <div className="container mx-auto px-2 md:px-8">
             <div className="text-center mb-6">
-              <span className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-gray-400">Number of Courses</span>
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] text-gray-400">Number of Courses</span>
             </div>
             <div className="flex items-center justify-center gap-3 md:gap-12">
               {COURSE_CATEGORIES.map(cat => (
@@ -382,14 +362,14 @@ const CheckoutPage: React.FC = () => {
                     Best Value Deal
                   </div>
                   <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-3">
-                    All {COURSES.length} Courses <span className="text-brand-accent">₹{BUNDLE_PRICE}</span>
+                    All {COURSES.length} Courses <span className="text-brand-accent">$49</span>
                   </h2>
                   <p className="text-gray-400 text-sm">
                     Lifetime access to every course. Free software included. 7-day money-back guarantee.
                   </p>
                 </div>
                 <button
-                  onClick={() => setShowPaymentModal(true)}
+                  onClick={openPaymentModal}
                   className="px-5 py-4 md:px-10 md:py-5 bg-brand-primary text-white font-bold text-sm md:text-lg rounded-xl md:rounded-2xl shadow-glow hover:shadow-glow-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 md:gap-3 group shrink-0 w-full sm:w-auto animate-shimmer border border-blue-400/30"
                 >
                   <Download size={16} className="md:w-5 md:h-5 shrink-0" />
@@ -461,7 +441,7 @@ const CheckoutPage: React.FC = () => {
       <footer className="border-t border-gray-100 bg-white py-10 px-4 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Logo />
-          <p className="text-[10px] text-gray-400 tracking-wider">© 2026 Avada Inc. All rights reserved.</p>
+          <p className="text-[10px] text-gray-400 tracking-wider"> 2026 Avada Inc. All rights reserved.</p>
         </div>
       </footer>
 
@@ -479,13 +459,13 @@ const CheckoutPage: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="text-right hidden sm:block">
                 <div className="text-[10px] text-gray-400 uppercase tracking-widest leading-tight">Bundle Price</div>
-                <div className="text-lg font-display font-bold text-white leading-tight">₹{BUNDLE_PRICE}</div>
+                <div className="text-lg font-display font-bold text-white leading-tight">$49</div>
               </div>
               <button
-                onClick={() => setShowPaymentModal(true)}
+                onClick={openPaymentModal}
                 className="bg-brand-primary hover:bg-blue-700 text-white font-bold px-5 py-2 rounded-lg flex items-center gap-1.5 transition-all shadow-glow hover:shadow-glow-lg text-sm"
               >
-                <span className="sm:hidden font-display text-base">₹{BUNDLE_PRICE}</span>
+                <span className="sm:hidden font-display text-base">$49</span>
                 <Download size={14} />
                 <span>Download All</span>
                 <ArrowRight size={14} />
@@ -506,40 +486,41 @@ const CheckoutPage: React.FC = () => {
             </button>
 
             {/* Header */}
-            <div className="bg-gray-900 text-white p-6 pb-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-brand-primary/20 rounded-full blur-3xl -mr-16 -mt-16"></div>
-              <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-3">
-                  <Sparkles size={14} className="fill-yellow-400" />
-                  Complete Bundle
-                </div>
-                <h3 className="text-2xl font-display font-bold mb-2">All {COURSES.length} Courses</h3>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-display font-black">₹{BUNDLE_PRICE}</span>
-                  <span className="text-gray-400 text-sm line-through">₹11,988</span>
-                  <span className="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded-full">92% OFF</span>
-                </div>
+            <div className="bg-black text-white px-6 py-5">
+              <div className="inline-flex items-center gap-1.5 text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1.5">
+                <Sparkles size={12} />
+                Complete Bundle
+              </div>
+              <h3 className="text-xl font-display font-bold mb-1">All {COURSES.length} Courses</h3>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-display font-black">$49</span>
+                <span className="text-gray-500 text-sm line-through">$588</span>
+                <span className="bg-white/10 text-white text-xs font-bold px-2 py-0.5 rounded-full border border-white/20">92% OFF</span>
               </div>
             </div>
 
             {/* What's Included */}
             <div className="p-6 pb-3">
               <div className="grid grid-cols-2 gap-2 mb-4">
-                {["12 Premium Courses", "10,000+ Textures", "Software Guides", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
+                {["12 Premium Courses", "10,000+ Textures", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-gray-700 font-medium">
-                    <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
+                    <CheckCircle2 size={12} className="text-gray-900 shrink-0" />
                     {item}
                   </div>
                 ))}
+                <div className="flex items-center gap-2 text-xs font-bold col-span-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2 text-green-600">
+                  <Download size={12} className="shrink-0 text-green-600" />
+                  Software Download — All Links Included
+                </div>
               </div>
 
               {/* Timer */}
-              <div className="bg-red-50 rounded-xl p-3 mb-4 flex items-center justify-between border border-red-100">
+              <div className="bg-gray-50 rounded-xl p-3 mb-4 flex items-center justify-between border border-gray-200">
                 <div className="flex items-center gap-2">
-                  <Timer size={14} className="text-brand-primary animate-pulse" />
+                  <Timer size={14} className="text-gray-900 animate-pulse" />
                   <span className="text-xs font-bold text-gray-900">Offer ends in:</span>
                 </div>
-                <div className="flex items-center gap-0.5 font-display font-bold text-sm tabular-nums text-brand-primary bg-white px-2.5 py-1 rounded-md border border-red-100 shadow-sm">
+                <div className="flex items-center gap-0.5 font-display font-bold text-sm tabular-nums text-gray-900 bg-white px-2.5 py-1 rounded-md border border-gray-200 shadow-sm">
                   <span>{formatTime(timeLeft.h)}</span>
                   <span className="text-gray-400">:</span>
                   <span>{formatTime(timeLeft.m)}</span>
@@ -548,58 +529,30 @@ const CheckoutPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Contact Inputs */}
-              <div className="space-y-3 mb-4">
-                <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 px-1">Phone Number</label>
-                  <div className="relative">
-                    <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <span className="absolute left-9 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">+91</span>
-                    <input
-                      type="tel"
-                      placeholder="10-digit number"
-                      value={phone}
-                      onChange={(e) => { setPhone(e.target.value.replace(/\D/g, '').slice(0, 10)); setPhoneError(false); }}
-                      className={`w-full pl-16 pr-4 py-2.5 bg-gray-50 border ${phoneError ? 'border-red-500 bg-red-50' : 'border-gray-200'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all`}
-                    />
-                  </div>
-                  {phoneError && <p className="text-red-500 text-[10px] mt-1 px-1 font-bold">Enter a valid 10-digit number</p>}
-                </div>
-                <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 px-1">Email Address</label>
-                  <div className="relative">
-                    <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="email"
-                      placeholder="your@email.com"
-                      value={email}
-                      onChange={(e) => { setEmail(e.target.value); setEmailError(false); }}
-                      className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border ${emailError ? 'border-red-500 bg-red-50' : 'border-gray-200'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all`}
-                    />
-                  </div>
-                  {emailError && <p className="text-red-500 text-[10px] mt-1 px-1 font-bold">Enter a valid email address</p>}
-                </div>
+              {/* Email — very prominent */}
+              <label className="block text-xl font-black text-gray-900 mb-2">Email</label>
+              <div className="relative mb-1">
+                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  autoFocus
+                  onChange={(e) => { setEmail(e.target.value); setEmailError(false); }}
+                  className={`w-full pl-11 pr-4 py-3.5 bg-white border-2 ${
+                    emailError ? 'border-red-500' : 'border-gray-900'
+                  } rounded-xl text-sm font-medium focus:outline-none transition-all`}
+                />
               </div>
+              {emailError && <p className="text-red-500 text-[10px] mb-2 font-bold">Enter a valid email address</p>}
 
-              {paymentError && <p className="text-red-500 text-xs mb-3 text-center bg-red-50 p-2 rounded">{paymentError}</p>}
+              <ModernPaymentForm
+                bare
+                email={email}
+                onSuccess={handlePaymentSuccess}
+              />
 
-              {/* Pay Button */}
-              <button
-                onClick={handlePayment}
-                disabled={isLoading}
-                className="w-full py-4 bg-brand-primary hover:bg-blue-700 text-white font-bold rounded-xl text-lg flex items-center justify-center gap-2 transition-all shadow-glow hover:shadow-glow-lg active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed group"
-              >
-                {isLoading ? (
-                  <><Loader2 className="animate-spin" size={20} /> Processing...</>
-                ) : (
-                  <>
-                    <Download size={18} />
-                    Pay ₹{BUNDLE_PRICE} & Download All
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
-              </button>
-              <div className="flex items-center justify-center gap-2 mt-3 text-[10px] text-gray-400">
+              <div className="flex items-center justify-center gap-2 mt-4 text-[10px] text-gray-400">
                 <Lock size={10} /> SSL Secured Payment • 7-Day Money-Back Guarantee
               </div>
             </div>
@@ -629,25 +582,33 @@ const CheckoutPage: React.FC = () => {
 
               <h2 className="text-3xl font-display font-black text-gray-900 mb-2">Payment Successful!</h2>
               <p className="text-gray-500 mb-6 leading-relaxed">
-                Your payment of <span className="font-bold text-gray-900">₹{BUNDLE_PRICE}</span> was received. Welcome to Avada!
+                Your payment of <span className="font-bold text-gray-900">$49</span> was received. Welcome to Avada!
               </p>
 
+              {/* Save link warning */}
+              <div className="bg-yellow-50 border-2 border-yellow-400 rounded-2xl p-4 mb-4 text-left">
+                <p className="text-yellow-800 text-sm font-black mb-1"> Save this link — it's your only access</p>
+                <p className="text-yellow-700 text-xs leading-relaxed">This link was also emailed to you. Bookmark it now or copy it below.</p>
+              </div>
               <div className="bg-gray-50 rounded-2xl p-5 mb-6 text-left border border-gray-100">
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2 mb-3">
                   <Sparkles size={16} className="text-brand-primary" />
-                  <h3 className="font-bold text-gray-900">Your Course Access Link:</h3>
+                  <h3 className="font-bold text-gray-900">Your Course Library:</h3>
                 </div>
-                <p className="text-sm text-gray-600 mb-3 leading-relaxed">
-                  Click the link below to access all your courses on Google Drive. <strong>Please bookmark or save this link securely.</strong>
-                </p>
                 <a
                   href="https://drive.google.com/drive/folders/1CCyv9u82HiYI8jnyULISfBoGMcbcqd9U?usp=drive_link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-3 px-4 rounded-xl text-center border border-blue-200 transition-colors break-all text-xs sm:text-sm"
+                  className="block w-full bg-gray-900 hover:bg-black text-white font-bold py-3.5 px-4 rounded-xl text-center transition-colors text-sm mb-3"
                 >
-                  Access Courses on Google Drive
+                  Open Google Drive →
                 </a>
+                <button
+                  onClick={() => { navigator.clipboard.writeText('https://drive.google.com/drive/folders/1CCyv9u82HiYI8jnyULISfBoGMcbcqd9U?usp=drive_link'); }}
+                  className="w-full border-2 border-gray-200 hover:border-gray-400 text-gray-600 font-bold py-2.5 px-4 rounded-xl text-xs transition-colors"
+                >
+                  Copy Link
+                </button>
               </div>
 
               <div className="bg-gray-50 rounded-2xl p-4 mb-8 text-left border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
