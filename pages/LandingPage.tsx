@@ -91,6 +91,23 @@ const LandingPage: React.FC = () => {
   const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
   const [studentCount, setStudentCount] = useState(22390);
 
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const [couponError, setCouponError] = useState<string | null>(null);
+  const [showCouponInput, setShowCouponInput] = useState(false);
+  const finalPrice = Math.round(BUNDLE_PRICE * (1 - discountPercent / 100));
+
+  useEffect(() => {
+    if (!showPaymentModal) {
+      setCouponCode('');
+      setAppliedCoupon(null);
+      setDiscountPercent(0);
+      setCouponError(null);
+      setShowCouponInput(false);
+    }
+  }, [showPaymentModal]);
+
   useEffect(() => {
     const calc = () => { const D = (3 * 3600 + 36 * 60 + 20) * 1000, now = Date.now(), r = D - (now % D); setTimeLeft({ h: Math.floor((r / 3600000) % 24), m: Math.floor((r / 60000) % 60), s: Math.floor((r / 1000) % 60) }); };
     const t = setInterval(calc, 1000); calc(); return () => clearInterval(t);
@@ -123,7 +140,7 @@ const LandingPage: React.FC = () => {
     setPaymentError('');
 
     openRazorpayCheckout({
-      amount: BUNDLE_PRICE,
+      amount: finalPrice,
       courseIds: COURSES.map(c => c.id),
       userPhone: phone,
       userEmail: email,
@@ -135,7 +152,7 @@ const LandingPage: React.FC = () => {
         // Meta Pixel: Purchase
         if (typeof window !== 'undefined' && (window as any).fbq) {
           (window as any).fbq('track', 'Purchase', {
-            value: BUNDLE_PRICE,
+            value: finalPrice,
             currency: 'INR'
           });
         }
@@ -661,9 +678,21 @@ const LandingPage: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-display font-bold mb-1">All {COURSES.length} Courses</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-display font-black">₹{BUNDLE_PRICE}</span>
-                  <span className="text-gray-400 text-sm line-through">₹2,999</span>
-                  <span className="bg-orange-500/20 text-orange-400 text-xs font-bold px-2 py-0.5 rounded-full">67% OFF</span>
+                  {discountPercent > 0 ? (
+                    <>
+                      <span className="text-2xl font-display font-black text-orange-400">₹{finalPrice}</span>
+                      <span className="text-gray-400 text-sm line-through">₹{BUNDLE_PRICE}</span>
+                      <span className="bg-green-500/20 text-green-400 text-xs font-bold px-2 py-0.5 rounded-full">
+                        {discountPercent}% OFF (COUPON)
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-2xl font-display font-black">₹{BUNDLE_PRICE}</span>
+                      <span className="text-gray-400 text-sm line-through">₹2,999</span>
+                      <span className="bg-orange-500/20 text-orange-400 text-xs font-bold px-2 py-0.5 rounded-full">67% OFF</span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -730,6 +759,92 @@ const LandingPage: React.FC = () => {
                   {emailError && <p className="text-red-500 text-[10px] mt-1 px-1 font-bold">Enter a valid email address</p>}
                 </div>
               </div>
+
+              {/* Coupon Trigger / Box */}
+              {!showCouponInput && !appliedCoupon ? (
+                <div className="flex justify-end mb-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowCouponInput(true)}
+                    className="text-xs font-bold text-orange-500 hover:text-orange-600 transition-colors flex items-center gap-1 bg-transparent border-none p-0 cursor-pointer"
+                  >
+                    <Sparkles size={12} className="animate-pulse" />
+                    Have a coupon code?
+                  </button>
+                </div>
+              ) : (
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-3 mb-3 animate-[fadeIn_0.2s_ease-out]">
+                  {appliedCoupon ? (
+                    <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-2 text-xs font-semibold text-green-700">
+                      <div className="flex items-center gap-1.5">
+                        <Sparkles size={14} className="text-green-600 animate-pulse" />
+                        <span>Coupon <strong>{appliedCoupon}</strong> Applied! ({discountPercent}% Off)</span>
+                      </div>
+                      <button 
+                        type="button"
+                        onClick={() => {
+                          setAppliedCoupon(null);
+                          setDiscountPercent(0);
+                          setCouponCode('');
+                          setCouponError(null);
+                        }}
+                        className="text-gray-400 hover:text-gray-600 transition-colors p-1 bg-transparent border-none cursor-pointer"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex justify-between items-center mb-1.5 px-1">
+                        <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">Coupon Code</label>
+                        <button
+                          type="button"
+                          onClick={() => setShowCouponInput(false)}
+                          className="text-[10px] font-bold text-gray-400 hover:text-gray-600 transition-colors bg-transparent border-none cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Enter coupon code"
+                          value={couponCode}
+                          onChange={(e) => {
+                            setCouponCode(e.target.value.toUpperCase());
+                            setCouponError(null);
+                          }}
+                          className={`flex-1 px-3 py-2 bg-white border ${couponError ? 'border-red-500' : 'border-gray-200'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-700/20 uppercase`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const code = couponCode.trim().toUpperCase();
+                            const coupons: Record<string, number> = {
+                              'SUNDAY50': 50,
+                              'GTR50': 50,
+                              'TRTED70': 70
+                            };
+                            if (coupons[code]) {
+                              setAppliedCoupon(code);
+                              setDiscountPercent(coupons[code]);
+                              setCouponError(null);
+                            } else if (code === '') {
+                              setCouponError('Please enter a coupon code');
+                            } else {
+                              setCouponError('Invalid coupon code');
+                            }
+                          }}
+                          className="px-4 py-2 bg-gray-900 hover:bg-black text-white text-xs font-bold rounded-xl transition-colors shrink-0 cursor-pointer"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                      {couponError && <p className="text-red-500 text-[10px] mt-1.5 px-1 font-bold">{couponError}</p>}
+                    </div>
+                  )}
+                </div>
+              )}
 
               {paymentError && <p className="text-red-500 text-xs mb-3 text-center bg-red-50 p-2 rounded">{paymentError}</p>}
 
