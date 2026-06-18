@@ -68,7 +68,7 @@ const CtaWithTimer = ({ timeLeft, onClick, variant = 'green' }: { timeLeft: { h:
           <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform shrink-0" />
         </button>
 
-        <p className={`text-[10px] font-medium ${variant === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>Lifetime access • All software included • 7-day money-back</p>
+        <p className={`text-[10px] font-medium ${variant === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>Lifetime access • Software Download Links Provided</p>
       </div>
     </div>
   );
@@ -250,7 +250,7 @@ const LandingPage: React.FC = () => {
                   Get All Courses & 24/7 Support <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
                 </button>
               </div>
-              <p className="text-[10px] md:text-xs text-slate-500 mb-7 md:mb-10 font-bold">24/7 Team Support • Free Software • 7-Day Money-Back Guarantee</p>
+              <p className="text-[10px] md:text-xs text-slate-500 mb-7 md:mb-10 font-bold">24/7 Team Support • Software Download Links Provided</p>
 
               {/* Outcome strip */}
               <div className="w-full mb-6 flex gap-2">
@@ -439,7 +439,7 @@ const LandingPage: React.FC = () => {
               ))}
               
               <div className="bg-orange-50 border-t border-orange-100 px-6 py-4 flex flex-col sm:flex-row gap-3 justify-between items-center">
-                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-orange-600 shrink-0" /><span className="text-sm text-orange-900 font-bold">All Software (Free/Student Edition Links)</span></div>
+                <div className="flex items-center gap-3"><CheckCircle2 size={16} className="text-orange-600 shrink-0" /><span className="text-sm text-orange-900 font-bold">Software Download Links Provided</span></div>
                 <span className="text-sm font-black text-orange-600">INCLUDED</span>
               </div>
 
@@ -611,9 +611,14 @@ const LandingPage: React.FC = () => {
         </section>
       </main>
 
-      <footer className="bg-slate-900 py-12 px-6 text-center border-t border-slate-800 text-white/70">
+      <footer className="bg-slate-900 pt-12 pb-28 px-6 text-center border-t border-slate-800 text-white/70">
         <p className="text-xs uppercase tracking-[0.2em] mb-4">Avada Design & Architecture • 2026</p>
-        <div className="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-400"><span>Privacy</span><span>Terms</span><span>Support</span></div>
+        <div className="flex justify-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          <a href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</a>
+          <span>Privacy</span>
+          <span>Terms</span>
+          <span>Support</span>
+        </div>
       </footer>
 
       {/* ═══ WHATSAPP FLOAT ═══ */}
@@ -708,7 +713,7 @@ const LandingPage: React.FC = () => {
                 ))}
                 <div className="flex items-center gap-2 text-xs font-bold col-span-2 bg-orange-50 border border-orange-200 rounded-lg px-3 py-2 text-orange-500">
                   <Download size={12} className="text-orange-500 shrink-0" />
-                  Software Download — All Links Included
+                  Software Download Links Provided
                 </div>
               </div>
 
@@ -865,7 +870,7 @@ const LandingPage: React.FC = () => {
                 )}
               </button>
               <div className="flex items-center justify-center gap-2 mt-3 text-[10px] text-gray-400">
-                <Lock size={10} /> SSL Secured Payment • 7-Day Money-Back Guarantee
+                <Lock size={10} /> SSL Secured Payment
               </div>
             </div>
           </div>

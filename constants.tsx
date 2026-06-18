@@ -310,6 +310,6 @@ export const FAQ_ITEMS: FaqItem[] = [
   },
   {
     question: "Is there a refund policy?",
-    answer: "Yes, 100% money-back guarantee within 7 days if you're not satisfied. No questions asked."
+    answer: "Yes. We offer a 7-day refund policy strictly for technical issues (such as course links not working), provided our support team is unable to resolve the issue. We do not issue refunds for software-related issues, as we do not create software but only provide complimentary installation links and assistance."
   }
 ];

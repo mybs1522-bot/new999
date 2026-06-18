@@ -268,7 +268,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, ini
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
                          {[
                             "10,000+ Textures & 3D Models",
-                            "Software Installation Guides",
+                            "Software Download Links",
                             "Portfolio Review Session",
                             "Official Certification"
                          ].map((item, i) => (
@@ -405,7 +405,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, ini
                     >
                         I Want This Package <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                     </button>
-                    <p className="text-center text-[10px] text-gray-400">100% Money-back guarantee. Cancel anytime.</p>
+                    <p className="text-center text-[10px] text-gray-400">Secured Payments. Instant Access.</p>
                  </div>
              </div>
           )}

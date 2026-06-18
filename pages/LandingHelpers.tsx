@@ -90,11 +90,11 @@ export const CallToActionWidget = ({ timeLeft, onClick, headline, subtext }: { t
           </button>
         </div>
         <div className="mt-4 flex items-center justify-center gap-4 md:gap-8 text-[9px] md:text-[11px] font-medium uppercase tracking-[0.15em] text-zinc-500">
-          <div className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-orange-500" /> 7-Day Money-Back</div>
+          <div className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-orange-500" /> Secure Payment</div>
           <div className="w-[1px] h-3 bg-zinc-500"></div>
           <div className="flex items-center gap-1.5"><Zap size={14} className="text-orange-500" /> Instant Access</div>
           <div className="w-[1px] h-3 bg-zinc-500 hidden sm:block"></div>
-          <div className="hidden sm:flex items-center gap-1.5"><Users size={14} className="text-orange-500" /> All Software Included Free</div>
+          <div className="hidden sm:flex items-center gap-1.5"><Users size={14} className="text-orange-500" /> Software Download Links Provided</div>
         </div>
       </div>
     </div>
@@ -132,7 +132,7 @@ export const VALUE_STACK_ITEMS = [
   { name: 'AI Design & Rendering Course', value: 'Included' },
   { name: '10,000+ Premium Texture Library', value: 'Included' },
   { name: '2,000+ Drag-and-Drop 3D Models', value: 'Included' },
-  { name: 'Software Installation Hub', value: 'Included' },
+  { name: 'Software Download Links Hub', value: 'Included' },
   { name: '24/7 Team Access & Portfolio Review', value: 'Included' },
   { name: 'Freelancing Pricing Playbook', value: 'Included' },
   { name: 'Certified Digital Diploma', value: 'Included' },
@@ -157,7 +157,7 @@ export const FAQ_ITEMS_LANDING = [
   { question: "Are you really going to help me, or is this just another course?", answer: "This is a true 24/7 support community. When your render looks weird or your software crashes, you don't have to figure it out alone. You reach out to us, and we patiently help you fix it. Your success is our personal mission." },
   { question: "Is it really just ₹999? What's the catch?", answer: "No catch! We simply want to make high-quality, supportive design education accessible to everyone. It's a one-time payment of ₹999 for lifetime access to the courses and our 24/7 support team." },
   { question: "Do I need to buy expensive software subscriptions?", answer: "Not at all. We will show you exactly how to easily access official free or student versions of the software. We want you earning safely, not spending unnecessarily on expensive licenses." },
-  { question: "What if I feel like it's not working for me?", answer: "We want this to be completely stress-free for you. If you join and feel it's not a comforting and productive fit, just email us within 7 days. We will refund your ₹999 immediately, no questions asked, and we'll still be rooting for you!" },
+  { question: "What is the refund policy?", answer: "We offer a 7-day refund policy strictly for technical issues (such as course links not working), provided our support team is unable to resolve the issue. Please note that no refunds will be provided for software installation or software-related reasons, as we do not produce or sell software but only provide complimentary download links and assistance." },
   { question: "Can I access the training safely on my mobile?", answer: "Yes! All courses are hosted clearly online and work perfectly on any device — laptop, tablet, or phone. You can learn comfortably at your own pace anywhere." },
 ];
 

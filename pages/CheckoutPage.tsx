@@ -359,7 +359,7 @@ const CheckoutPage: React.FC = () => {
               <span className="whitespace-nowrap">Download All Courses — ₹{BUNDLE_PRICE}</span>
               <ArrowRight size={16} className="md:w-[18px] md:h-[18px] group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
-            <p className="mt-4 text-xs md:text-sm text-gray-500 font-medium max-w-[280px] md:max-w-none mx-auto leading-relaxed">Lifetime access • All software included free • 7-day money-back guarantee</p>
+            <p className="mt-4 text-xs md:text-sm text-gray-500 font-medium max-w-[280px] md:max-w-none mx-auto leading-relaxed">Lifetime access • Software Download Links Provided</p>
           </div>
         </section>
 
@@ -402,7 +402,7 @@ const CheckoutPage: React.FC = () => {
                     All {COURSES.length} Courses <span className="text-brand-accent">₹{BUNDLE_PRICE}</span>
                   </h2>
                   <p className="text-gray-400 text-sm">
-                    Lifetime access to every course. Free software included. 7-day money-back guarantee.
+                    Lifetime access to every course. Software Download Links Provided.
                   </p>
                 </div>
                 <button
@@ -478,6 +478,9 @@ const CheckoutPage: React.FC = () => {
       <footer className="border-t border-gray-100 bg-white py-10 px-4 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Logo />
+          <div className="flex gap-4 text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">
+            <a href="/refund-policy" className="hover:text-black transition-colors">Refund Policy</a>
+          </div>
           <p className="text-[10px] text-gray-400 tracking-wider">© 2026 Avada Inc. All rights reserved.</p>
         </div>
       </footer>
@@ -554,7 +557,7 @@ const CheckoutPage: React.FC = () => {
             {/* What's Included */}
             <div className="p-6 pb-3">
               <div className="grid grid-cols-2 gap-2 mb-4">
-                {["12 Premium Courses", "10,000+ Textures", "Software Guides", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
+                {["12 Premium Courses", "10,000+ Textures", "Software Download Links", "Official Certificate", "24/7 Team Support", "Lifetime Access"].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-xs text-gray-700 font-medium">
                     <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
                     {item}
@@ -715,7 +718,7 @@ const CheckoutPage: React.FC = () => {
                 )}
               </button>
               <div className="flex items-center justify-center gap-2 mt-3 text-[10px] text-gray-400">
-                <Lock size={10} /> SSL Secured Payment • 7-Day Money-Back Guarantee
+                <Lock size={10} /> SSL Secured Payment
               </div>
             </div>
           </div>
@@ -788,7 +791,7 @@ const CheckoutPage: React.FC = () => {
       }
 
       {/* Bottom spacer */}
-      <div className="h-14"></div>
+      <div className="h-28"></div>
     </div>
   );
 };
