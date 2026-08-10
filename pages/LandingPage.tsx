@@ -252,6 +252,24 @@ const LandingPage: React.FC = () => {
               </div>
               <p className="text-[10px] md:text-xs text-slate-500 mb-7 md:mb-10 font-bold">24/7 Team Support • Software Download Links Provided</p>
 
+              {/* Banners below First CTA */}
+              <div className="w-full max-w-3xl mx-auto flex flex-col gap-4 md:gap-6 mb-8 md:mb-12">
+                <div className="overflow-hidden rounded-2xl shadow-lg border border-slate-100">
+                  <img
+                    src="/banner-1.png"
+                    alt="Learn to Design Home, Offices & Villas"
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+                <div className="overflow-hidden rounded-2xl shadow-lg border border-slate-100">
+                  <img
+                    src="/banner-2.png"
+                    alt="Design for Clients From US, UK, Europe"
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              </div>
+
               {/* Outcome strip */}
               <div className="w-full mb-6 flex gap-2">
                 <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl px-3 py-3 text-left">
