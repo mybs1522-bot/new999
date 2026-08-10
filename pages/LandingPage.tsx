@@ -256,14 +256,14 @@ const LandingPage: React.FC = () => {
               <div className="w-full max-w-3xl mx-auto flex flex-col gap-4 md:gap-6 mb-8 md:mb-12">
                 <div className="overflow-hidden rounded-2xl shadow-lg border border-slate-100">
                   <img
-                    src="/banner-1.png"
+                    src="/banner-1.jpg"
                     alt="Learn to Design Home, Offices & Villas"
                     className="w-full h-auto object-cover"
                   />
                 </div>
                 <div className="overflow-hidden rounded-2xl shadow-lg border border-slate-100">
                   <img
-                    src="/banner-2.png"
+                    src="/banner-2.jpg"
                     alt="Design for Clients From US, UK, Europe"
                     className="w-full h-auto object-cover"
                   />
