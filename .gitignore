@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Build artifacts
+.next
+next-env.d.ts
+tsconfig.tsbuildinfo
+tip-split-app
