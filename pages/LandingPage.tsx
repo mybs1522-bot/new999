@@ -291,30 +291,15 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-display font-black text-slate-900 tracking-tight leading-[1.18] mb-3.5">
-              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-                Do You Want to Learn to Design Floor Plans, 3D Interior & Exterior Design?
+            <h1 className="font-display font-black text-slate-900 tracking-tight leading-[1.2] mb-4">
+              <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl">
+                <span className="block">Do You Want to Learn to Design Floor Plans,</span>
+                <span className="block mt-0.5 sm:mt-1">3D Interior & Exterior Design?</span>
               </span>
-              <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 mt-2">
+              <span className="block text-lg sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 mt-2">
                 Only Course Package in India That Teaches All In One.
               </span>
             </h1>
-
-            {/* Core Value Pill Breakdown */}
-            <div className="flex flex-wrap items-center justify-center gap-1.5 md:gap-2 mb-3.5">
-              <span className="bg-orange-100 text-orange-900 border border-orange-300 text-xs md:text-sm font-black px-3 py-1 rounded-xl shadow-xs">
-                📐 2D Floor Planning & Blueprints
-              </span>
-              <span className="bg-amber-100 text-amber-900 border border-amber-300 text-xs md:text-sm font-black px-3 py-1 rounded-xl shadow-xs">
-                🛋️ 3D Interior Design
-              </span>
-              <span className="bg-blue-100 text-blue-900 border border-blue-300 text-xs md:text-sm font-black px-3 py-1 rounded-xl shadow-xs">
-                🏛️ 3D Exterior Elevation
-              </span>
-              <span className="bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs md:text-sm font-black px-3 py-1 rounded-xl shadow-xs">
-                ⚡ 4K Photorealism & AI
-              </span>
-            </div>
 
             {/* Clear Subheadline for Indian Market */}
             <p className="text-sm sm:text-base md:text-lg text-slate-700 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
