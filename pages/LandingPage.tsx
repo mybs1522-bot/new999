@@ -1183,24 +1183,23 @@ const LandingPage: React.FC = () => {
             <div className="p-5">
               
               {/* Feature Chips */}
-              <div className="grid grid-cols-2 gap-2 mb-4 text-[11px] font-medium text-slate-700">
+              <div className="grid grid-cols-2 gap-2 mb-4 text-[10px] xs:text-[11px] font-bold text-slate-700">
                 {[
-                  '12 Full Software Courses', 
-                  '10,000+ 3D Indian Models', 
-                  'Official Skill Certificate', 
-                  '24/7 WhatsApp Support', 
-                  'Lifetime Access Validity'
+                  '12 Software Courses', 
+                  '10,000+ 3D Models', 
+                  'Skill Certificate', 
+                  '24/7 WhatsApp Help'
                 ].map((item, i) => (
-                  <div key={i} className={`flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-200/80 shadow-2xs ${i === 4 ? 'col-span-2 sm:col-span-1' : ''}`}>
+                  <div key={i} className="flex items-center gap-1.5 bg-slate-50 py-2 px-2.5 rounded-xl border border-slate-200/80 shadow-2xs whitespace-nowrap">
                     <CheckCircle2 size={13} className="text-orange-500 shrink-0" />
-                    <span className="leading-tight">{item}</span>
+                    <span>{item}</span>
                   </div>
                 ))}
                 
                 {/* Software Download in Green Box */}
-                <div className="flex items-center gap-2 bg-emerald-50 p-2.5 rounded-xl border-2 border-emerald-400 text-emerald-900 font-bold col-span-2 shadow-xs">
-                  <Download size={15} className="text-emerald-600 shrink-0" />
-                  <span className="text-xs">Direct Software Download & Safe Installation Links Included</span>
+                <div className="flex items-center justify-center gap-2 bg-emerald-50 py-2.5 px-3 rounded-xl border-2 border-emerald-400 text-emerald-900 font-bold col-span-2 shadow-xs whitespace-nowrap">
+                  <Download size={14} className="text-emerald-600 shrink-0" />
+                  <span className="text-[11px] xs:text-xs">Direct Software Download Links Included</span>
                 </div>
               </div>
 
