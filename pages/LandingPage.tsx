@@ -169,7 +169,7 @@ const LandingPage: React.FC = () => {
   }, [hasShownExitModal, showPaymentModal, paymentSuccess]);
 
   const formatTime = (val: number) => val.toString().padStart(2, '0');
-  const validateEmail = (e: string) => /^[^s@]+@[^s@]+.[^s@]+$/.test(e);
+  const validateEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.trim());
 
   const openPaymentModal = () => {
     setShowExitModal(false);
@@ -181,8 +181,23 @@ const LandingPage: React.FC = () => {
 
   const handlePayment = () => {
     let hasError = false;
-    if (!phone || phone.length < 10) { setPhoneError(true); hasError = true; } else { setPhoneError(false); }
-    if (!email || !validateEmail(email)) { setEmailError(true); hasError = true; } else { setEmailError(false); }
+    const cleanPhone = phone.replace(/\D/g, '').replace(/^91/, '').slice(-10);
+    const cleanEmail = email.trim();
+
+    if (!cleanPhone || cleanPhone.length < 10) { 
+      setPhoneError(true); 
+      hasError = true; 
+    } else { 
+      setPhoneError(false); 
+    }
+
+    if (!cleanEmail || !validateEmail(cleanEmail)) { 
+      setEmailError(true); 
+      hasError = true; 
+    } else { 
+      setEmailError(false); 
+    }
+
     if (hasError) return;
 
     if (typeof window !== 'undefined' && (window as any).fbq) {
@@ -195,8 +210,8 @@ const LandingPage: React.FC = () => {
     openRazorpayCheckout({
       amount: finalPrice,
       courseIds: COURSES.map(c => c.id),
-      userPhone: phone,
-      userEmail: email,
+      userPhone: cleanPhone,
+      userEmail: cleanEmail,
       onSuccess: (paymentId) => {
         setIsLoading(false);
         setPaymentSuccess(paymentId);
@@ -310,7 +325,7 @@ const LandingPage: React.FC = () => {
             <div className="w-full max-w-3xl mx-auto mb-6 bg-slate-900 p-2 md:p-3 rounded-2xl md:rounded-3xl shadow-2xl border-2 border-slate-800 relative overflow-hidden">
               <div className="flex items-center justify-between px-3 py-1.5 text-xs text-slate-400 font-mono border-b border-slate-800 mb-2">
                 <span className="flex items-center gap-1.5 text-emerald-400 font-bold"><span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> PREVIEW</span>
-                <span>30-Day Short Term Course</span>
+                <span>30-Day Short Term Course (Self-Paced)</span>
               </div>
               <div className="w-full overflow-hidden rounded-xl bg-black" style={{ position: 'relative', paddingTop: '56.25%' }}>
                 <iframe 
@@ -328,8 +343,8 @@ const LandingPage: React.FC = () => {
               {[
                 { title: 'All 12 Software Courses', desc: 'AutoCAD, 3ds Max, V-Ray, AI' },
                 { title: '10,000+ 3D Indian Models', desc: 'Kitchens, Beds, Sofas, Mandir' },
-                { title: '24/7 WhatsApp Team Help', desc: 'Direct doubt & install support' },
-                { title: 'Instant Google Drive Access', desc: 'Lifetime validity on Phone & PC' }
+                { title: '100% Pre-Recorded & Self-Paced', desc: 'Watch anytime on Phone & PC' },
+                { title: 'Instant Google Drive Access', desc: 'Lifetime link in 60 seconds' }
               ].map((item, i) => (
                 <div key={i} className="bg-orange-50/70 border border-orange-200/80 rounded-xl p-2.5 shadow-sm">
                   <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs md:text-sm">
@@ -1208,7 +1223,14 @@ const LandingPage: React.FC = () => {
                       type="tel"
                       placeholder="10-digit mobile number"
                       value={phone}
-                      onChange={(e) => { setPhone(e.target.value.replace(/\D/g, '').slice(0, 10)); setPhoneError(false); }}
+                      onChange={(e) => { 
+                        let val = e.target.value.replace(/\D/g, '');
+                        if (val.length > 10 && val.startsWith('91')) {
+                          val = val.slice(2);
+                        }
+                        setPhone(val.slice(0, 10)); 
+                        setPhoneError(false); 
+                      }}
                       className={`w-full pl-12 pr-4 py-2.5 bg-slate-50 border ${phoneError ? 'border-red-500 bg-red-50' : 'border-slate-300'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all`}
                     />
                   </div>
