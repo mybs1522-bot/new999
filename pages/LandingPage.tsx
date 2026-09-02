@@ -303,7 +303,7 @@ const LandingPage: React.FC = () => {
 
             {/* Clear Subheadline for Indian Market */}
             <p className="text-sm sm:text-base md:text-lg text-slate-700 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
-              This course is <strong className="text-slate-900 font-black underline decoration-orange-400">NOT just about rendering</strong> — it is your step-by-step studio blueprint to design 2D floor plans, 3D interior & exterior spaces, and <strong className="text-orange-600 font-bold">take complete client projects from scratch</strong>. Start closing ₹25,000 to ₹50,000+ contracts!
+              After this course you can <strong className="text-slate-900 font-bold">Design Entire House, Flats, Villas, Offices on Software</strong> and <strong className="text-orange-600 font-bold">take entire projects from clients and earn well.</strong>
             </p>
 
             {/* Video Player Box with Frame */}
