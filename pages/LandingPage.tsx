@@ -1214,8 +1214,25 @@ const LandingPage: React.FC = () => {
               {/* Live Form Inputs */}
               <div className="space-y-3 mb-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">
-                    WhatsApp Mobile Number (For Instant Access Link)
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                    E-mail
+                  </label>
+                  <div className="relative">
+                    <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="email"
+                      placeholder="yourname@gmail.com"
+                      value={email}
+                      onChange={(e) => { setEmail(e.target.value); setEmailError(false); }}
+                      className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border ${emailError ? 'border-red-500 bg-red-50' : 'border-slate-300'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all`}
+                    />
+                  </div>
+                  {emailError && <p className="text-red-500 text-[10px] font-bold mt-1">Please enter a valid email address</p>}
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                    Phone
                   </label>
                   <div className="relative">
                     <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">+91</span>
@@ -1235,23 +1252,6 @@ const LandingPage: React.FC = () => {
                     />
                   </div>
                   {phoneError && <p className="text-red-500 text-[10px] font-bold mt-1">Please enter a valid 10-digit mobile number</p>}
-                </div>
-
-                <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">
-                    Email Address (For Google Drive Access)
-                  </label>
-                  <div className="relative">
-                    <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                    <input
-                      type="email"
-                      placeholder="yourname@gmail.com"
-                      value={email}
-                      onChange={(e) => { setEmail(e.target.value); setEmailError(false); }}
-                      className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 border ${emailError ? 'border-red-500 bg-red-50' : 'border-slate-300'} rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all`}
-                    />
-                  </div>
-                  {emailError && <p className="text-red-500 text-[10px] font-bold mt-1">Please enter a valid email address</p>}
                 </div>
               </div>
 
@@ -1315,12 +1315,6 @@ const LandingPage: React.FC = () => {
                   {paymentError}
                 </p>
               )}
-
-              {/* Risk Free Guarantee in Modal */}
-              <div className="flex items-center justify-center gap-1.5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold py-1.5 px-3 rounded-xl mb-3">
-                <ShieldCheck size={14} className="text-emerald-600 shrink-0" />
-                <span>100% Risk-Free: 7-Day Money-Back Guarantee</span>
-              </div>
 
               {/* Razorpay Action Button */}
               <button
