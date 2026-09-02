@@ -1048,7 +1048,7 @@ const LandingPage: React.FC = () => {
             <div className="flex items-baseline gap-1.5">
               <span className="text-xs text-slate-400 line-through font-bold">₹2,999</span>
               <span className="text-xl font-display font-black text-slate-900">₹{BUNDLE_PRICE}</span>
-              <span className="bg-red-100 text-red-600 font-bold text-[9px] px-1.5 py-0.2 rounded">92% OFF</span>
+              <span className="bg-red-100 text-red-600 font-bold text-[9px] px-1.5 py-0.2 rounded">67% OFF</span>
             </div>
             <div className="flex items-center gap-1 text-[10px] text-slate-500 font-mono">
               <span>Ends In:</span>
@@ -1171,7 +1171,7 @@ const LandingPage: React.FC = () => {
                       <span className="text-3xl font-display font-black text-white">₹{BUNDLE_PRICE}</span>
                       <span className="text-slate-400 text-sm line-through">₹2,999</span>
                       <span className="bg-orange-500/20 text-orange-300 text-xs font-bold px-2 py-0.5 rounded-full border border-orange-500/30">
-                        92% OFF
+                        67% OFF
                       </span>
                     </>
                   )}
