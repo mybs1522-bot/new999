@@ -1184,15 +1184,23 @@ const LandingPage: React.FC = () => {
               
               {/* Feature Chips */}
               <div className="grid grid-cols-2 gap-2 mb-4 text-[11px] font-medium text-slate-700">
-                {['12 Full Software Courses', '10,000+ 3D Indian Models', 'Official Skill Certificate', '24/7 WhatsApp Support', 'Lifetime Validity'].map((item, i) => (
-                  <div key={i} className="flex items-center gap-1.5 bg-slate-50 p-1.5 rounded-lg border border-slate-100">
-                    <CheckCircle2 size={12} className="text-orange-500 shrink-0" />
-                    <span className="truncate">{item}</span>
+                {[
+                  '12 Full Software Courses', 
+                  '10,000+ 3D Indian Models', 
+                  'Official Skill Certificate', 
+                  '24/7 WhatsApp Support', 
+                  'Lifetime Access Validity'
+                ].map((item, i) => (
+                  <div key={i} className={`flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-200/80 shadow-2xs ${i === 4 ? 'col-span-2 sm:col-span-1' : ''}`}>
+                    <CheckCircle2 size={13} className="text-orange-500 shrink-0" />
+                    <span className="leading-tight">{item}</span>
                   </div>
                 ))}
-                <div className="flex items-center gap-1.5 bg-orange-50 p-1.5 rounded-lg border border-orange-200 text-orange-700 font-bold col-span-2">
-                  <Download size={12} className="text-orange-600 shrink-0" />
-                  <span>Direct Software Download Links Included</span>
+                
+                {/* Software Download in Green Box */}
+                <div className="flex items-center gap-2 bg-emerald-50 p-2.5 rounded-xl border-2 border-emerald-400 text-emerald-900 font-bold col-span-2 shadow-xs">
+                  <Download size={15} className="text-emerald-600 shrink-0" />
+                  <span className="text-xs">Direct Software Download & Safe Installation Links Included</span>
                 </div>
               </div>
 
