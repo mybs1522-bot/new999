@@ -296,7 +296,7 @@ const LandingPage: React.FC = () => {
                 <span className="block">Do You Want to Learn to Design</span>
                 <span className="block mt-0.5 sm:mt-1">Floor Plans, 3D Interior & Exterior Design?</span>
               </span>
-              <span className="block text-[15px] sm:text-xl md:text-2xl lg:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 mt-2">
+              <span className="block text-[18px] xs:text-[21px] sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 mt-2 font-black leading-tight">
                 Only Course Package in India That Teaches All In One.
               </span>
             </h1>
