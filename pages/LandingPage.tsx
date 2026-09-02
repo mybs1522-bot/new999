@@ -291,12 +291,12 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-display font-black text-slate-900 tracking-tight leading-[1.2] mb-4">
-              <span className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl">
-                <span className="block">Do You Want to Learn to Design Floor Plans,</span>
-                <span className="block mt-0.5 sm:mt-1">3D Interior & Exterior Design?</span>
+            <h1 className="font-display font-black text-slate-900 tracking-tight leading-[1.25] mb-3.5">
+              <span className="block text-[17px] xs:text-[19px] sm:text-2xl md:text-3xl lg:text-4xl">
+                <span className="block">Do You Want to Learn to Design</span>
+                <span className="block mt-0.5 sm:mt-1">Floor Plans, 3D Interior & Exterior Design?</span>
               </span>
-              <span className="block text-lg sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 mt-2">
+              <span className="block text-[15px] sm:text-xl md:text-2xl lg:text-3xl text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 mt-2">
                 Only Course Package in India That Teaches All In One.
               </span>
             </h1>
