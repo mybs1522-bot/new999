@@ -272,7 +272,7 @@ const LandingPage: React.FC = () => {
         <span className="inline-flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded-full font-black text-[10px] uppercase tracking-wider animate-pulse">
           <Flame size={12} className="fill-white" /> BATCH CLOSING
         </span>
-        <span>Only <strong>14 Seats Left</strong> at <strong>₹999</strong> for Today's Batch • Price Increases to <strong>₹2,999</strong> Tonight</span>
+
         <div className="inline-flex items-center gap-1 bg-black/30 font-mono px-2 py-0.5 rounded text-[11px]">
           <span>{formatTime(timeLeft.h)}h</span>:<span>{formatTime(timeLeft.m)}m</span>:<span>{formatTime(timeLeft.s)}s</span>
         </div>
@@ -1157,24 +1157,36 @@ const LandingPage: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-display font-black text-white">Avada PRO 3D Architecture Bundle</h3>
                 
-                <div className="flex items-baseline gap-2 mt-2">
-                  {discountPercent > 0 ? (
-                    <>
-                      <span className="text-3xl font-display font-black text-amber-400">₹{finalPrice}</span>
-                      <span className="text-slate-400 text-sm line-through">₹{BUNDLE_PRICE}</span>
-                      <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">
-                        {discountPercent}% OFF APPLIED
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="text-3xl font-display font-black text-white">₹{BUNDLE_PRICE}</span>
-                      <span className="text-slate-400 text-sm line-through">₹2,999</span>
-                      <span className="bg-orange-500/20 text-orange-300 text-xs font-bold px-2 py-0.5 rounded-full border border-orange-500/30">
-                        67% OFF
-                      </span>
-                    </>
-                  )}
+                <div className="flex items-center justify-between flex-wrap gap-2 mt-2">
+                  <div className="flex items-baseline gap-2">
+                    {discountPercent > 0 ? (
+                      <>
+                        <span className="text-3xl font-display font-black text-amber-400">₹{finalPrice}</span>
+                        <span className="text-slate-400 text-sm line-through">₹{BUNDLE_PRICE}</span>
+                        <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">
+                          {discountPercent}% OFF APPLIED
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-3xl font-display font-black text-white">₹{BUNDLE_PRICE}</span>
+                        <span className="text-slate-400 text-sm line-through">₹2,999</span>
+                        <span className="bg-orange-500/20 text-orange-300 text-xs font-bold px-2 py-0.5 rounded-full border border-orange-500/30">
+                          67% OFF
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Very Small Countdown Timer */}
+                  <div className="inline-flex items-center gap-1.5 bg-black/40 border border-white/10 px-2.5 py-1 rounded-full text-[11px] font-mono font-bold text-white shadow-xs">
+                    <Timer size={12} className="text-amber-400 animate-pulse" />
+                    <span>{formatTime(timeLeft.h)}h</span>
+                    <span className="text-white/40">:</span>
+                    <span>{formatTime(timeLeft.m)}m</span>
+                    <span className="text-white/40">:</span>
+                    <span>{formatTime(timeLeft.s)}s</span>
+                  </div>
                 </div>
               </div>
             </div>
