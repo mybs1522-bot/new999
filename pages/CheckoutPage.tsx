@@ -5,6 +5,14 @@ import { ChevronDown, Sparkles, ArrowRight, Timer, Star, CheckCircle2, Zap, Chec
 import { openRazorpayCheckout } from '../services/razorpay';
 import { CourseDetailModal } from '../components/CourseDetailModal';
 import { TextMarquee } from '../components/ui/text-marquee';
+import {
+  trackViewContent,
+  trackAddToCart,
+  trackInitiateCheckout,
+  trackAddPaymentInfo,
+  trackPurchase,
+  trackLead,
+} from '../services/metaPixel';
 
 // Logo Component
 const Logo = () => (
@@ -108,6 +116,36 @@ const CheckoutPage: React.FC = () => {
     return () => clearInterval(timerInterval);
   }, []);
 
+  useEffect(() => {
+    trackViewContent({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_category: 'Architecture & Design Courses',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: 999,
+      currency: 'INR'
+    });
+  }, []);
+
+  const openModal = () => {
+    setShowPaymentModal(true);
+    trackAddToCart({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: finalPrice,
+      currency: 'INR'
+    });
+    trackInitiateCheckout({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: finalPrice,
+      currency: 'INR',
+      num_items: 1
+    });
+  };
+
   const formatTime = (val: number) => val.toString().padStart(2, '0');
   const validateEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
@@ -116,6 +154,14 @@ const CheckoutPage: React.FC = () => {
     if (!phone || phone.length < 10) { setPhoneError(true); hasError = true; } else { setPhoneError(false); }
     if (!email || !validateEmail(email)) { setEmailError(true); hasError = true; } else { setEmailError(false); }
     if (hasError) return;
+
+    trackAddPaymentInfo({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: finalPrice,
+      currency: 'INR'
+    });
 
     setIsLoading(true);
     setPaymentError('');
@@ -129,6 +175,14 @@ const CheckoutPage: React.FC = () => {
         setIsLoading(false);
         setPaymentSuccess(paymentId);
         setShowPaymentModal(false);
+        trackPurchase({
+          content_name: '12-Course Architecture & Interior Design Master Bundle',
+          content_ids: ['architecture-master-bundle-999'],
+          content_type: 'product',
+          value: finalPrice,
+          currency: 'INR',
+          num_items: 1
+        });
       },
       onCancel: () => {
         setIsLoading(false);
@@ -231,7 +285,7 @@ const CheckoutPage: React.FC = () => {
         <div className="container mx-auto flex items-center justify-between">
           <Logo />
           <button
-            onClick={() => setShowPaymentModal(true)}
+            onClick={openModal}
             className="flex items-center gap-2 bg-gray-900 text-white font-bold text-xs px-5 py-2.5 rounded-full hover:bg-black transition-colors"
           >
             <Download size={14} className="text-yellow-400" />
@@ -502,7 +556,7 @@ const CheckoutPage: React.FC = () => {
                 <div className="text-lg font-display font-bold text-white leading-tight">₹{BUNDLE_PRICE}</div>
               </div>
               <button
-                onClick={() => setShowPaymentModal(true)}
+                onClick={openModal}
                 className="bg-brand-primary hover:bg-blue-700 text-white font-bold px-5 py-2 rounded-lg flex items-center gap-1.5 transition-all shadow-glow hover:shadow-glow-lg text-sm"
               >
                 <span className="sm:hidden font-display text-base">₹{BUNDLE_PRICE}</span>
@@ -682,6 +736,12 @@ const CheckoutPage: React.FC = () => {
                               setAppliedCoupon(code);
                               setDiscountPercent(coupons[code]);
                               setCouponError(null);
+                              trackLead({
+                                content_name: `Coupon Claim - ${code}`,
+                                content_category: 'Discounts',
+                                value: Math.round(BUNDLE_PRICE * (1 - coupons[code] / 100)),
+                                currency: 'INR'
+                              });
                             } else if (code === '') {
                               setCouponError('Please enter a coupon code');
                             } else {

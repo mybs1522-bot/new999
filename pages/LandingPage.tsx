@@ -7,6 +7,16 @@ import {
 import { COURSES, BUNDLE_PRICE, BUNDLE_ORIGINAL_PRICE } from '../constants';
 import { openRazorpayCheckout } from '../services/razorpay';
 import {
+  trackViewContent,
+  trackAddToCart,
+  trackInitiateCheckout,
+  trackAddPaymentInfo,
+  trackPurchase,
+  trackLead,
+  trackContact,
+  trackSearch,
+} from '../services/metaPixel';
+import {
   Logo, SocialProofToast,
   PAIN_TRIGGERS_INDIAN, SOLUTION_PILLARS, WHO_IS_THIS_FOR, TRANSFORMATION_STORIES,
   FREE_BONUSES, VALUE_STACK_ITEMS, TESTIMONIALS_LANDING, FAQ_ITEMS_LANDING,
@@ -134,7 +144,17 @@ const LandingPage: React.FC = () => {
   const [showCouponInput, setShowCouponInput] = useState(false);
   const finalPrice = Math.round(BUNDLE_PRICE * (1 - discountPercent / 100));
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  useEffect(() => { 
+    window.scrollTo(0, 0); 
+    trackViewContent({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_category: 'Architecture & Design Courses',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: 999,
+      currency: 'INR'
+    });
+  }, []);
 
   // Timer Tick
   useEffect(() => {
@@ -174,9 +194,21 @@ const LandingPage: React.FC = () => {
   const openPaymentModal = () => {
     setShowExitModal(false);
     setShowPaymentModal(true);
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'InitiateCheckout');
-    }
+    trackAddToCart({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: finalPrice,
+      currency: 'INR'
+    });
+    trackInitiateCheckout({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: finalPrice,
+      currency: 'INR',
+      num_items: 1
+    });
   };
 
   const handlePayment = () => {
@@ -200,9 +232,13 @@ const LandingPage: React.FC = () => {
 
     if (hasError) return;
 
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'AddPaymentInfo');
-    }
+    trackAddPaymentInfo({
+      content_name: '12-Course Architecture & Interior Design Master Bundle',
+      content_ids: ['architecture-master-bundle-999'],
+      content_type: 'product',
+      value: finalPrice,
+      currency: 'INR'
+    });
 
     setIsLoading(true);
     setPaymentError('');
@@ -217,12 +253,14 @@ const LandingPage: React.FC = () => {
         setPaymentSuccess(paymentId);
         setShowPaymentModal(false);
         
-        if (typeof window !== 'undefined' && (window as any).fbq) {
-          (window as any).fbq('track', 'Purchase', {
-            value: finalPrice,
-            currency: 'INR'
-          });
-        }
+        trackPurchase({
+          content_name: '12-Course Architecture & Interior Design Master Bundle',
+          content_ids: ['architecture-master-bundle-999'],
+          content_type: 'product',
+          value: finalPrice,
+          currency: 'INR',
+          num_items: 1
+        });
       },
       onCancel: () => {
         setIsLoading(false);
@@ -249,6 +287,12 @@ const LandingPage: React.FC = () => {
       setDiscountPercent(coupons[upper]);
       setCouponError(null);
       setShowCouponInput(true);
+      trackLead({
+        content_name: `Coupon Claim - ${upper}`,
+        content_category: 'Discounts',
+        value: Math.round(BUNDLE_PRICE * (1 - coupons[upper] / 100)),
+        currency: 'INR'
+      });
     } else {
       setCouponError('Invalid Coupon Code');
     }
@@ -565,7 +609,13 @@ const LandingPage: React.FC = () => {
                 {['All', 'Planning', '3D Modeling', 'Photorealism', 'AI & Unreal'].map((tab) => (
                   <button
                     key={tab}
-                    onClick={() => setActiveCategoryTab(tab)}
+                    onClick={() => {
+                      setActiveCategoryTab(tab);
+                      trackSearch({
+                        search_string: tab,
+                        content_category: 'Course Category Filter'
+                      });
+                    }}
                     className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                       activeCategoryTab === tab
                         ? 'bg-orange-500 text-white shadow-md'
@@ -1023,7 +1073,15 @@ const LandingPage: React.FC = () => {
           <div className="flex justify-center gap-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             <a href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</a>
             <span>•</span>
-            <a href="https://wa.me/918545015333" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">24/7 WhatsApp Support</a>
+            <a 
+              href="https://wa.me/918545015333" 
+              target="_blank" 
+              rel="noreferrer" 
+              onClick={() => trackContact({ content_name: 'WhatsApp Footer Support Link', content_category: 'Customer Support' })}
+              className="hover:text-white transition-colors"
+            >
+              24/7 WhatsApp Support
+            </a>
           </div>
         </div>
       </footer>
@@ -1033,6 +1091,7 @@ const LandingPage: React.FC = () => {
         href="https://wa.me/918545015333?text=Hi%20Avada%20Team%2C%20I%20have%20a%20question%20about%20the%2012-Course%20Architecture%20Bundle" 
         target="_blank" 
         rel="noopener noreferrer"
+        onClick={() => trackContact({ content_name: 'WhatsApp Floating Button', content_category: 'Customer Support' })}
         className="fixed bottom-20 right-4 z-[75] flex items-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-black px-3.5 py-2.5 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all"
         style={{ boxShadow: '0 8px 24px rgba(37,211,102,0.45)' }}
       >
@@ -1115,6 +1174,12 @@ const LandingPage: React.FC = () => {
               <button
                 onClick={() => {
                   setShowExitModal(false);
+                  trackLead({
+                    content_name: 'Exit Intent Discount Claimed',
+                    content_category: 'Exit Offer',
+                    value: finalPrice,
+                    currency: 'INR'
+                  });
                   openPaymentModal();
                 }}
                 className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-display font-black text-sm md:text-base shadow-lg shadow-orange-500/30 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
+import { trackContact } from '../services/metaPixel';
 
 interface WhatsAppButtonProps {
     visible?: boolean;
@@ -11,9 +12,10 @@ export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ visible = true }
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=Hi, I have a question about the design courses.`;
 
     const handleWhatsAppClick = () => {
-        if (typeof window !== 'undefined' && (window as any).fbq) {
-            (window as any).fbq('track', 'Contact');
-        }
+        trackContact({
+            content_name: 'WhatsApp Support',
+            content_category: 'Customer Support'
+        });
     };
 
     return (
