@@ -389,6 +389,84 @@ const LandingPage: React.FC = () => {
           </div>
         </section>
 
+        {/* ═══ 2.5. WHAT YOU WILL LEARN & MASTER ═══ */}
+        <section className="py-12 bg-slate-50 border-b border-slate-200">
+          <div className="max-w-5xl mx-auto px-4">
+            <div className="bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-slate-200">
+              
+              {/* Top part: 5-Step Process */}
+              <div className="text-center mb-8">
+                <h2 className="text-xl md:text-3xl font-display font-black text-slate-900 mb-6">
+                  The 5-Step Process You Will Master:
+                </h2>
+                
+                <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 text-xs md:text-sm font-bold text-slate-700">
+                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 1<br/><span className="text-slate-900 text-base md:text-lg">PLAN</span></div>
+                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
+                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 2<br/><span className="text-slate-900 text-base md:text-lg">DESIGN</span></div>
+                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
+                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 3<br/><span className="text-slate-900 text-base md:text-lg">3D MODEL</span></div>
+                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
+                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 4<br/><span className="text-slate-900 text-base md:text-lg">RENDER</span></div>
+                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
+                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 5<br/><span className="text-slate-900 text-base md:text-lg">PRESENT</span></div>
+                </div>
+
+                <div className="mt-6 flex flex-wrap justify-center gap-2 text-xs md:text-sm font-bold text-slate-600">
+                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">AutoCAD</span>
+                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">SketchUp Pro</span>
+                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">V-Ray</span>
+                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">D5 Render</span>
+                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">Enscape</span>
+                  <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-lg border border-emerald-200 flex items-center gap-1"><Sparkles size={14}/> AI Speed Tools</span>
+                </div>
+              </div>
+
+              <div className="h-px w-full bg-slate-100 my-8"></div>
+
+              {/* Bottom part: What you will design */}
+              <div>
+                <h3 className="text-lg md:text-2xl font-display font-black text-slate-900 mb-6 text-center">
+                  What You Will Be Able To Design:
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-3">
+                      <Check size={20} className="font-black" strokeWidth={3} />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-2">Modern Flats & Apartments</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      1BHK, 2BHK, 3BHK full interior layouts, modular kitchens & false ceilings.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-3">
+                      <Check size={20} className="font-black" strokeWidth={3} />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-2">Offices & Commercial</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Corporate workspaces, conference rooms, cafes, showrooms & retail stores.
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-3">
+                      <Check size={20} className="font-black" strokeWidth={3} />
+                    </div>
+                    <h4 className="font-bold text-slate-900 mb-2">Luxury Villas & Exteriors</h4>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      Multi-story house elevations, modern exterior facades & realistic night lighting.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </section>
+
         {/* ═══ 3. INTERACTIVE ROI CALCULATOR (PSYCHOLOGY: GREED + LOGIC) ═══ */}
         <section className="py-12 md:py-16 bg-slate-900 text-white relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-500/10 via-transparent to-transparent pointer-events-none" />
