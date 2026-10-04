@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
-const META_CAPI_TOKEN = Deno.env.get('META_CAPI_TOKEN')
-const META_PIXEL_ID = Deno.env.get('META_PIXEL_ID') || '1095905126519865'
+const META_CAPI_TOKEN = Deno.env.get('META_CAPI_TOKEN') || 'EAATPMZAuJE64BSp34zVc8EG1dZAZCxQAC1ZCbaGAxe6vDm9fymZC1iOu3ZCau5WmfL9gnYVZAl6V2CwUTCZBwWeEcGSlHt8zSBoHmyljJZCK5hDxmTE5LTH8hRN2OvvhbTrW0urKtpQjMuGk5KShxfMQ63QZAY8noHVgkZABRAklUNkjAuaqLzklaIbgeIiPwHZBh4qTJQZDZD'
+const META_PIXEL_ID = Deno.env.get('META_PIXEL_ID') || '907155057168097'
 
 serve(async (req) => {
     // Handle CORS

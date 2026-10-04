@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-export const META_PIXEL_ID = '1095905126519865';
+export const META_PIXEL_ID = '907155057168097';
 
 // Generates a unique ID for deduplication between Pixel and CAPI
 const generateEventId = () => {
