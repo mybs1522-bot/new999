@@ -368,6 +368,14 @@ const LandingPage: React.FC = () => {
               </div>
             </div>
 
+            {/* Motivational Hook */}
+            <div className="max-w-2xl mx-auto mb-8 bg-amber-50 border border-amber-200 rounded-xl p-4 shadow-sm text-center relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-amber-400"></div>
+              <p className="text-sm md:text-base text-slate-800 leading-relaxed font-medium">
+                Clients and firms don't pay big fees for button-clickers. They pay <strong className="text-orange-600 font-black">premium money</strong> when you hand them the <strong className="text-slate-900 font-black">ENTIRE project</strong> — from the 2D layout all the way to a photorealistic 3D render that sells the dream before it's even built.
+              </p>
+            </div>
+
             {/* Key Value Checklist */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 max-w-3xl mx-auto mb-7 text-left">
               {[
