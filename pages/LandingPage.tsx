@@ -16,7 +16,7 @@ import {
   trackContact,
   trackSearch,
 } from '../services/metaPixel';
-import { LimitedSeatsWidget } from '../components/LimitedSeatsWidget';
+
 import {
   Logo, SocialProofToast,
   PAIN_TRIGGERS_INDIAN, SOLUTION_PILLARS, WHO_IS_THIS_FOR, TRANSFORMATION_STORIES,
@@ -51,8 +51,30 @@ const CtaWithTimer = ({
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl -ml-12 -mb-12 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center gap-3 md:gap-4">
-        {/* Seats Widget */}
-        <LimitedSeatsWidget />
+        {/* Urgency Badge */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600 text-white rounded-full text-[11px] md:text-xs font-black uppercase tracking-wider animate-pulse shadow-sm">
+          <Flame size={13} className="fill-white" />
+          <span>Special Offer — ₹999 Price Ending Soon</span>
+        </div>
+
+        {/* Countdown Flip Units */}
+        <div className="flex items-center justify-center gap-1.5">
+          {[
+            { val: f(timeLeft.h), label: 'HOURS' },
+            { val: f(timeLeft.m), label: 'MINUTES' },
+            { val: f(timeLeft.s), label: 'SECONDS' }
+          ].map((unit, i) => (
+            <React.Fragment key={i}>
+              <div className="flex flex-col items-center">
+                <div className="bg-slate-900 text-white font-mono font-black text-base md:text-xl px-3 py-1.5 rounded-xl shadow-inner border border-slate-700 min-w-[44px] md:min-w-[52px]">
+                  {unit.val}
+                </div>
+                <span className="text-[8px] font-bold text-slate-500 tracking-wider mt-1">{unit.label}</span>
+              </div>
+              {i < 2 && <span className="text-lg font-black text-orange-500 mb-4">:</span>}
+            </React.Fragment>
+          ))}
+        </div>
 
         {/* Pricing Anchor */}
         <div className="flex items-center justify-center gap-2 md:gap-3 my-0.5">
@@ -1300,7 +1322,15 @@ const LandingPage: React.FC = () => {
                     )}
                   </div>
 
-                  {/* Replaced Timer with empty div or nothing */}
+                  {/* Very Small Countdown Timer */}
+                  <div className="inline-flex items-center gap-1.5 bg-black/40 border border-white/10 px-2.5 py-1 rounded-full text-[11px] font-mono font-bold text-white shadow-xs">
+                    <Timer size={12} className="text-amber-400 animate-pulse" />
+                    <span>{formatTime(timeLeft.h)}h</span>
+                    <span className="text-white/40">:</span>
+                    <span>{formatTime(timeLeft.m)}m</span>
+                    <span className="text-white/40">:</span>
+                    <span>{formatTime(timeLeft.s)}s</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1308,10 +1338,6 @@ const LandingPage: React.FC = () => {
             {/* Modal Body */}
             <div className="p-5">
               
-              {/* Seats Widget */}
-              <div className="mb-4">
-                <LimitedSeatsWidget isActive={isLoading} isCheckoutMode={true} />
-              </div>
 
               {/* Feature Chips */}
               <div className="grid grid-cols-2 gap-2 mb-4 text-[10px] xs:text-[11px] font-bold text-slate-700">
