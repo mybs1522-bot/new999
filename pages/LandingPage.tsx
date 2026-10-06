@@ -369,11 +369,17 @@ const LandingPage: React.FC = () => {
             </div>
 
             {/* Motivational Hook */}
-            <div className="max-w-2xl mx-auto mb-8 bg-amber-50 border border-amber-200 rounded-xl p-4 shadow-sm text-center relative overflow-hidden">
+            <div className="max-w-2xl mx-auto mb-8 bg-amber-50 border border-amber-200 rounded-xl p-4 md:p-5 shadow-sm text-center relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-amber-400"></div>
               <p className="text-sm md:text-base text-slate-800 leading-relaxed font-medium">
                 Clients and firms don't pay big fees for button-clickers. They pay <strong className="text-orange-600 font-black">premium money</strong> when you hand them the <strong className="text-slate-900 font-black">ENTIRE project</strong> — from the 2D layout all the way to a photorealistic 3D render that sells the dream before it's even built.
               </p>
+              <div className="mt-3 pt-3 border-t border-amber-200/60">
+                <p className="text-base md:text-lg font-black text-emerald-600 flex items-center justify-center gap-1.5">
+                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  Includes Freelance Projects For Every Student!
+                </p>
+              </div>
             </div>
 
             {/* Key Value Checklist */}
