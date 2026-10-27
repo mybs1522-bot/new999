@@ -52,8 +52,8 @@ const LandingPage: React.FC = () => {
   const [showCartDrawer, setShowCartDrawer] = useState(false);
   const [showCouponModal, setShowCouponModal] = useState(false);
 
-  // Shopify Product Hero Media Gallery State
-  const [selectedMediaTab, setSelectedMediaTab] = useState<'cover' | 'video' | 'render1' | 'render7' | 'assets' | 'mentors'>('cover');
+  // Shopify Product Hero Media Gallery State (Default to Video on first screen)
+  const [selectedMediaTab, setSelectedMediaTab] = useState<'cover' | 'video' | 'render1' | 'render7' | 'assets' | 'mentors'>('video');
 
   // Shopify Buy Box Accordions State
   const [accordionOpen, setAccordionOpen] = useState<{ [key: string]: boolean }>({
@@ -376,19 +376,13 @@ const LandingPage: React.FC = () => {
                       />
                     </div>
                   )}
-
-                  {/* Click to expand hint */}
-                  <div className="absolute bottom-3 right-3 z-20 bg-black/75 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none flex items-center gap-1.5 border border-white/10">
-                    <Eye size={12} />
-                    <span>Interactive Shopify Gallery</span>
-                  </div>
                 </div>
 
                 {/* Thumbnails Row (Shopify Gallery Switcher) */}
                 <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
                   {[
+                    { id: 'video', label: 'Watch Video Preview', thumb: '/banner-1.jpg', icon: '▶️' },
                     { id: 'cover', label: 'Bundle Box', thumb: '/banner-1.jpg', icon: '📦' },
-                    { id: 'video', label: 'Course Preview Video', thumb: '/banner-1.jpg', icon: '▶️' },
                     { id: 'render1', label: '4K Living Room', thumb: '/renders/RENDER-1.jpg', icon: '🛋️' },
                     { id: 'render7', label: 'Luxury Marble Bath', thumb: '/renders/RENDER-7.jpg', icon: '🏛️' },
                     { id: 'assets', label: '10,000+ 3D Assets', thumb: '/banner-2.jpg', icon: '🪑' },
