@@ -387,7 +387,7 @@ const LandingPage: React.FC = () => {
                     { id: 'render1', label: '4K Living Room', thumb: '/renders/RENDER-1.jpg', icon: '🛋️' },
                     { id: 'render7', label: 'Luxury Marble Bath', thumb: '/renders/RENDER-7.jpg', icon: '🏛️' },
                     { id: 'assets', label: '10,000+ 3D Assets', thumb: '/banner-2.jpg', icon: '🪑' },
-                    { id: 'mentors', label: 'Mentors & ISO Cert', thumb: '/renders/mentors.png', icon: '📜' },
+                    { id: 'mentors', label: 'Mentors & Certificate', thumb: '/renders/mentors.png', icon: '📜' },
                   ].map((thumb) => (
                     <button
                       key={thumb.id}
@@ -576,7 +576,7 @@ const LandingPage: React.FC = () => {
                         <Check size={12} className="text-emerald-600" /> 10,000+ Ready 3D Models & 5,000+ 4K PBR Textures
                       </li>
                       <li className="flex items-center gap-1.5">
-                        <Check size={12} className="text-emerald-600" /> Indian Client Quotation & Contract Scripts + ISO Certificate
+                        <Check size={12} className="text-emerald-600" /> Indian Client Quotation & Contract Scripts + Skill Certificate
                       </li>
                       <li className="flex items-center gap-1.5">
                         <Check size={12} className="text-emerald-600" /> 24/7 Dedicated WhatsApp Support Team

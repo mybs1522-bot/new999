@@ -198,7 +198,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose, ini
              <ul className="space-y-2">
                <li className="flex items-center gap-2 text-sm text-gray-300"><Check size={14} className="text-brand-accent" /> 12+ Premium Courses</li>
                <li className="flex items-center gap-2 text-sm text-gray-300"><Check size={14} className="text-brand-accent" /> Source Files Download</li>
-               <li className="flex items-center gap-2 text-sm text-gray-300"><Check size={14} className="text-brand-accent" /> ISO Certification</li>
+               <li className="flex items-center gap-2 text-sm text-gray-300"><Check size={14} className="text-brand-accent" /> Skill Certification</li>
              </ul>
            </div>
         </div>

@@ -108,7 +108,7 @@ export const ShopifyCartDrawer: React.FC<ShopifyCartDrawerProps> = ({
                 '5,000+ 4K Ultra HD PBR Materials & Textures (₹7,999 Value)',
                 'Indian Client Quotation & Contract Scripts (₹4,999 Value)',
                 '150+ Master AI Architecture Prompts Bible (₹3,999 Value)',
-                'ISO-Verified Skill Certificate (₹2,999 Value)',
+                'Official Digital Skill Certificate (₹2,999 Value)',
                 '24/7 Dedicated WhatsApp Support Team Access (Priceless)'
               ].map((b, i) => (
                 <div key={i} className="flex items-center justify-between">

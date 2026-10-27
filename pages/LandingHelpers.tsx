@@ -212,7 +212,7 @@ export const FREE_BONUSES = [
   },
   {
     id: "b5",
-    title: "ISO-Verified Digital Skill Certificate",
+    title: "Official Digital Skill Certificate",
     worth: "₹2,999",
     desc: "Shareable skill credential to boost your LinkedIn profile, resume, and studio portfolio to impress clients and recruiters.",
     icon: "📜",
