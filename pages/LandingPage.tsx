@@ -30,6 +30,7 @@ import { ShopifyCartDrawer } from '../components/ShopifyCartDrawer';
 import { CouponModal } from '../components/CouponModal';
 import { IncomeCalculator } from '../components/IncomeCalculator';
 import { RenderProofWall } from '../components/RenderProofWall';
+import { ProcessRoadmap } from '../components/ProcessRoadmap';
 
 const LandingPage: React.FC = () => {
   // Countdown Timer State
@@ -596,6 +597,17 @@ const LandingPage: React.FC = () => {
                   <span className="text-[10px] text-slate-400 font-mono">e.g. EARN10 / SPECIAL50</span>
                 </div>
 
+                {/* 5-Step Process Quick Pill (Indian Customer Trust) */}
+                <div className="bg-amber-50/80 border border-amber-200/90 rounded-2xl p-3 mb-4 text-xs">
+                  <div className="flex items-center gap-1.5 font-bold text-amber-950 mb-1">
+                    <span className="text-sm">🎯</span>
+                    <span>Simple 5-Step Process: Plan → Design → Model → Render → Present</span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-tight">
+                    Zero degree needed • ₹0 software cost to start • First 4K render in 14 days
+                  </p>
+                </div>
+
                 {/* Primary Action Buttons (Shopify Style) */}
                 <div className="space-y-2.5 mb-5">
                   {/* Direct Buy Now */}
@@ -738,6 +750,13 @@ const LandingPage: React.FC = () => {
           </div>
         </section>
 
+        {/* ═══ 2.5. OUR 5-STEP SIMPLE PROCESS & 14-DAY ROADMAP (BEFORE FIRST CTA) ═══ */}
+        <ProcessRoadmap 
+          onEnroll={openPaymentModal}
+          finalPrice={finalPrice}
+          timeLeft={timeLeft}
+        />
+
         {/* ═══ 3. THE "EFFORTLESS MONEY" PARADIGM & FREELANCE WEALTH ═══ */}
         <section className="py-14 md:py-20 bg-gradient-to-b from-white via-amber-50/30 to-white border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4 text-center">
@@ -850,46 +869,6 @@ const LandingPage: React.FC = () => {
                   <div>
                     <h3 className="font-bold text-slate-900 text-base md:text-lg mb-1.5 leading-snug">{item.title}</h3>
                     <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-          </div>
-        </section>
-
-        {/* ═══ 6. THE 5-STEP TURNKEY STUDIO PIPELINE ═══ */}
-        <section className="py-14 md:py-20 bg-slate-50 border-b border-slate-200">
-          <div className="max-w-5xl mx-auto px-4">
-            
-            <div className="text-center mb-10">
-              <span className="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full">
-                📐 THE AVADA 5-STEP PIPELINE
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                The 5-Step Process You Will Master in 30 Days
-              </h2>
-              <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                From initial 2D sketch to collecting the final client cheque with 100% confidence:
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 mb-10">
-              {[
-                { step: '01', title: 'PLAN', tool: 'AutoCAD & Revit', desc: 'Draft sanction floor plans & electrical layouts with pro shortcut keys.' },
-                { step: '02', title: 'DESIGN', tool: 'SketchUp Pro', desc: 'Pull walls, false ceilings & modular kitchens in minutes with pre-made models.' },
-                { step: '03', title: '3D MODEL', tool: '3ds Max', desc: 'Custom luxury furniture, detailed fabrics, and complex parametric elevations.' },
-                { step: '04', title: 'RENDER', tool: 'D5, V-Ray, Lumion', desc: 'Master realistic sun lighting, 4K marble textures & 60fps walkthroughs.' },
-                { step: '05', title: 'AI & PRESENT', tool: 'Midjourney & SD', desc: 'Generate 50 instant concepts on spot and close advance tokens effortlessly.' },
-              ].map((s, i) => (
-                <div key={i} className="bg-white border-2 border-slate-200 hover:border-orange-400 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
-                  <div>
-                    <span className="text-xs font-mono font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md inline-block mb-2">
-                      STEP {s.step}
-                    </span>
-                    <h3 className="font-display font-black text-slate-900 text-lg mb-1">{s.title}</h3>
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">{s.tool}</span>
-                    <p className="text-xs text-slate-600 leading-relaxed">{s.desc}</p>
                   </div>
                 </div>
               ))}
