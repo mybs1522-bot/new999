@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
-  ArrowRight, Star, CheckCircle, CheckCircle2, X, ChevronDown, Sparkles, 
+  ArrowRight, Star, CheckCircle, CheckCircle2, X, ChevronDown, ChevronUp, Sparkles, 
   Eye, Download, Phone, Mail, Lock, Loader2, Timer, Check, ShieldCheck, 
-  Zap, Flame, Award, Gift, DollarSign, MessageCircle
+  Zap, Flame, Award, Gift, DollarSign, MessageCircle, ShoppingBag, Tag,
+  Layers, Clock, Laptop, Play, CheckCheck, RefreshCw, AlertCircle
 } from 'lucide-react';
 import { COURSES, BUNDLE_PRICE, BUNDLE_ORIGINAL_PRICE } from '../constants';
 import { openRazorpayCheckout } from '../services/razorpay';
@@ -24,109 +25,49 @@ import {
   PAGE_PREVIEWS_ROW1, PAGE_PREVIEWS_ROW2
 } from './LandingHelpers';
 
-/* ─── REUSABLE CTA WITH TIMER ─── */
-const CtaWithTimer = ({ 
-  timeLeft, 
-  onClick, 
-  variant = 'orange', 
-  title = 'Download All Courses - ₹999',
-  subtext = 'Instant Google Drive Access • 24/7 WhatsApp Support • Software Links Included'
-}: { 
-  timeLeft: { h: number; m: number; s: number }; 
-  onClick: () => void; 
-  variant?: 'orange' | 'dark' | 'white';
-  title?: string;
-  subtext?: string;
-}) => {
-  const f = (v: number) => v.toString().padStart(2, '0');
-  const bgClass = variant === 'dark'
-    ? 'bg-slate-900 border border-slate-800 text-white'
-    : variant === 'white'
-    ? 'bg-white border-2 border-orange-200 shadow-xl'
-    : 'bg-gradient-to-b from-orange-50/90 to-amber-50/90 border-2 border-orange-300 shadow-xl';
-
-  return (
-    <div className={`${bgClass} rounded-3xl p-5 md:p-8 relative overflow-hidden max-w-xl mx-auto text-center`}>
-      <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl -ml-12 -mb-12 pointer-events-none" />
-
-      <div className="relative z-10 flex flex-col items-center gap-3 md:gap-4">
-        {/* Urgency Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600 text-white rounded-full text-[11px] md:text-xs font-black uppercase tracking-wider animate-pulse shadow-sm">
-          <Flame size={13} className="fill-white" />
-          <span>Special Offer — ₹999 Price Ending Soon</span>
-        </div>
-
-        {/* Countdown Flip Units */}
-        <div className="flex items-center justify-center gap-1.5">
-          {[
-            { val: f(timeLeft.h), label: 'HOURS' },
-            { val: f(timeLeft.m), label: 'MINUTES' },
-            { val: f(timeLeft.s), label: 'SECONDS' }
-          ].map((unit, i) => (
-            <React.Fragment key={i}>
-              <div className="flex flex-col items-center">
-                <div className="bg-slate-900 text-white font-mono font-black text-base md:text-xl px-3 py-1.5 rounded-xl shadow-inner border border-slate-700 min-w-[44px] md:min-w-[52px]">
-                  {unit.val}
-                </div>
-                <span className="text-[8px] font-bold text-slate-500 tracking-wider mt-1">{unit.label}</span>
-              </div>
-              {i < 2 && <span className="text-lg font-black text-orange-500 mb-4">:</span>}
-            </React.Fragment>
-          ))}
-        </div>
-
-        {/* Pricing Anchor */}
-        <div className="flex items-center justify-center gap-2 md:gap-3 my-0.5">
-          <span className="text-slate-400 line-through text-sm md:text-base font-bold">₹{BUNDLE_ORIGINAL_PRICE.toLocaleString('en-IN')}</span>
-          <span className="text-slate-400 line-through text-sm md:text-base font-bold">₹2,999</span>
-          <span className="text-3xl md:text-5xl font-display font-black text-slate-900 tracking-tight">₹{BUNDLE_PRICE}</span>
-          <span className="bg-emerald-100 text-emerald-700 border border-emerald-300 text-[10px] md:text-xs font-black px-2 py-0.5 rounded-full">92% OFF</span>
-        </div>
-
-        {/* Large Action Button */}
-        <button
-          onClick={onClick}
-          className="w-full py-4 md:py-5 px-6 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 text-white font-display font-black text-base md:text-xl shadow-lg shadow-orange-500/35 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 md:gap-3 group premium-stroke"
-        >
-          <Zap size={20} className="fill-white shrink-0 animate-bounce" />
-          <span>{title}</span>
-          <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform shrink-0" />
-        </button>
-
-        {/* Money-Back Guarantee Risk-Reversal Badge */}
-        <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-300/80 text-emerald-800 text-[11px] md:text-xs font-bold py-1 px-3 rounded-full shadow-xs">
-          <ShieldCheck size={14} className="text-emerald-600 shrink-0" />
-          <span>100% Risk-Free • 7-Day Money-Back Guarantee</span>
-        </div>
-
-        {/* Trust Points */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 text-[10px] md:text-xs font-medium text-slate-600">
-          <span className="inline-flex items-center gap-1"><ShieldCheck size={13} className="text-emerald-600" /> Razorpay Secure UPI/Card</span>
-          <span>•</span>
-          <span className="inline-flex items-center gap-1"><CheckCircle2 size={13} className="text-emerald-600" /> Instant Google Drive Link</span>
-          <span>•</span>
-          <span className="inline-flex items-center gap-1"><Award size={13} className="text-emerald-600" /> Skill Certificate</span>
-        </div>
-      </div>
-    </div>
-  );
-};
+import { ShopifyHeader } from '../components/ShopifyHeader';
+import { ShopifyCartDrawer } from '../components/ShopifyCartDrawer';
+import { CouponModal } from '../components/CouponModal';
+import { IncomeCalculator } from '../components/IncomeCalculator';
+import { RenderProofWall } from '../components/RenderProofWall';
 
 const LandingPage: React.FC = () => {
+  // Countdown Timer State
   const [timeLeft, setTimeLeft] = useState(() => {
-    const D = (3 * 3600 + 36 * 60 + 20) * 1000, r = D - (Date.now() % D);
-    return { h: Math.floor((r / 3600000) % 24), m: Math.floor((r / 60000) % 60), s: Math.floor((r / 1000) % 60) };
+    const D = (3 * 3600 + 24 * 60 + 18) * 1000;
+    const r = D - (Date.now() % D);
+    return { 
+      h: Math.floor((r / 3600000) % 24), 
+      m: Math.floor((r / 60000) % 60), 
+      s: Math.floor((r / 1000) % 60) 
+    };
   });
 
+  // UI Navigation & Modals State
   const [showStickyBar, setShowStickyBar] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
-  const [calculatorProjects, setCalculatorProjects] = useState<number>(2);
   const [activeCategoryTab, setActiveCategoryTab] = useState<string>('All');
   const [showExitModal, setShowExitModal] = useState(false);
   const [hasShownExitModal, setHasShownExitModal] = useState(false);
+  const [showCartDrawer, setShowCartDrawer] = useState(false);
+  const [showCouponModal, setShowCouponModal] = useState(false);
 
-  // Payment modal states
+  // Shopify Product Hero Media Gallery State
+  const [selectedMediaTab, setSelectedMediaTab] = useState<'cover' | 'video' | 'render1' | 'render7' | 'assets' | 'mentors'>('cover');
+
+  // Shopify Buy Box Accordions State
+  const [accordionOpen, setAccordionOpen] = useState<{ [key: string]: boolean }>({
+    included: true,
+    earn: false,
+    specs: false,
+    guarantee: false,
+  });
+
+  const toggleAccordion = (key: string) => {
+    setAccordionOpen(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // Payment modal & Razorpay checkout states
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -137,22 +78,26 @@ const LandingPage: React.FC = () => {
   const [paymentSuccess, setPaymentSuccess] = useState<string | null>(null);
   const [studentCount, setStudentCount] = useState(52480);
 
-  // Coupon states
+  // Coupon state
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [discountPercent, setDiscountPercent] = useState(0);
   const [couponError, setCouponError] = useState<string | null>(null);
   const [showCouponInput, setShowCouponInput] = useState(false);
-  const finalPrice = Math.round(BUNDLE_PRICE * (1 - discountPercent / 100));
+
+  // Calculate Final Price dynamically
+  const finalPrice = discountPercent > 0 
+    ? Math.round(BUNDLE_PRICE * (1 - discountPercent / 100))
+    : BUNDLE_PRICE;
 
   useEffect(() => { 
     window.scrollTo(0, 0); 
     trackViewContent({
-      content_name: '12-Course Architecture & Interior Design Master Bundle',
-      content_category: 'Architecture & Design Courses',
-      content_ids: ['architecture-master-bundle-999'],
+      content_name: 'The Complete 12-Course Architecture & 3D Render Money-Maker Bundle',
+      content_category: 'Shopify Product Page',
+      content_ids: ['avada-master-bundle-999'],
       content_type: 'product',
-      value: 999,
+      value: finalPrice,
       currency: 'INR'
     });
   }, []);
@@ -160,24 +105,34 @@ const LandingPage: React.FC = () => {
   // Timer Tick
   useEffect(() => {
     const calc = () => {
-      const D = (3 * 3600 + 36 * 60 + 20) * 1000, now = Date.now(), r = D - (now % D);
-      setTimeLeft({ h: Math.floor((r / 3600000) % 24), m: Math.floor((r / 60000) % 60), s: Math.floor((r / 1000) % 60) });
+      const D = (3 * 3600 + 24 * 60 + 18) * 1000;
+      const now = Date.now();
+      const r = D - (now % D);
+      setTimeLeft({ 
+        h: Math.floor((r / 3600000) % 24), 
+        m: Math.floor((r / 60000) % 60), 
+        s: Math.floor((r / 1000) % 60) 
+      });
     };
-    const t = setInterval(calc, 1000); calc(); return () => clearInterval(t);
-  }, []);
-
-  // Sticky Bar & Student Count
-  useEffect(() => {
-    const h = () => setShowStickyBar(window.scrollY > 450);
-    window.addEventListener('scroll', h, { passive: true });
-    return () => window.removeEventListener('scroll', h);
-  }, []);
-  useEffect(() => {
-    const t = setInterval(() => setStudentCount(c => c + 1), 5000);
+    const t = setInterval(calc, 1000); 
+    calc(); 
     return () => clearInterval(t);
   }, []);
 
-  // Exit-Intent Trigger (Desktop mouse leave)
+  // Scroll tracking for sticky buy bar
+  useEffect(() => {
+    const h = () => setShowStickyBar(window.scrollY > 550);
+    window.addEventListener('scroll', h, { passive: true });
+    return () => window.removeEventListener('scroll', h);
+  }, []);
+
+  // Incremental Live Student counter simulation
+  useEffect(() => {
+    const t = setInterval(() => setStudentCount(c => c + 1), 6000);
+    return () => clearInterval(t);
+  }, []);
+
+  // Exit-Intent Trigger (Desktop mouse leaves viewport top)
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 0 && !hasShownExitModal && !showPaymentModal && !paymentSuccess) {
@@ -194,17 +149,18 @@ const LandingPage: React.FC = () => {
 
   const openPaymentModal = () => {
     setShowExitModal(false);
+    setShowCartDrawer(false);
     setShowPaymentModal(true);
     trackAddToCart({
-      content_name: '12-Course Architecture & Interior Design Master Bundle',
-      content_ids: ['architecture-master-bundle-999'],
+      content_name: '12-Course Architecture Master Bundle',
+      content_ids: ['avada-master-bundle-999'],
       content_type: 'product',
       value: finalPrice,
       currency: 'INR'
     });
     trackInitiateCheckout({
-      content_name: '12-Course Architecture & Interior Design Master Bundle',
-      content_ids: ['architecture-master-bundle-999'],
+      content_name: '12-Course Architecture Master Bundle',
+      content_ids: ['avada-master-bundle-999'],
       content_type: 'product',
       value: finalPrice,
       currency: 'INR',
@@ -234,8 +190,8 @@ const LandingPage: React.FC = () => {
     if (hasError) return;
 
     trackAddPaymentInfo({
-      content_name: '12-Course Architecture & Interior Design Master Bundle',
-      content_ids: ['architecture-master-bundle-999'],
+      content_name: '12-Course Architecture Master Bundle',
+      content_ids: ['avada-master-bundle-999'],
       content_type: 'product',
       value: finalPrice,
       currency: 'INR'
@@ -255,8 +211,8 @@ const LandingPage: React.FC = () => {
         setShowPaymentModal(false);
         
         trackPurchase({
-          content_name: '12-Course Architecture & Interior Design Master Bundle',
-          content_ids: ['architecture-master-bundle-999'],
+          content_name: '12-Course Architecture Master Bundle',
+          content_ids: ['avada-master-bundle-999'],
           content_type: 'product',
           value: finalPrice,
           currency: 'INR',
@@ -268,7 +224,7 @@ const LandingPage: React.FC = () => {
       },
       onError: (err) => {
         setIsLoading(false);
-        setPaymentError('Payment failed. Please retry with UPI or Card.');
+        setPaymentError('Payment failed. Please retry with UPI, GPay, or Card.');
         console.error('Razorpay Error:', err);
       }
     });
@@ -276,10 +232,13 @@ const LandingPage: React.FC = () => {
 
   const applyCouponCodeDirect = (code: string) => {
     const coupons: Record<string, number> = {
+      'EARN10': 10,
+      'SHOP10': 10,
+      'SAVE10': 10,
+      'SPECIAL50': 50,
       'SUNDAY50': 50,
       'GTR50': 50,
       'TRTED70': 70,
-      'SPECIAL50': 50,
       'AVADA50': 50
     };
     const upper = code.trim().toUpperCase();
@@ -295,7 +254,7 @@ const LandingPage: React.FC = () => {
         currency: 'INR'
       });
     } else {
-      setCouponError('Invalid Coupon Code');
+      setCouponError('Invalid Coupon Code. Try "EARN10" or "SPECIAL50"');
     }
   };
 
@@ -310,391 +269,694 @@ const LandingPage: React.FC = () => {
     : COURSES.filter(c => ['9', '10', '11'].includes(c.id));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden selection:bg-orange-200 selection:text-slate-900">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans overflow-x-hidden selection:bg-orange-200 selection:text-slate-900">
       
-      {/* ═══ 0. TOP URGENCY TICKER ═══ */}
-      <div className="bg-gradient-to-r from-red-600 via-orange-600 to-red-600 text-white text-[11px] md:text-xs font-bold py-2 px-3 text-center sticky top-0 z-[75] shadow-md flex items-center justify-center gap-2 flex-wrap">
-        <span className="inline-flex items-center gap-1 bg-white/20 px-2 py-0.5 rounded-full font-black text-[10px] uppercase tracking-wider animate-pulse">
-          <Flame size={12} className="fill-white" /> BATCH CLOSING
-        </span>
-
-        <div className="inline-flex items-center gap-1 bg-black/30 font-mono px-2 py-0.5 rounded text-[11px]">
-          <span>{formatTime(timeLeft.h)}h</span>:<span>{formatTime(timeLeft.m)}m</span>:<span>{formatTime(timeLeft.s)}s</span>
-        </div>
-      </div>
+      {/* ═══ 1. SHOPIFY STORE HEADER & NOTIFICATION TICKER ═══ */}
+      <ShopifyHeader
+        onOpenCart={() => setShowCartDrawer(true)}
+        onOpenCoupon={() => setShowCouponModal(true)}
+        cartCount={1}
+        finalPrice={finalPrice}
+      />
 
       <main>
-        {/* ═══ 2. HERO SECTION — INDIAN AUDIENCE CONVERSION POWERHOUSE ═══ */}
-        <section className="relative pt-5 md:pt-10 pb-12 md:pb-20 overflow-hidden bg-white border-b border-slate-200">
-          <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+        {/* ═══ 2. THE ULTIMATE SHOPIFY 2-COLUMN PRODUCT HERO SECTION ═══ */}
+        <section className="pt-4 sm:pt-8 pb-12 md:pb-16 bg-white border-b border-slate-200/90" id="overview">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            {/* Social proof top pill */}
-            <div className="inline-flex items-center px-3.5 py-1 bg-orange-50 border border-orange-200 rounded-full mb-3 shadow-xs">
-              <span className="text-[11px] md:text-xs font-bold text-slate-800 whitespace-nowrap">
-                Rated <strong>4.9/5</strong> by <strong>52,000+</strong> Indian Designers
-              </span>
+            {/* Shopify Breadcrumbs */}
+            <div className="flex items-center gap-2 text-[11px] sm:text-xs text-slate-500 font-medium mb-4 sm:mb-6">
+              <span className="hover:text-slate-900 cursor-pointer">Home</span>
+              <span>/</span>
+              <span className="hover:text-slate-900 cursor-pointer">Digital Architecture Bundles</span>
+              <span>/</span>
+              <span className="text-slate-900 font-bold truncate">12-in-1 Master Money-Maker Pass</span>
             </div>
 
-            {/* Main Headline */}
-            <h1 className="font-display font-black text-slate-900 tracking-tight leading-[1.25] mb-3.5">
-              <span className="block text-[17px] xs:text-[19px] sm:text-2xl md:text-3xl lg:text-4xl">
-                <span className="block">Learn to Design</span>
-                <span className="block mt-0.5 sm:mt-1">Floor Plans, 3D Interior & Exterior Design in 30 Days</span>
-              </span>
-              <span className="block text-[11px] min-[360px]:text-[12px] min-[390px]:text-[13.5px] min-[420px]:text-[15px] sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-500 to-orange-600 mt-2 font-black italic tracking-tight whitespace-nowrap leading-tight">
-                Only Course Package in India That Teaches All In One.
-              </span>
-            </h1>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+              
+              {/* ─────────────────────────────────────────────────────────────
+                  LEFT COLUMN: SHOPIFY PRODUCT MEDIA GALLERY (7 COLS)
+              ───────────────────────────────────────────────────────────── */}
+              <div className="lg:col-span-7 space-y-4">
+                
+                {/* Main Featured Media Box */}
+                <div className="relative aspect-[16/10] sm:aspect-[16/10] bg-slate-950 rounded-3xl overflow-hidden border-2 border-slate-200 shadow-xl group">
+                  
+                  {/* Floating Badges */}
+                  <div className="absolute top-3 left-3 z-20 flex flex-col gap-1.5 pointer-events-none">
+                    <span className="inline-flex items-center gap-1 bg-red-600 text-white font-black text-[10px] sm:text-xs uppercase px-2.5 py-1 rounded-lg shadow-md animate-pulse">
+                      <Flame size={12} className="fill-white" />
+                      #1 BESTSELLER IN INDIA
+                    </span>
+                    <span className="inline-flex items-center gap-1 bg-slate-900/90 backdrop-blur-md text-emerald-400 font-black text-[10px] sm:text-xs px-2.5 py-1 rounded-lg border border-emerald-500/30 shadow-md">
+                      <CheckCircle2 size={12} className="text-emerald-400" />
+                      92% OFF FLASH DISCOUNT
+                    </span>
+                  </div>
 
-            {/* Clear Subheadline for Indian Market */}
-            <p className="text-sm sm:text-base md:text-lg text-slate-700 max-w-2xl mx-auto mb-6 leading-relaxed font-medium">
-              After this course you can <strong className="text-slate-900 font-bold">Design Entire House, Flats, Villas, Offices on Software</strong> and <strong className="text-orange-600 font-bold">take entire projects from clients and earn well.</strong>
+                  <div className="absolute top-3 right-3 z-20 pointer-events-none">
+                    <span className="bg-black/80 backdrop-blur-md text-amber-300 font-bold text-[10px] sm:text-xs px-2.5 py-1 rounded-lg border border-white/10 shadow-md flex items-center gap-1">
+                      <Zap size={12} className="fill-amber-400 text-amber-400" />
+                      Instant 60s Google Drive Link
+                    </span>
+                  </div>
+
+                  {/* Dynamic Media Content Based on Selection */}
+                  {selectedMediaTab === 'cover' && (
+                    <img
+                      src="/banner-1.jpg"
+                      alt="12-Course Architecture Master Bundle"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
+
+                  {selectedMediaTab === 'video' && (
+                    <div className="w-full h-full bg-black relative">
+                      <iframe 
+                        src="https://iframe.mediadelivery.net/embed/489113/a214b199-e64a-4eaf-af70-edfbc586e5fd?autoplay=true&loop=true&muted=true&preload=true&responsive=true" 
+                        loading="lazy" 
+                        style={{ border: 0, position: 'absolute', top: 0, left: 0, height: '100%', width: '100%' }} 
+                        allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" 
+                        allowFullScreen={true} 
+                      />
+                    </div>
+                  )}
+
+                  {selectedMediaTab === 'render1' && (
+                    <img
+                      src="/renders/RENDER-1.jpg"
+                      alt="4K Living Room Render"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
+
+                  {selectedMediaTab === 'render7' && (
+                    <img
+                      src="/renders/RENDER-7.jpg"
+                      alt="Luxury Modern Interior"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
+
+                  {selectedMediaTab === 'assets' && (
+                    <img
+                      src="/banner-2.jpg"
+                      alt="10,000+ Ready 3D Models & Assets"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  )}
+
+                  {selectedMediaTab === 'mentors' && (
+                    <div className="w-full h-full bg-slate-900 flex items-center justify-center p-4">
+                      <img
+                        src="/renders/mentors.png"
+                        alt="Mentors and Certification"
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </div>
+                  )}
+
+                  {/* Click to expand hint */}
+                  <div className="absolute bottom-3 right-3 z-20 bg-black/75 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-lg pointer-events-none flex items-center gap-1.5 border border-white/10">
+                    <Eye size={12} />
+                    <span>Interactive Shopify Gallery</span>
+                  </div>
+                </div>
+
+                {/* Thumbnails Row (Shopify Gallery Switcher) */}
+                <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
+                  {[
+                    { id: 'cover', label: 'Bundle Box', thumb: '/banner-1.jpg', icon: '📦' },
+                    { id: 'video', label: 'Course Preview Video', thumb: '/banner-1.jpg', icon: '▶️' },
+                    { id: 'render1', label: '4K Living Room', thumb: '/renders/RENDER-1.jpg', icon: '🛋️' },
+                    { id: 'render7', label: 'Luxury Marble Bath', thumb: '/renders/RENDER-7.jpg', icon: '🏛️' },
+                    { id: 'assets', label: '10,000+ 3D Assets', thumb: '/banner-2.jpg', icon: '🪑' },
+                    { id: 'mentors', label: 'Mentors & ISO Cert', thumb: '/renders/mentors.png', icon: '📜' },
+                  ].map((thumb) => (
+                    <button
+                      key={thumb.id}
+                      onClick={() => setSelectedMediaTab(thumb.id as any)}
+                      className={`relative w-20 sm:w-24 aspect-video rounded-xl overflow-hidden border-2 shrink-0 transition-all ${
+                        selectedMediaTab === thumb.id
+                          ? 'border-orange-500 ring-2 ring-orange-400/40 scale-105 shadow-md'
+                          : 'border-slate-200 opacity-70 hover:opacity-100 hover:border-slate-300'
+                      }`}
+                    >
+                      <img src={thumb.thumb} alt={thumb.label} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
+                        <span className="text-xs">{thumb.icon}</span>
+                      </div>
+                      <div className="absolute bottom-0 inset-x-0 bg-black/70 text-white text-[8px] font-bold px-1 py-0.5 truncate text-center">
+                        {thumb.label}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Mini Visual Proof Reel Under Gallery */}
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 text-xs text-slate-700">
+                  <div className="flex items-center gap-2">
+                    <div className="flex -space-x-2 overflow-hidden">
+                      {['/renders/RENDER-1.jpg', '/renders/RENDER-2.jpg', '/renders/RENDER-3.jpg', '/renders/RENDER-4.jpg'].map((img, i) => (
+                        <img key={i} src={img} className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" alt="Student Render" />
+                      ))}
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900 leading-tight">25 Photorealistic Renders Included</p>
+                      <p className="text-[10px] text-slate-500">All created by students with zero prior design background</p>
+                    </div>
+                  </div>
+
+                  <a 
+                    href="#renders-gallery"
+                    className="text-xs font-black text-orange-600 hover:text-orange-700 underline shrink-0"
+                  >
+                    View All 25 →
+                  </a>
+                </div>
+
+              </div>
+
+              {/* ─────────────────────────────────────────────────────────────
+                  RIGHT COLUMN: HIGH-CONVERTING SHOPIFY BUY BOX (5 COLS)
+              ───────────────────────────────────────────────────────────── */}
+              <div className="lg:col-span-5 bg-white rounded-3xl border-2 border-slate-200 shadow-xl p-5 sm:p-7 relative overflow-hidden">
+                
+                {/* Top Subtle Glow */}
+                <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                {/* Vendor / Category */}
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-0.5 rounded-full">
+                    Official Complete Bundle
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-semibold flex items-center gap-1">
+                    <Flame size={12} className="text-red-500" />
+                    High In-Demand
+                  </span>
+                </div>
+
+                {/* Product Title */}
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-display font-black text-slate-900 tracking-tight leading-snug mb-2">
+                  The Complete 12-in-1 Architecture & 3D Interior Render Money-Maker Bundle
+                </h1>
+
+                {/* Pushy Subtitle */}
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium mb-3">
+                  The copy-paste system 52,480+ Indian designers use to <strong className="text-slate-900 font-bold">earn ₹50,000 to ₹1,50,000/month from home</strong> creating 4K renders in under 2 hours — even with <strong className="text-orange-600 font-bold">ZERO prior experience!</strong>
+                </p>
+
+                {/* Star Rating & Social Proof */}
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100 flex-wrap">
+                  <div className="flex text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={15} className="fill-amber-400" />
+                    ))}
+                  </div>
+                  <span className="text-xs font-black text-slate-900">4.9 / 5.0</span>
+                  <span className="text-slate-300">•</span>
+                  <span className="text-xs font-bold text-slate-500 underline decoration-slate-300 cursor-pointer">
+                    1,842 Verified Student Reviews
+                  </span>
+                  <span className="text-slate-300">•</span>
+                  <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-0.5">
+                    <CheckCircle2 size={12} /> 99% Recommended
+                  </span>
+                </div>
+
+                {/* High-Impact Price Anchor */}
+                <div className="bg-slate-50 border border-slate-200/90 rounded-2xl p-4 mb-4">
+                  <div className="flex items-baseline gap-2.5 flex-wrap">
+                    <span className="text-3xl sm:text-4xl font-display font-black text-slate-900">
+                      ₹{finalPrice}
+                    </span>
+                    <span className="text-base text-slate-400 line-through font-bold">
+                      ₹{BUNDLE_ORIGINAL_PRICE.toLocaleString('en-IN')}
+                    </span>
+                    <span className="bg-red-500 text-white font-black text-xs px-2.5 py-0.5 rounded-full shadow-xs animate-pulse">
+                      SAVE 92% (₹{(BUNDLE_ORIGINAL_PRICE - finalPrice).toLocaleString('en-IN')} OFF)
+                    </span>
+                  </div>
+
+                  {appliedCoupon && (
+                    <div className="mt-2 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-2.5 py-1 flex items-center justify-between">
+                      <span>✓ Coupon <strong>{appliedCoupon}</strong> Applied ({discountPercent}% Discount)</span>
+                      <button 
+                        onClick={() => {
+                          setAppliedCoupon(null);
+                          setDiscountPercent(0);
+                        }}
+                        className="text-slate-400 hover:text-slate-600"
+                      >
+                        <X size={13} />
+                      </button>
+                    </div>
+                  )}
+
+                  <p className="text-[11px] text-slate-500 mt-1.5 flex items-center gap-1.5">
+                    <Check size={13} className="text-emerald-600 font-bold" />
+                    <span>One-time investment • Lifetime Google Drive Access • No recurring fees</span>
+                  </p>
+                </div>
+
+                {/* Scarcity Bar & Live Flip Timer */}
+                <div className="space-y-2 mb-4 bg-orange-50/70 border border-orange-200 rounded-2xl p-3.5">
+                  <div className="flex justify-between items-center text-xs font-bold">
+                    <span className="text-red-700 flex items-center gap-1">
+                      <Flame size={14} className="fill-red-600 text-red-600" />
+                      Only 6 Licenses Left at ₹999 for Today's Batch!
+                    </span>
+                    <span className="text-slate-500 font-mono text-[11px]">94% Claimed</span>
+                  </div>
+                  
+                  {/* Progress bar */}
+                  <div className="w-full h-2.5 bg-orange-200 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-red-500 to-orange-500 rounded-full w-[94%]" />
+                  </div>
+
+                  {/* Countdown Timer */}
+                  <div className="flex items-center justify-between pt-2 border-t border-orange-200/60 text-xs">
+                    <span className="text-slate-700 font-medium">Flash Price Expires In:</span>
+                    <div className="flex items-center gap-1 font-mono font-black text-slate-900 bg-white px-2 py-0.5 rounded-lg border border-orange-200 text-xs">
+                      <Clock size={12} className="text-orange-600" />
+                      <span>{formatTime(timeLeft.h)}h</span>:<span>{formatTime(timeLeft.m)}m</span>:<span>{formatTime(timeLeft.s)}s</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Shopify Variant Selector (Card) */}
+                <div className="mb-4">
+                  <label className="block text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-2">
+                    Select Access Package:
+                  </label>
+
+                  <div className="border-2 border-orange-500 bg-orange-50/40 rounded-2xl p-3.5 relative shadow-xs">
+                    <div className="absolute top-0 right-0 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black text-[9px] uppercase px-2.5 py-0.5 rounded-bl-xl tracking-wider">
+                      RECOMMENDED • BEST VALUE
+                    </div>
+                    
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full border-4 border-orange-500 bg-white shrink-0" />
+                        <div>
+                          <h4 className="font-bold text-slate-900 text-xs sm:text-sm">
+                            Complete 12-Course Mega Bundle + 6 VIP Bonuses
+                          </h4>
+                          <span className="text-[11px] text-emerald-700 font-semibold">
+                            Full Lifetime License
+                          </span>
+                        </div>
+                      </div>
+                      <span className="font-display font-black text-slate-900 text-base sm:text-lg">
+                        ₹{finalPrice}
+                      </span>
+                    </div>
+
+                    <ul className="text-[11px] text-slate-600 space-y-1 pl-6">
+                      <li className="flex items-center gap-1.5">
+                        <Check size={12} className="text-emerald-600" /> All 12 Software Courses (AutoCAD, Revit, SketchUp, 3ds Max, V-Ray, D5, AI)
+                      </li>
+                      <li className="flex items-center gap-1.5">
+                        <Check size={12} className="text-emerald-600" /> 10,000+ Ready 3D Models & 5,000+ 4K PBR Textures
+                      </li>
+                      <li className="flex items-center gap-1.5">
+                        <Check size={12} className="text-emerald-600" /> Indian Client Quotation & Contract Scripts + ISO Certificate
+                      </li>
+                      <li className="flex items-center gap-1.5">
+                        <Check size={12} className="text-emerald-600" /> 24/7 Dedicated WhatsApp Support Team
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Coupon Code Pill */}
+                <div className="mb-4 flex items-center justify-between text-xs">
+                  <button
+                    onClick={() => setShowCouponModal(true)}
+                    className="inline-flex items-center gap-1.5 text-orange-600 hover:text-orange-700 font-bold"
+                  >
+                    <Tag size={13} />
+                    <span>Have a VIP Coupon Code? Tap to apply</span>
+                  </button>
+                  <span className="text-[10px] text-slate-400 font-mono">e.g. EARN10 / SPECIAL50</span>
+                </div>
+
+                {/* Primary Action Buttons (Shopify Style) */}
+                <div className="space-y-2.5 mb-5">
+                  {/* Direct Buy Now */}
+                  <button
+                    onClick={openPaymentModal}
+                    className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 text-white font-display font-black text-base sm:text-lg shadow-xl shadow-orange-500/35 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group pulse-glow"
+                  >
+                    <Zap size={20} className="fill-white shrink-0 animate-bounce" />
+                    <span>⚡ GET INSTANT ACCESS NOW — ₹{finalPrice}</span>
+                    <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform shrink-0" />
+                  </button>
+
+                  {/* Add to Cart */}
+                  <button
+                    onClick={() => setShowCartDrawer(true)}
+                    className="w-full py-3 px-6 rounded-2xl bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                  >
+                    <ShoppingBag size={16} />
+                    <span>Add to Cart & View Free Bonuses</span>
+                  </button>
+                </div>
+
+                {/* Shopify Trust Badges */}
+                <div className="pt-3 border-t border-slate-200 space-y-2">
+                  <div className="grid grid-cols-2 gap-2 text-[10px] sm:text-[11px] font-bold text-slate-600">
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
+                      <ShieldCheck size={14} className="text-emerald-600 shrink-0" />
+                      <span>Razorpay Verified UPI / Card</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
+                      <Download size={14} className="text-emerald-600 shrink-0" />
+                      <span>Instant 60s Google Drive Link</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
+                      <Award size={14} className="text-emerald-600 shrink-0" />
+                      <span>Verified Skill Certificate</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-100">
+                      <MessageCircle size={14} className="text-emerald-600 shrink-0" />
+                      <span>24/7 WhatsApp VIP Support</span>
+                    </div>
+                  </div>
+
+                  <p className="text-[10px] text-center text-slate-400">
+                    🔒 256-Bit SSL Encrypted Checkout • Supported: GPay, PhonePe, Paytm, BHIM, Cards & NetBanking
+                  </p>
+                </div>
+
+                {/* ─── SHOPIFY COLLAPSIBLE ACCORDIONS INSIDE BUY BOX ─── */}
+                <div className="mt-5 pt-4 border-t border-slate-200 divide-y divide-slate-200">
+                  
+                  {/* Accordion 1: What's Included */}
+                  <div className="py-2.5">
+                    <button
+                      onClick={() => toggleAccordion('included')}
+                      className="w-full flex items-center justify-between text-left text-xs font-bold text-slate-800"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Layers size={14} className="text-orange-600" />
+                        What's Inside Your Instant Download?
+                      </span>
+                      {accordionOpen.included ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </button>
+                    {accordionOpen.included && (
+                      <div className="mt-2 text-[11px] text-slate-600 space-y-1.5 pl-6 animate-[fadeIn_0.2s_ease]">
+                        <p>• All 12 Full Masterclasses (AutoCAD, Revit, SketchUp, 3ds Max, V-Ray, Lumion, D5, Enscape, AI Midjourney, Stable Diffusion, Unreal 5, Photoshop)</p>
+                        <p>• 10,000+ Ready 3D Models (Kitchens, Sofas, Beds, Mandirs)</p>
+                        <p>• 5,000+ 4K PBR Realistic Textures</p>
+                        <p>• Lifetime Updates + Safe Software Download Guides</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Accordion 2: How You Will Earn */}
+                  <div className="py-2.5">
+                    <button
+                      onClick={() => toggleAccordion('earn')}
+                      className="w-full flex items-center justify-between text-left text-xs font-bold text-slate-800"
+                    >
+                      <span className="flex items-center gap-2">
+                        <DollarSign size={14} className="text-emerald-600" />
+                        How Easily You Will Make ₹50k-₹1.5L/Month?
+                      </span>
+                      {accordionOpen.earn ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </button>
+                    {accordionOpen.earn && (
+                      <div className="mt-2 text-[11px] text-slate-600 space-y-1.5 pl-6 animate-[fadeIn_0.2s_ease]">
+                        <p>• In India, a single 3BHK 3D render walkthrough commands <strong className="text-slate-900">₹25,000 to ₹40,000</strong> from interior firms and builders.</p>
+                        <p>• Using our 10,000+ drag-and-drop assets, you can assemble luxury rooms in 2 hours without starting from zero.</p>
+                        <p>• We include complete Indian quotation scripts and contracts to demand 50% advances with zero client resistance.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Accordion 3: Specs & Hardware */}
+                  <div className="py-2.5">
+                    <button
+                      onClick={() => toggleAccordion('specs')}
+                      className="w-full flex items-center justify-between text-left text-xs font-bold text-slate-800"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Laptop size={14} className="text-blue-600" />
+                        System Requirements & Software Links
+                      </span>
+                      {accordionOpen.specs ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </button>
+                    {accordionOpen.specs && (
+                      <div className="mt-2 text-[11px] text-slate-600 space-y-1.5 pl-6 animate-[fadeIn_0.2s_ease]">
+                        <p>• Runs on ordinary laptops and desktop PCs. We cover both lightweight tools (AutoCAD, SketchUp, Photoshop) and real-time GPU renderers.</p>
+                        <p>• We provide complimentary software installation guides and verified download links so you never have to struggle.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Accordion 4: 7-Day Guarantee */}
+                  <div className="py-2.5">
+                    <button
+                      onClick={() => toggleAccordion('guarantee')}
+                      className="w-full flex items-center justify-between text-left text-xs font-bold text-slate-800"
+                    >
+                      <span className="flex items-center gap-2">
+                        <ShieldCheck size={14} className="text-emerald-600" />
+                        100% Risk-Free 7-Day Money-Back Guarantee
+                      </span>
+                      {accordionOpen.guarantee ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </button>
+                    {accordionOpen.guarantee && (
+                      <div className="mt-2 text-[11px] text-slate-600 space-y-1 pl-6 animate-[fadeIn_0.2s_ease]">
+                        <p>We stand behind our course quality 100%. If you face any technical difficulties accessing course links that our support team cannot resolve within 7 days, you receive a full 100% refund.</p>
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* ═══ 3. THE "EFFORTLESS MONEY" PARADIGM & FREELANCE WEALTH ═══ */}
+        <section className="py-14 md:py-20 bg-gradient-to-b from-white via-amber-50/30 to-white border-b border-slate-200">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-red-100 border border-red-300 text-red-700 rounded-full text-xs font-black uppercase tracking-wider mb-3">
+              <Flame size={13} className="fill-red-600" />
+              THE DIRTY SECRET OF THE 3D INDUSTRY
+            </div>
+
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight leading-tight mb-4">
+              Why Freelance 3D Artists Make More Than Senior Engineers Working 10 Hours a Week
+            </h2>
+
+            <p className="text-sm sm:text-base md:text-lg text-slate-700 leading-relaxed max-w-3xl mx-auto mb-8 font-medium">
+              Here is what offline colleges and institutes will never tell you: <strong className="text-slate-900">Clients don't care how many years you studied or how complicated your software is.</strong> They only care about ONE thing: <span className="text-orange-600 font-black underline decoration-orange-300">Does the 3D render look so real that it sells their flat or villa on the spot?</span>
             </p>
 
-            {/* Video Player Box with Frame */}
-            <div className="w-full max-w-3xl mx-auto mb-6 bg-slate-900 p-2 md:p-3 rounded-2xl md:rounded-3xl shadow-2xl border-2 border-slate-800 relative overflow-hidden">
-              <div className="flex items-center justify-between px-3 py-1.5 text-xs text-slate-400 font-mono border-b border-slate-800 mb-2">
-                <span className="flex items-center gap-1.5 text-emerald-400 font-bold"><span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> PREVIEW</span>
-                <span>30-Day Short Term Course (Self-Paced)</span>
-              </div>
-              <div className="w-full overflow-hidden rounded-xl bg-black" style={{ position: 'relative', paddingTop: '56.25%' }}>
-                <iframe 
-                  src="https://iframe.mediadelivery.net/embed/489113/a214b199-e64a-4eaf-af70-edfbc586e5fd?autoplay=true&loop=true&muted=true&preload=true&responsive=true" 
-                  loading="lazy" 
-                  style={{ border: 0, position: 'absolute', top: 0, height: '100%', width: '100%' }} 
-                  allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" 
-                  allowFullScreen={true} 
-                />
-              </div>
-            </div>
-
-            {/* Motivational Hook */}
-            <div className="max-w-2xl mx-auto mb-8 bg-amber-50 border border-amber-200 rounded-xl p-4 md:p-5 shadow-sm text-center relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-amber-400"></div>
-              <p className="text-sm md:text-base text-slate-800 leading-relaxed font-medium">
-                Clients and firms don't pay big fees for button-clickers. They pay <strong className="text-orange-600 font-black">premium money</strong> when you hand them the <strong className="text-slate-900 font-black">ENTIRE project</strong> — from the 2D layout all the way to a photorealistic 3D render that sells the dream before it's even built.
-              </p>
-              <div className="mt-3 pt-3 border-t border-amber-200/60">
-                <p className="text-base md:text-lg font-black text-emerald-600 flex items-center justify-center gap-1.5">
-                  <CheckCircle2 size={18} className="text-emerald-500" />
-                  Includes Freelance Projects For Every Student!
+            {/* 3 Pillars of Earning Fast */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 text-left mb-10">
+              
+              <div className="bg-white border-2 border-slate-200 hover:border-orange-400 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl font-bold mb-4">
+                  🛋️
+                </div>
+                <h3 className="font-display font-black text-slate-900 text-base md:text-lg mb-2">
+                  1. Zero Modeling From Scratch
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Pros don't waste 8 hours modeling a sofa or modular kitchen. You simply drag our <strong className="text-slate-900 font-bold">10,000+ pre-made Indian 3D assets</strong> directly into your scene. 80% of the project is done in 20 minutes!
                 </p>
               </div>
-            </div>
 
-            {/* Key Value Checklist */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 max-w-3xl mx-auto mb-7 text-left">
-              {[
-                { title: 'All 12 Software Courses', desc: 'AutoCAD, 3ds Max, V-Ray, AI' },
-                { title: '10,000+ 3D Indian Models', desc: 'Kitchens, Beds, Sofas, Mandir' },
-                { title: '100% Pre-Recorded & Self-Paced', desc: 'Watch anytime on Phone & PC' },
-                { title: 'Instant Google Drive Access', desc: 'Lifetime link in 60 seconds' }
-              ].map((item, i) => (
-                <div key={i} className="bg-orange-50/70 border border-orange-200/80 rounded-xl p-2.5 shadow-sm">
-                  <div className="flex items-center gap-1.5 font-bold text-slate-900 text-xs md:text-sm">
-                    <CheckCircle2 size={15} className="text-orange-600 shrink-0" />
-                    <span>{item.title}</span>
-                  </div>
-                  <p className="text-[10px] md:text-[11px] text-slate-500 mt-0.5 pl-5">{item.desc}</p>
+              <div className="bg-white border-2 border-slate-200 hover:border-orange-400 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl font-bold mb-4">
+                  ⚡
                 </div>
-              ))}
-            </div>
-
-            {/* Primary Hero CTA */}
-            <div className="max-w-xl mx-auto mb-8">
-              <CtaWithTimer 
-                timeLeft={timeLeft} 
-                onClick={openPaymentModal} 
-                variant="orange"
-                title="⚡ GET ALL 12 COURSES @ ₹999 ONLY"
-                subtext="Instant Access in 60 Seconds • UPI / GPay / Cards Accepted"
-              />
-            </div>
-
-            {/* Banner Below CTA */}
-            <div className="max-w-3xl mx-auto mb-8 text-left">
-              <div className="overflow-hidden rounded-2xl shadow-lg border border-slate-200">
-                <img
-                  src="/banner-1.jpg"
-                  alt="Learn to Design Home, Offices & Villas"
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* ═══ 2.5. WHAT YOU WILL LEARN & MASTER ═══ */}
-        <section className="py-12 bg-slate-50 border-b border-slate-200">
-          <div className="max-w-5xl mx-auto px-4">
-            <div className="bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-slate-200">
-              
-              {/* Top part: 5-Step Process */}
-              <div className="text-center mb-8">
-                <h2 className="text-xl md:text-3xl font-display font-black text-slate-900 mb-6">
-                  The 5-Step Process You Will Master:
-                </h2>
-                
-                <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 text-xs md:text-sm font-bold text-slate-700">
-                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 1<br/><span className="text-slate-900 text-base md:text-lg">PLAN</span></div>
-                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
-                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 2<br/><span className="text-slate-900 text-base md:text-lg">DESIGN</span></div>
-                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
-                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 3<br/><span className="text-slate-900 text-base md:text-lg">3D MODEL</span></div>
-                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
-                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 4<br/><span className="text-slate-900 text-base md:text-lg">RENDER</span></div>
-                  <ArrowRight className="text-slate-300 hidden md:block shrink-0" />
-                  <div className="bg-orange-50 text-orange-700 px-4 py-2 rounded-xl border border-orange-200 text-center">STEP 5<br/><span className="text-slate-900 text-base md:text-lg">PRESENT</span></div>
-                </div>
-
-                <div className="mt-6 flex flex-wrap justify-center gap-2 text-xs md:text-sm font-bold text-slate-600">
-                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">AutoCAD</span>
-                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">SketchUp Pro</span>
-                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">V-Ray</span>
-                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">D5 Render</span>
-                  <span className="bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">Enscape</span>
-                  <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-lg border border-emerald-200 flex items-center gap-1"><Sparkles size={14}/> AI Speed Tools</span>
-                </div>
-              </div>
-
-              <div className="h-px w-full bg-slate-100 my-8"></div>
-
-              {/* Bottom part: What you will design */}
-              <div>
-                <h3 className="text-lg md:text-2xl font-display font-black text-slate-900 mb-6 text-center">
-                  What You Will Be Able To Design:
+                <h3 className="font-display font-black text-slate-900 text-base md:text-lg mb-2">
+                  2. 1-Click Photorealism Lighting
                 </h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-3">
-                      <Check size={20} className="font-black" strokeWidth={3} />
-                    </div>
-                    <h4 className="font-bold text-slate-900 mb-2">Modern Flats & Apartments</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      1BHK, 2BHK, 3BHK full interior layouts, modular kitchens & false ceilings.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-3">
-                      <Check size={20} className="font-black" strokeWidth={3} />
-                    </div>
-                    <h4 className="font-bold text-slate-900 mb-2">Offices & Commercial</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Corporate workspaces, conference rooms, cafes, showrooms & retail stores.
-                    </p>
-                  </div>
-
-                  <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
-                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-3">
-                      <Check size={20} className="font-black" strokeWidth={3} />
-                    </div>
-                    <h4 className="font-bold text-slate-900 mb-2">Luxury Villas & Exteriors</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Multi-story house elevations, modern exterior facades & realistic night lighting.
-                    </p>
-                  </div>
-                </div>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Forget waiting 4 hours for a grainy V-Ray frame. We teach you modern real-time tools like <strong className="text-slate-900 font-bold">D5 Render, Lumion & Enscape</strong> where you see 4K movie lighting immediately while moving your mouse.
+                </p>
               </div>
-              
+
+              <div className="bg-white border-2 border-slate-200 hover:border-orange-400 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold mb-4">
+                  💰
+                </div>
+                <h3 className="font-display font-black text-slate-900 text-base md:text-lg mb-2">
+                  3. Collect ₹25k - ₹50k Advances
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  When you present clients with a photorealistic 3D walk-in render, their excitement spikes. With our <strong className="text-slate-900 font-bold">Indian Contract & Quotation Templates</strong>, closing 50% upfront token advances is effortless.
+                </p>
+              </div>
+
             </div>
+
+            {/* Income Comparison Banner */}
+            <div className="bg-slate-900 text-white rounded-3xl p-6 md:p-8 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden">
+              <div className="relative z-10">
+                <span className="text-amber-400 text-xs font-black uppercase tracking-wider block mb-1">
+                  THE WEALTH MULTIPLIER
+                </span>
+                <h3 className="text-xl sm:text-2xl font-display font-black text-white mb-3">
+                  1 Project Pays for This Entire Course 25x Over
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto mb-6 leading-relaxed">
+                  While most people spend ₹999 on a weekend movie ticket or food delivery with zero return, this one single investment gives you a lifetime money-making skill you can use whenever you need cash.
+                </p>
+
+                <button
+                  onClick={openPaymentModal}
+                  className="px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-display font-black text-sm sm:text-base shadow-lg hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-2"
+                >
+                  <span>Claim Your ₹999 Pass Before Price Jumps to ₹2,999</span>
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            </div>
+
           </div>
         </section>
 
-        {/* ═══ 3. INTERACTIVE ROI CALCULATOR (PSYCHOLOGY: GREED + LOGIC) ═══ */}
-        <section className="py-12 md:py-16 bg-slate-900 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-orange-500/10 via-transparent to-transparent pointer-events-none" />
-          
-          <div className="max-w-4xl mx-auto px-4 relative z-10">
-            <div className="text-center mb-8">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-black uppercase tracking-wider mb-2 border border-orange-500/30">
-                <DollarSign size={14} /> See Your Earning Potential
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-display font-black text-white">
-                How Much Can You Earn As a 3D Designer in India?
-              </h2>
-              <p className="text-slate-400 text-xs md:text-base mt-2 max-w-xl mx-auto">
-                Select how many 3D room views / house elevation projects you plan to deliver each month:
-              </p>
-            </div>
+        {/* ═══ 4. INTERACTIVE EARNINGS & ROI CALCULATOR ═══ */}
+        <div id="income-calculator">
+          <IncomeCalculator onEnroll={openPaymentModal} />
+        </div>
 
-            {/* Calculator Box */}
-            <div className="bg-slate-800/90 border border-slate-700 rounded-3xl p-6 md:p-8 shadow-2xl max-w-2xl mx-auto">
-              
-              {/* Project buttons */}
-              <div className="grid grid-cols-4 gap-2 mb-6">
-                {[1, 2, 3, 4].map((num) => (
-                  <button
-                    key={num}
-                    onClick={() => setCalculatorProjects(num)}
-                    className={`py-3 rounded-xl font-bold text-xs md:text-sm transition-all ${
-                      calculatorProjects === num 
-                        ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-lg shadow-orange-500/30 scale-105' 
-                        : 'bg-slate-700/60 text-slate-300 hover:bg-slate-700'
-                    }`}
-                  >
-                    {num} {num === 1 ? 'Project' : 'Projects'}/mo
-                  </button>
-                ))}
-              </div>
-
-              {/* Real Earnings math */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-900/80 p-5 rounded-2xl border border-slate-700 mb-6">
-                <div className="text-center sm:text-left border-b sm:border-b-0 sm:border-r border-slate-800 pb-3 sm:pb-0 sm:pr-4">
-                  <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block">Average Market Rate (India)</span>
-                  <span className="text-xl font-bold text-slate-200 mt-1 block">₹25,000 – ₹35,000 / project</span>
-                  <span className="text-[11px] text-emerald-400 mt-1 block">✓ Complete 2D Planning + 3D Interior & Exterior + 4K Walkthroughs</span>
-                </div>
-                <div className="text-center sm:text-right pt-2 sm:pt-0 sm:pl-4">
-                  <span className="text-xs text-orange-400 font-bold uppercase tracking-wider block">Your Monthly Earning</span>
-                  <span className="text-3xl md:text-4xl font-display font-black text-amber-400 mt-1 block">
-                    ₹{(calculatorProjects * 30000).toLocaleString('en-IN')}
-                    <span className="text-xs text-slate-400 font-normal">/month</span>
-                  </span>
-                  <span className="text-[11px] text-slate-400 mt-1 block">ROI on ₹999 Course: <strong className="text-emerald-400">{Math.round(((calculatorProjects * 30000) / 999) * 100).toLocaleString('en-IN')}% in 30 Days</strong></span>
-                </div>
-              </div>
-
-              <button
-                onClick={openPaymentModal}
-                className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-display font-black text-base md:text-lg shadow-lg hover:shadow-orange-500/40 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
-              >
-                <span>Enroll Now & Start Earning (₹999 Only)</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ 4. THE 4 PAIN POINTS (EMPATHY & LOSS AVERSION) ═══ */}
+        {/* ═══ 5. THE 4 PAIN POINTS STOPPING 95% OF DESIGNERS ═══ */}
         <section className="py-14 md:py-20 bg-white border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4">
+            
             <div className="text-center mb-10">
               <span className="text-xs font-black uppercase tracking-widest text-red-600 bg-red-50 border border-red-200 px-3 py-1 rounded-full">
-                ⚠️ ARE YOU STRUGGLING WITH THIS?
+                ⚠️ ARE YOU DEALING WITH THIS FRUSTRATION?
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                4 Critical Problems Stopping 95% of Indian 3D Designers
+                4 Brutal Realities Keeping 95% of Designers Underpaid
               </h2>
               <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                If you relate to even one of these points, this 12-Course Master Bundle was designed specifically for you:
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              {PAIN_TRIGGERS_INDIAN.map((item, idx) => (
-                <div key={idx} className="bg-red-50/40 border border-red-100 hover:border-red-300 rounded-2xl p-5 md:p-6 transition-all shadow-sm flex items-start gap-4">
-                  <span className="text-3xl shrink-0 p-2 bg-white rounded-xl shadow-sm border border-red-100">{item.emoji}</span>
-                  <div>
-                    <h3 className="font-bold text-slate-900 text-base md:text-lg mb-1.5 leading-snug">{item.title}</h3>
-                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ═══ 5. THE 4-STAGE SOLUTION PILLARS ═══ */}
-        <section className="py-14 md:py-20 bg-slate-50 border-b border-slate-200 grid-bg">
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <span className="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full">
-                ⭐ THE AVADA PRO 3D FORMULA
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                How to Become an Irreplaceable Top 1% Designer in 30 Days
-              </h2>
-              <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                No more confusing theory. Follow this 4-step execution pipeline from initial floor plan to final client cheque:
+                If you relate to even one of these situations, you are leaving lakhs of rupees on the table every month:
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {SOLUTION_PILLARS.map((col, idx) => (
-                <div key={idx} className="bg-white border-2 border-slate-200/80 hover:border-orange-400 rounded-3xl p-6 md:p-7 shadow-sm hover:shadow-xl transition-all relative overflow-hidden group">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-mono font-black text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-lg">
-                      {col.badge}
-                    </span>
-                    <span className="text-3xl group-hover:scale-125 transition-transform">{col.icon}</span>
-                  </div>
-                  <h3 className="font-display font-black text-slate-900 text-lg md:text-xl mb-2">{col.title}</h3>
-                  <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-4">{col.desc}</p>
-                  
-                  <div className="pt-3 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50/60 p-2.5 rounded-xl">
-                    <CheckCircle2 size={15} className="shrink-0 text-emerald-600" />
-                    <span>Result: {col.result}</span>
+              {PAIN_TRIGGERS_INDIAN.map((item, idx) => (
+                <div key={idx} className="bg-red-50/50 border border-red-200/80 hover:border-red-400 rounded-3xl p-5 sm:p-6 transition-all shadow-xs flex items-start gap-4">
+                  <span className="text-3xl shrink-0 p-2.5 bg-white rounded-2xl shadow-sm border border-red-100">{item.emoji}</span>
+                  <div>
+                    <h3 className="font-bold text-slate-900 text-base md:text-lg mb-1.5 leading-snug">{item.title}</h3>
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Quick CTA */}
-            <div className="text-center mt-10">
-              <button
-                onClick={openPaymentModal}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 hover:bg-black text-white font-bold text-sm md:text-base rounded-full shadow-lg hover:scale-105 transition-all"
-              >
-                <span>Master All 4 Stages for ₹999</span>
-                <ArrowRight size={16} />
-              </button>
-            </div>
           </div>
         </section>
 
-        {/* ═══ 5.5. WHO IS THIS 12-COURSE BUNDLE FOR? (SELF-IDENTIFICATION) ═══ */}
-        <section className="py-14 md:py-20 bg-white border-b border-slate-200">
+        {/* ═══ 6. THE 5-STEP TURNKEY STUDIO PIPELINE ═══ */}
+        <section className="py-14 md:py-20 bg-slate-50 border-b border-slate-200">
           <div className="max-w-5xl mx-auto px-4">
-            <div className="text-center mb-12">
-              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
-                🎯 WHO IS THIS BUNDLE FOR?
+            
+            <div className="text-center mb-10">
+              <span className="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full">
+                📐 THE AVADA 5-STEP PIPELINE
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                Designed for Anyone Who Wants to Design Spaces & Take Complete Projects
+                The 5-Step Process You Will Master in 30 Days
               </h2>
               <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                Whether you're starting from scratch or already working on client sites, this bundle gives you an unfair advantage:
+                From initial 2D sketch to collecting the final client cheque with 100% confidence:
               </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 mb-10">
+              {[
+                { step: '01', title: 'PLAN', tool: 'AutoCAD & Revit', desc: 'Draft sanction floor plans & electrical layouts with pro shortcut keys.' },
+                { step: '02', title: 'DESIGN', tool: 'SketchUp Pro', desc: 'Pull walls, false ceilings & modular kitchens in minutes with pre-made models.' },
+                { step: '03', title: '3D MODEL', tool: '3ds Max', desc: 'Custom luxury furniture, detailed fabrics, and complex parametric elevations.' },
+                { step: '04', title: 'RENDER', tool: 'D5, V-Ray, Lumion', desc: 'Master realistic sun lighting, 4K marble textures & 60fps walkthroughs.' },
+                { step: '05', title: 'AI & PRESENT', tool: 'Midjourney & SD', desc: 'Generate 50 instant concepts on spot and close advance tokens effortlessly.' },
+              ].map((s, i) => (
+                <div key={i} className="bg-white border-2 border-slate-200 hover:border-orange-400 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between">
+                  <div>
+                    <span className="text-xs font-mono font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md inline-block mb-2">
+                      STEP {s.step}
+                    </span>
+                    <h3 className="font-display font-black text-slate-900 text-lg mb-1">{s.title}</h3>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">{s.tool}</span>
+                    <p className="text-xs text-slate-600 leading-relaxed">{s.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* ═══ 7. WHO IS THIS 12-COURSE BUNDLE FOR? ═══ */}
+        <section className="py-14 md:py-20 bg-white border-b border-slate-200">
+          <div className="max-w-5xl mx-auto px-4">
+            
+            <div className="text-center mb-10">
+              <span className="text-xs font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+                🎯 WHO SHOULD ENROLL TODAY?
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
+                Tailored for Anyone Who Wants to Design Spaces & Make Serious Income
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {WHO_IS_THIS_FOR.map((item, idx) => (
-                <div key={idx} className="bg-slate-50/80 hover:bg-white border-2 border-slate-200/80 hover:border-orange-400 rounded-3xl p-6 transition-all shadow-sm hover:shadow-xl flex flex-col justify-between group">
+                <div key={idx} className="bg-slate-50 border-2 border-slate-200 hover:border-orange-400 rounded-3xl p-6 transition-all shadow-xs hover:shadow-xl flex flex-col justify-between group">
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-3xl p-2 bg-white rounded-2xl shadow-xs border border-slate-100 group-hover:scale-110 transition-transform">{item.icon}</span>
+                      <span className="text-3xl p-2 bg-white rounded-2xl shadow-xs border border-slate-200">{item.icon}</span>
                       <span className="text-[10px] font-black uppercase tracking-wider bg-orange-100 text-orange-800 px-2.5 py-1 rounded-full border border-orange-200">
                         {item.badge}
                       </span>
                     </div>
                     <h3 className="font-display font-black text-slate-900 text-base md:text-lg mb-2">{item.role}</h3>
-                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-4">{item.desc}</p>
+                    <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">{item.desc}</p>
                   </div>
-                  <div className="pt-3 border-t border-slate-200/60 flex items-center gap-1.5 text-xs font-bold text-emerald-700">
+                  <div className="pt-3 border-t border-slate-200 flex items-center gap-1.5 text-xs font-bold text-emerald-700">
                     <CheckCircle2 size={14} className="text-emerald-600 shrink-0" />
                     <span>✓ 100% Ideal For You</span>
                   </div>
                 </div>
               ))}
             </div>
+
           </div>
         </section>
 
-        {/* ═══ 6. ALL 12 MASTERCLASSES SHOWCASE (CATEGORY TABS + MARQUEE) ═══ */}
-        <section className="py-14 md:py-20 bg-white border-b border-slate-200">
+        {/* ═══ 8. PROOF OF WORK: ALL 25 STUDENT RENDERS GALLERY ═══ */}
+        <RenderProofWall onEnroll={openPaymentModal} />
+
+        {/* ═══ 9. ALL 12 MASTERCLASSES DETAILED BREAKDOWN ═══ */}
+        <section className="py-14 md:py-20 bg-white border-b border-slate-200" id="whats-included">
           <div className="max-w-5xl mx-auto px-4">
+            
             <div className="text-center mb-10">
               <span className="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full">
-                📚 ALL-IN-ONE BUNDLE
+                📚 12 FULL MASTERCLASSES
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                All 12 Industry Masterclasses Included in One Single Access Pass
+                Everything Included in Your Single ₹999 Access Pass
               </h2>
               <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                You don't need to buy individual ₹4,999 courses or pay lakhs to coaching institutes. You get everything:
+                No need to spend ₹4,999 on each software separately. You get full lifetime access to all 12:
               </p>
 
               {/* Category Filter Tabs */}
@@ -711,7 +973,7 @@ const LandingPage: React.FC = () => {
                     }}
                     className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                       activeCategoryTab === tab
-                        ? 'bg-orange-500 text-white shadow-md'
+                        ? 'bg-orange-500 text-white shadow-md scale-105'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
@@ -724,7 +986,7 @@ const LandingPage: React.FC = () => {
             {/* Courses Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
               {filteredCourses.map((c) => (
-                <div key={c.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col justify-between">
+                <div key={c.id} className="bg-white border-2 border-slate-200/90 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:border-orange-400 transition-all flex flex-col justify-between group">
                   <div>
                     {/* Course Thumbnail */}
                     <div className="relative aspect-video overflow-hidden bg-slate-100">
@@ -738,7 +1000,7 @@ const LandingPage: React.FC = () => {
                     </div>
 
                     {/* Course Content */}
-                    <div className="p-4 md:p-5">
+                    <div className="p-4 sm:p-5">
                       <div className="flex items-center justify-between mb-1">
                         <h3 className="font-display font-black text-slate-900 text-base md:text-lg">{c.title}</h3>
                         <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded">₹{c.price} Val</span>
@@ -757,7 +1019,7 @@ const LandingPage: React.FC = () => {
                   </div>
 
                   <div className="p-4 pt-0">
-                    <div className="bg-orange-50/80 border border-orange-200/80 rounded-xl p-2 text-center text-[11px] font-bold text-orange-800 flex items-center justify-center gap-1.5">
+                    <div className="bg-orange-50 border border-orange-200 rounded-xl p-2 text-center text-[11px] font-bold text-orange-800 flex items-center justify-center gap-1.5">
                       <CheckCircle2 size={13} className="text-orange-600" />
                       <span>Full Lifetime Access Included in ₹999</span>
                     </div>
@@ -766,91 +1028,28 @@ const LandingPage: React.FC = () => {
               ))}
             </div>
 
-            {/* Marquee Ticker of Courses */}
-            <div className="flex flex-col gap-3 relative w-full overflow-hidden py-4 border-t border-slate-100">
-              <div className="flex gap-3 animate-scroll-right hover:pause w-max">
-                {[...COURSES, ...COURSES].map((course, i) => (
-                  <div key={i} className="w-[130px] md:w-[150px] shrink-0 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden shadow-sm p-2 text-center">
-                    <img src={course.imageUrl} alt={course.title} className="w-full aspect-video object-cover rounded-lg mb-1.5" />
-                    <span className="text-[11px] font-bold text-slate-800 block truncate">{course.title}</span>
-                    <span className="text-[9px] text-orange-600 font-bold block">{course.software}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
         </section>
 
-        {/* ═══ 7. STUDENT WORK & RENDERS (PROOF THAT IT WORKS) ═══ */}
-        <section className="py-14 md:py-20 bg-slate-900 text-white overflow-hidden border-b border-slate-800">
-          <div className="max-w-5xl mx-auto px-4 mb-10 text-center">
-            <span className="text-xs font-black uppercase tracking-widest text-orange-400 bg-orange-500/20 border border-orange-500/30 px-3 py-1 rounded-full">
-              📸 100% REAL STUDENT RESULTS
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-display font-black text-white mt-3">
-              See What Students Created in Just 30 Days
-            </h2>
-            <p className="text-slate-400 text-xs md:text-base mt-2 max-w-xl mx-auto">
-              From zero 3D experience to creating magazine-grade 4K architectural & interior renders. Hover to pause:
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-4 md:gap-6">
-            {/* ROW 1 */}
-            <div className="flex gap-3 md:gap-6 animate-scroll-left hover:pause">
-              {[...PAGE_PREVIEWS_ROW1, ...PAGE_PREVIEWS_ROW1].map((img, i) => (
-                <div key={i} className="w-[220px] md:w-[380px] shrink-0 aspect-video rounded-2xl overflow-hidden border border-slate-700 shadow-2xl relative group bg-slate-800">
-                  <img src={img} alt="Student 3D Render" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute bottom-2 left-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-white">
-                    Avada Student Project
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* ROW 2 */}
-            <div className="flex gap-3 md:gap-6 animate-scroll-right hover:pause">
-              {[...PAGE_PREVIEWS_ROW2, ...PAGE_PREVIEWS_ROW2].map((img, i) => (
-                <div key={i} className="w-[220px] md:w-[380px] shrink-0 aspect-video rounded-2xl overflow-hidden border border-slate-700 shadow-2xl relative group bg-slate-800">
-                  <img src={img} alt="Student 3D Render" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                  <div className="absolute bottom-2 left-2 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[10px] font-mono text-white">
-                    Avada Student Project
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="text-center mt-10">
-            <p className="text-xs text-slate-400 mb-3">Want your portfolio to look like this in the next 30 days?</p>
-            <button
-              onClick={openPaymentModal}
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold text-sm shadow-lg hover:scale-105 transition-all"
-            >
-              Claim Full Course Access @ ₹999
-            </button>
-          </div>
-        </section>
-
-        {/* ═══ 8. 6 MASSIVE FREE BONUSES (WORTH ₹38,000 INCLUDED FREE) ═══ */}
-        <section className="py-14 md:py-20 bg-amber-50/50 border-b border-orange-200/80 relative overflow-hidden">
+        {/* ═══ 10. 6 MASSIVE FREE BONUSES (WORTH ₹38,000 INCLUDED FREE) ═══ */}
+        <section className="py-14 md:py-20 bg-amber-50/50 border-b border-orange-200/80">
           <div className="max-w-5xl mx-auto px-4">
-            <div className="text-center mb-12">
+            
+            <div className="text-center mb-10">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-orange-600 text-white rounded-full text-xs font-black uppercase tracking-wider mb-2 shadow-sm">
-                <Gift size={14} /> ₹38,000 WORTH BONUSES FREE TODAY
+                <Gift size={14} /> FREE GIFTS WITH TODAY'S BATCH
               </div>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-2">
-                Unlock 6 Exclusive Super-Bonuses with Your ₹999 Pass
+                Unlock 6 Exclusive Super-Bonuses (Worth ₹38,000) for ₹0
               </h2>
               <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                Everything you need to set up your freelance business and start taking Indian and NRI client projects immediately:
+                Everything you need to drag-and-drop your way to fast freelance earnings:
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
               {FREE_BONUSES.map((b) => (
-                <div key={b.id} className="bg-white border-2 border-orange-200/80 rounded-3xl p-5 md:p-6 shadow-sm hover:shadow-xl hover:border-orange-400 transition-all flex flex-col justify-between relative group">
+                <div key={b.id} className="bg-white border-2 border-orange-200/80 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl hover:border-orange-400 transition-all flex flex-col justify-between group">
                   <div>
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-3xl">{b.icon}</span>
@@ -873,72 +1072,67 @@ const LandingPage: React.FC = () => {
               ))}
             </div>
 
-            {/* Mid Page CTA Box */}
-            <div className="max-w-xl mx-auto">
-              <CtaWithTimer 
-                timeLeft={timeLeft} 
-                onClick={openPaymentModal} 
-                variant="white"
-                title="CLAIM 12 COURSES + ALL 6 BONUSES @ ₹999"
-              />
+            {/* Banner with 10k assets preview */}
+            <div className="max-w-3xl mx-auto mb-8 rounded-2xl overflow-hidden shadow-lg border border-slate-200">
+              <img src="/banner-2.jpg" alt="10k 3D Assets Pack" className="w-full h-auto object-cover" />
             </div>
+
           </div>
         </section>
 
-        {/* ═══ 9. OLD WAY vs AVADA PRO 3D WAY (CONTRAST TABLE) ═══ */}
-        <section className="py-14 md:py-20 bg-white border-b border-slate-200 grid-bg">
+        {/* ═══ 11. OLD WAY vs AVADA PRO 3D WAY (CONTRAST TABLE) ═══ */}
+        <section className="py-14 md:py-20 bg-white border-b border-slate-200">
           <div className="max-w-4xl mx-auto px-4">
+            
             <div className="text-center mb-10">
               <span className="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full">
                 ⚡ VALUE COMPARISON
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                ₹999 vs ₹1,50,000 Institute — Same Skills, 150x Less Cost
+                ₹999 vs ₹1,50,000 Coaching Institute — Which Makes More Sense?
               </h2>
-              <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                See the clear difference between overpriced offline institutes / scattered YouTube videos and following the Avada PRO 3D studio blueprint:
-              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* The Old Struggle */}
-              <div className="bg-red-50/50 border-2 border-red-200 rounded-3xl p-6 md:p-8 shadow-sm">
+              
+              {/* Old Way */}
+              <div className="bg-red-50/50 border-2 border-red-200 rounded-3xl p-6 sm:p-8 shadow-sm">
                 <div className="flex items-center gap-2.5 mb-6 text-red-600 font-display font-black text-lg md:text-xl border-b border-red-200 pb-3">
                   <X size={24} className="p-1 bg-red-100 rounded-full text-red-600" />
-                  <span>The Lonely Struggle (Old Way)</span>
+                  <span>Overpriced Institutes & Random YouTube</span>
                 </div>
                 <ul className="space-y-4 text-xs md:text-sm text-slate-700">
                   <li className="flex items-start gap-2.5">
                     <X size={16} className="text-red-500 shrink-0 mt-0.5" />
-                    <span>Scattered 10-part YouTube videos with no support when V-Ray crashes</span>
+                    <span>Institutes charging ₹50,000 - ₹1,50,000 for outdated 2014 theory</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <X size={16} className="text-red-500 shrink-0 mt-0.5" />
-                    <span>Institutes charging ₹35,000 - ₹1,50,000 for outdated 2015 syllabus</span>
+                    <span>Scattered YouTube videos with no support when V-Ray crashes at 95%</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <X size={16} className="text-red-500 shrink-0 mt-0.5" />
-                    <span>No 3D furniture models; spending 5 hours modeling single sofa</span>
+                    <span>No 3D furniture models; spending 6 hours modeling a single bed</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <X size={16} className="text-red-500 shrink-0 mt-0.5" />
-                    <span>No client contract formats, ending up underpaid at ₹1,000 per room</span>
+                    <span>No client contract templates; getting underpaid or ghosted by clients</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <X size={16} className="text-red-500 shrink-0 mt-0.5" />
-                    <span>Ignoring AI and slowly losing freelance projects to faster artists</span>
+                    <span>Ignoring AI and slowly losing freelance gigs to faster 3D artists</span>
                   </li>
                 </ul>
               </div>
 
-              {/* The Avada Way */}
-              <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-3xl p-6 md:p-8 shadow-md relative overflow-hidden">
+              {/* Avada Way */}
+              <div className="bg-emerald-50/50 border-2 border-emerald-300 rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden">
                 <div className="absolute top-0 right-0 bg-emerald-600 text-white text-[10px] font-black px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-                  PRO METHOD
+                  HIGH-EARNING PRO METHOD
                 </div>
                 <div className="flex items-center gap-2.5 mb-6 text-emerald-800 font-display font-black text-lg md:text-xl border-b border-emerald-200 pb-3">
                   <CheckCircle2 size={24} className="p-1 bg-emerald-200 rounded-full text-emerald-800" />
-                  <span>The Avada PRO 3D Blueprint</span>
+                  <span>The Avada PRO 3D Turnkey System</span>
                 </div>
                 <ul className="space-y-4 text-xs md:text-sm text-slate-800 font-medium">
                   <li className="flex items-start gap-2.5">
@@ -947,49 +1141,49 @@ const LandingPage: React.FC = () => {
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
-                    <span><strong>24/7 WhatsApp Team Help:</strong> Never get stuck on software or lighting bugs</span>
+                    <span><strong>24/7 WhatsApp Team Help:</strong> Never get stuck on bugs or glitches</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
-                    <span><strong>10,000+ 3D Assets:</strong> Drag and drop modular kitchens and luxury decor</span>
+                    <span><strong>10,000+ Ready Assets:</strong> Drag and drop modular kitchens and decor</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
-                    <span><strong>Indian Client Proposal Templates:</strong> Lock 50% advance token payments</span>
+                    <span><strong>Indian Client Proposal Templates:</strong> Demand 50% advance tokens</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
-                    <span><strong>Full Lifetime Access for ₹999:</strong> Less than the cost of one dinner!</span>
+                    <span><strong>Full Lifetime Access for ₹999:</strong> Pays back on your first render!</span>
                   </li>
                 </ul>
               </div>
+
             </div>
+
           </div>
         </section>
 
-        {/* ═══ 10. REAL INDIAN STUDENT TESTIMONIALS (SOCIAL PROOF) ═══ */}
-        <section className="py-14 md:py-20 bg-slate-50 border-b border-slate-200">
+        {/* ═══ 12. VERIFIED CUSTOMER REVIEWS (SHOPIFY UGC FORMAT) ═══ */}
+        <section className="py-14 md:py-20 bg-slate-50 border-b border-slate-200" id="reviews">
           <div className="max-w-5xl mx-auto px-4">
-            <div className="text-center mb-12">
+            
+            <div className="text-center mb-10">
               <span className="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full">
-                💬 VERIFIED INDIAN REVIEWS
+                💬 1,842 VERIFIED INDIAN BUYER REVIEWS
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                What Indian Architects, Visualizers & Students Say
+                Real Students Making Real Money in Mumbai, Delhi, Bengaluru & More
               </h2>
-              <p className="text-slate-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                Real stories from professionals across Mumbai, Delhi, Bengaluru, Pune, Ahmedabad & Jaipur:
-              </p>
             </div>
 
-            {/* Featured Transformation Cards */}
+            {/* Featured Transformation Stories */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
               {TRANSFORMATION_STORIES.map((s, idx) => (
-                <div key={idx} className="bg-white border-2 border-slate-200/80 rounded-3xl p-6 md:p-7 shadow-sm hover:border-orange-300 transition-all flex flex-col justify-between">
+                <div key={idx} className="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-7 shadow-sm hover:border-orange-300 transition-all flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-orange-500 to-amber-400 text-white font-bold flex items-center justify-center text-base">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-orange-500 to-amber-400 text-white font-bold flex items-center justify-center text-base shadow-sm">
                           {s.name.charAt(0)}
                         </div>
                         <div>
@@ -997,32 +1191,36 @@ const LandingPage: React.FC = () => {
                           <span className="text-[11px] text-slate-500 font-medium">{s.role} • {s.city}</span>
                         </div>
                       </div>
-                      <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full">{s.incomeIncrease}</span>
+                      <span className="bg-emerald-100 text-emerald-800 text-[10px] font-black px-2.5 py-1 rounded-full border border-emerald-200">
+                        {s.incomeIncrease}
+                      </span>
                     </div>
 
                     <div className="space-y-2 text-xs md:text-sm my-3">
                       <p className="text-slate-500 bg-slate-50 p-2.5 rounded-xl"><strong className="text-slate-700">Before:</strong> {s.before}</p>
-                      <p className="text-slate-800 bg-orange-50/60 p-2.5 rounded-xl border border-orange-100"><strong className="text-orange-700">After:</strong> {s.after}</p>
+                      <p className="text-slate-800 bg-orange-50/70 p-2.5 rounded-xl border border-orange-100"><strong className="text-orange-700">After:</strong> {s.after}</p>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px] text-slate-400 font-medium">
                     <div className="flex text-amber-400">
-                      {[...Array(5)].map((_, i) => <Star key={i} size={12} className="fill-amber-400" />)}
+                      {[...Array(5)].map((_, i) => <Star key={i} size={13} className="fill-amber-400" />)}
                     </div>
-                    <span className="text-emerald-600 font-bold flex items-center gap-1"><CheckCircle size={12} /> Verified Learner</span>
+                    <span className="text-emerald-600 font-bold flex items-center gap-1">
+                      <CheckCircle size={13} /> Verified Buyer
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Testimonials List */}
+            {/* Quick reviews grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {TESTIMONIALS_LANDING.map((t, idx) => (
-                <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col justify-between text-xs">
+              {TESTIMONIALS_LANDING.slice(0, 4).map((t, idx) => (
+                <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs flex flex-col justify-between text-xs">
                   <div>
                     <div className="flex text-amber-400 mb-2">
-                      {[...Array(5)].map((_, i) => <Star key={i} size={12} className="fill-amber-400" />)}
+                      {[...Array(5)].map((_, i) => <Star key={i} size={11} className="fill-amber-400" />)}
                     </div>
                     <p className="text-slate-700 italic leading-relaxed mb-3">"{t.content}"</p>
                   </div>
@@ -1034,36 +1232,38 @@ const LandingPage: React.FC = () => {
               ))}
             </div>
 
-            {/* Mentors Image */}
-            <div className="max-w-3xl mx-auto mt-12 text-center">
-              <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-xl bg-white p-2 md:p-4">
-                <img src="/renders/mentors.png" alt="Industry Mentors" className="w-full h-auto object-contain" />
+            {/* Mentors Preview */}
+            <div className="max-w-2xl mx-auto mt-10 text-center">
+              <div className="rounded-2xl border border-slate-200 shadow-lg bg-white p-3">
+                <img src="/renders/mentors.png" alt="Mentors and Certifications" className="w-full h-auto object-contain" />
               </div>
             </div>
+
           </div>
         </section>
 
-        {/* ═══ 11. GRAND SLAM VALUE STACK (PRICE ANCHORING) ═══ */}
+        {/* ═══ 13. GRAND SLAM VALUE STACK (SHOPIFY ORDER BREAKDOWN) ═══ */}
         <section className="py-14 md:py-20 bg-white border-b border-slate-200">
           <div className="max-w-3xl mx-auto px-4">
-            <div className="text-center mb-10">
+            
+            <div className="text-center mb-8">
               <span className="text-xs font-black uppercase tracking-widest text-orange-600 bg-orange-100 border border-orange-200 px-3 py-1 rounded-full">
-                🎁 EVERYTHING INCLUDED
+                🎁 COMPLETE VALUE BREAKDOWN
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                Here's Everything You Get Inside the ₹999 Bundle
+                Everything Included In Your Instant Download
               </h2>
-              <p className="text-slate-600 text-sm md:text-base mt-2">
-                Normal value if purchased separately: <strong>₹54,000+</strong>
+              <p className="text-slate-600 text-xs sm:text-sm mt-1">
+                Total combined catalog value: <strong>₹54,988</strong>
               </p>
             </div>
 
-            <div className="bg-slate-50 border-2 border-slate-300 rounded-3xl overflow-hidden shadow-xl">
-              <div className="divide-y divide-slate-200 text-xs md:text-sm font-medium">
+            <div className="bg-slate-50 border-2 border-slate-300 rounded-3xl overflow-hidden shadow-2xl">
+              <div className="divide-y divide-slate-200 text-xs sm:text-sm font-medium">
                 {VALUE_STACK_ITEMS.map((item, i) => (
                   <div key={i} className="flex items-center justify-between px-5 py-3 bg-white hover:bg-orange-50/40 transition-colors">
                     <div className="flex items-center gap-2.5 text-slate-800 pr-2">
-                      <CheckCircle2 size={16} className="text-orange-500 shrink-0" />
+                      <CheckCircle2 size={15} className="text-orange-500 shrink-0" />
                       <span>{item.name}</span>
                     </div>
                     <span className="font-bold text-slate-500 font-mono shrink-0">{item.value}</span>
@@ -1071,87 +1271,91 @@ const LandingPage: React.FC = () => {
                 ))}
               </div>
 
-              {/* Total Value Summary Box */}
-              <div className="bg-slate-900 text-white p-6 text-center">
-                <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Total Real Market Value</p>
+              {/* Total Order Summary */}
+              <div className="bg-slate-900 text-white p-6 sm:p-8 text-center">
+                <p className="text-slate-400 text-xs uppercase tracking-widest mb-1">Catalog Value If Purchased Separately</p>
                 <p className="text-2xl font-bold text-slate-400 line-through mb-2">₹54,988</p>
+                
                 <div className="flex items-baseline justify-center gap-2 mb-4">
-                  <span className="text-slate-400 text-sm font-bold">Today's Batch Price:</span>
-                  <span className="text-4xl md:text-5xl font-display font-black text-amber-400">₹{BUNDLE_PRICE}</span>
-                  <span className="text-emerald-400 text-xs font-bold uppercase">(Save ₹53,989)</span>
+                  <span className="text-slate-400 text-sm font-bold">Today's Special Rate:</span>
+                  <span className="text-4xl sm:text-5xl font-display font-black text-amber-400">₹{finalPrice}</span>
+                  <span className="text-emerald-400 text-xs font-bold uppercase">(Save ₹{(54988 - finalPrice).toLocaleString('en-IN')})</span>
                 </div>
 
                 <button
                   onClick={openPaymentModal}
-                  className="w-full max-w-md mx-auto py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-display font-black text-base md:text-lg shadow-xl shadow-orange-500/30 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+                  className="w-full max-w-md mx-auto py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-display font-black text-base sm:text-lg shadow-xl shadow-orange-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
                   <Download size={18} />
-                  <span>Get Instant Access to Everything (@ ₹999)</span>
+                  <span>Get Instant Access to Everything (@ ₹{finalPrice})</span>
                 </button>
-                <p className="text-[10px] text-slate-400 mt-2">⚡ Immediate Google Drive Access Delivered on Email & WhatsApp</p>
+                <p className="text-[10px] text-slate-400 mt-2.5">⚡ Instant Google Drive Link Delivered to Your Email & WhatsApp</p>
               </div>
             </div>
+
           </div>
         </section>
 
-        {/* ═══ 12. FAQ SECTION ═══ */}
-        <section className="py-14 md:py-20 bg-slate-50 border-b border-slate-200">
+        {/* ═══ 14. FREQUENTLY ASKED QUESTIONS ═══ */}
+        <section className="py-14 md:py-20 bg-slate-50 border-b border-slate-200" id="faq">
           <div className="max-w-3xl mx-auto px-4">
+            
             <div className="text-center mb-10">
               <span className="text-xs font-black uppercase tracking-widest text-slate-600 bg-slate-200 px-3 py-1 rounded-full">
-                ❓ GOT QUESTIONS?
+                ❓ FREQUENTLY ASKED QUESTIONS
               </span>
               <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 mt-3">
-                Frequently Asked Questions
+                Everything You Need to Know
               </h2>
-              <p className="text-slate-600 text-xs md:text-sm mt-1">
-                Everything you need to know before joining 52,000+ learners:
-              </p>
             </div>
 
             <div className="space-y-3">
               {FAQ_ITEMS_LANDING.map((faq, i) => (
                 <div 
                   key={i} 
-                  className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm transition-all"
+                  className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-xs transition-all"
                 >
                   <button
                     onClick={() => setOpenFaqIndex(openFaqIndex === i ? null : i)}
-                    className="w-full flex items-center justify-between p-4 md:p-5 text-left font-bold text-slate-900 text-xs md:text-base gap-3"
+                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-bold text-slate-900 text-xs sm:text-base gap-3"
                   >
                     <span>{faq.question}</span>
                     <ChevronDown size={18} className={`text-slate-400 shrink-0 transition-transform duration-300 ${openFaqIndex === i ? 'rotate-180 text-orange-500' : ''}`} />
                   </button>
                   {openFaqIndex === i && (
-                    <div className="px-4 md:px-5 pb-5 pt-0 text-slate-600 text-xs md:text-sm leading-relaxed border-t border-slate-100 pt-3">
+                    <div className="px-4 sm:px-5 pb-5 pt-0 text-slate-600 text-xs sm:text-sm leading-relaxed border-t border-slate-100 pt-3">
                       {faq.answer}
                     </div>
                   )}
                 </div>
               ))}
             </div>
+
           </div>
         </section>
 
-        {/* ═══ 13. FINAL CLOSING CTA SECTION ═══ */}
+        {/* ═══ 15. FINAL CLOSING URGENCY CTA ═══ */}
         <section className="py-16 md:py-24 bg-slate-900 text-white relative overflow-hidden text-center">
           <div className="max-w-3xl mx-auto px-4 relative z-10">
             <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-600 text-white rounded-full text-xs font-black uppercase tracking-wider mb-3 animate-pulse">
-              ⏰ FINAL CHANCE FOR TODAY'S ₹999 BATCH
+              ⏰ BATCH CLOSING SOON
             </span>
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black text-white leading-tight mb-4">
-              Don't Let Another Year Pass Wishing You Had Mastered 3D & AI
+              Don't Spend Another Year Wishing You Had Learned 3D & AI Renders
             </h2>
             <p className="text-slate-300 text-xs sm:text-base max-w-xl mx-auto mb-8">
-              For less than the price of a single movie outing, you get all 12 courses, 10,000+ 3D models, lifetime updates, and our 24/7 support team.
+              For less than the price of a single restaurant dinner, you get all 12 courses, 10,000+ 3D assets, Indian quotation kits, and 24/7 dedicated WhatsApp support.
             </p>
 
-            <CtaWithTimer 
-              timeLeft={timeLeft} 
-              onClick={openPaymentModal} 
-              variant="dark"
-              title="CLAIM YOUR ₹999 ACCESS PASS NOW"
-            />
+            <button
+              onClick={openPaymentModal}
+              className="px-10 py-5 rounded-2xl bg-gradient-to-r from-orange-500 via-orange-600 to-amber-500 text-white font-display font-black text-lg sm:text-xl shadow-2xl shadow-orange-500/40 hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-3"
+            >
+              <Zap size={22} className="fill-white" />
+              <span>CLAIM YOUR ALL-ACCESS PASS NOW (₹{finalPrice})</span>
+              <ArrowRight size={22} />
+            </button>
+            <p className="text-[11px] text-slate-400 mt-3">⚡ Immediate Google Drive Access • 7-Day Money-Back Guarantee</p>
           </div>
         </section>
       </main>
@@ -1161,7 +1365,7 @@ const LandingPage: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           <Logo />
           <p className="text-slate-500 text-[11px] mt-4 mb-4">
-            © 2026 Avada Design & Architecture. All rights reserved. Helping 52,000+ Indian designers succeed.
+            © 2026 Avada 3D Architecture Store. All rights reserved. Helping 52,000+ Indian designers succeed.
           </p>
           <div className="flex justify-center gap-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             <a href="/refund-policy" className="hover:text-white transition-colors">Refund Policy</a>
@@ -1189,39 +1393,75 @@ const LandingPage: React.FC = () => {
         style={{ boxShadow: '0 8px 24px rgba(37,211,102,0.45)' }}
       >
         <MessageCircle size={18} className="fill-white" />
-        <span className="hidden sm:inline">WhatsApp Support</span>
+        <span className="hidden sm:inline">24/7 WhatsApp Support</span>
       </a>
 
-      {/* ═══ STICKY BOTTOM BAR (MOBILE CONVERSION HERO) ═══ */}
+      {/* ═══ SHOPIFY STICKY BOTTOM BUY BAR ═══ */}
       <div className={`fixed bottom-0 left-0 right-0 z-[70] transition-transform duration-300 ${showStickyBar ? 'translate-y-0' : 'translate-y-full'}`}>
-        <div className="bg-white/98 backdrop-blur-2xl border-t border-slate-200 shadow-[0_-4px_25px_rgba(0,0,0,0.15)] px-4 py-2.5 flex items-center justify-between gap-3 max-w-4xl mx-auto">
+        <div className="bg-white/98 backdrop-blur-2xl border-t border-slate-200 shadow-[0_-4px_25px_rgba(0,0,0,0.15)] px-4 py-2.5 flex items-center justify-between gap-3 max-w-5xl mx-auto">
           
-          <div className="flex flex-col">
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-xs text-slate-400 line-through font-bold">₹2,999</span>
-              <span className="text-xl font-display font-black text-slate-900">₹{BUNDLE_PRICE}</span>
-              <span className="bg-red-100 text-red-600 font-bold text-[9px] px-1.5 py-0.2 rounded">67% OFF</span>
-            </div>
-            <div className="flex items-center gap-1 text-[10px] text-slate-500 font-mono">
-              <span>Ends In:</span>
-              <span className="font-black text-orange-600">{formatTime(timeLeft.h)}:{formatTime(timeLeft.m)}:{formatTime(timeLeft.s)}</span>
-              <span className="text-slate-300">•</span>
-              <span className="text-emerald-700 font-bold hidden xs:inline">7-Day Refund</span>
+          <div className="flex items-center gap-3">
+            <img src="/banner-1.jpg" alt="Mini Bundle" className="w-10 h-10 rounded-lg object-cover border border-slate-200 hidden sm:block" />
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xs text-slate-400 line-through font-bold">₹{BUNDLE_ORIGINAL_PRICE.toLocaleString('en-IN')}</span>
+                <span className="text-xl font-display font-black text-slate-900">₹{finalPrice}</span>
+                <span className="bg-red-100 text-red-600 font-bold text-[9px] px-1.5 py-0.2 rounded">92% OFF</span>
+              </div>
+              <div className="flex items-center gap-1 text-[10px] text-slate-500 font-mono">
+                <span>Ends In:</span>
+                <span className="font-black text-orange-600">{formatTime(timeLeft.h)}:{formatTime(timeLeft.m)}:{formatTime(timeLeft.s)}</span>
+                <span className="text-slate-300">•</span>
+                <span className="text-emerald-700 font-bold hidden xs:inline">Instant Download</span>
+              </div>
             </div>
           </div>
 
-          <button
-            onClick={openPaymentModal}
-            className="flex-1 max-w-[240px] bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl shadow-md shadow-orange-500/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1.5"
-          >
-            <Zap size={14} className="fill-white shrink-0" />
-            <span>Get 12 Courses @ ₹999</span>
-            <ArrowRight size={14} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowCartDrawer(true)}
+              className="p-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-700 transition-colors hidden sm:flex"
+              title="View Cart"
+            >
+              <ShoppingBag size={18} />
+            </button>
+            
+            <button
+              onClick={openPaymentModal}
+              className="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black text-xs sm:text-sm py-3 px-5 sm:px-6 rounded-xl shadow-md shadow-orange-500/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+            >
+              <Zap size={14} className="fill-white shrink-0" />
+              <span>BUY NOW — ₹{finalPrice}</span>
+              <ArrowRight size={14} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* ═══ EXIT-INTENT / RETENTION SAVE MODAL (PSYCHOLOGICAL POPUP) ═══ */}
+      {/* ═══ SHOPIFY SLIDE-OUT CART DRAWER ═══ */}
+      <ShopifyCartDrawer
+        isOpen={showCartDrawer}
+        onClose={() => setShowCartDrawer(false)}
+        onCheckout={openPaymentModal}
+        appliedCoupon={appliedCoupon}
+        discountPercent={discountPercent}
+        finalPrice={finalPrice}
+        onOpenCoupon={() => {
+          setShowCartDrawer(false);
+          setShowCouponModal(true);
+        }}
+      />
+
+      {/* ═══ SHOPIFY COUPON MODAL ═══ */}
+      <CouponModal
+        isOpen={showCouponModal}
+        onClose={() => setShowCouponModal(false)}
+        onApplyCoupon={(code) => applyCouponCodeDirect(code)}
+        currentCoupon={appliedCoupon}
+        discountPercent={discountPercent}
+      />
+
+      {/* ═══ EXIT-INTENT MODAL ═══ */}
       {showExitModal && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-[fadeIn_0.2s_ease]">
           <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl p-6 md:p-8 text-center border-2 border-orange-400 overflow-hidden">
@@ -1237,15 +1477,15 @@ const LandingPage: React.FC = () => {
             </div>
 
             <span className="bg-red-100 text-red-600 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-              Wait! Don't Leave Empty Handed
+              Wait! Don't Miss Out
             </span>
 
             <h3 className="text-xl md:text-2xl font-display font-black text-slate-900 mt-2 mb-2">
-              Ruko! Yeh Offer Dobara ₹999 Me Nahi Milega!
+              Wait! This ₹999 Offer Won't Be Available Again
             </h3>
 
             <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-5">
-              Over <strong>52,480+ Indian designers</strong> are already using these 12 courses & 10,000+ 3D models to earn ₹50,000+/month. If you close this page, price will increase to <strong>₹2,999</strong>!
+              Over <strong className="text-slate-900">52,480+ Indian designers</strong> are already using this 12-course bundle to earn ₹50,000+/month. If you close this page now, the batch price will increase back to <strong className="text-red-600 font-bold">₹2,999</strong>!
             </p>
 
             <div className="bg-orange-50 border border-orange-200 rounded-2xl p-3 mb-5 text-left text-xs text-slate-700 space-y-1.5">
@@ -1278,14 +1518,14 @@ const LandingPage: React.FC = () => {
                 className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-display font-black text-sm md:text-base shadow-lg shadow-orange-500/30 hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
               >
                 <Zap size={16} className="fill-white" />
-                <span>Lock My ₹999 Access Now</span>
+                <span>Lock My ₹{finalPrice} Access Now</span>
               </button>
 
               <button
                 onClick={() => setShowExitModal(false)}
                 className="text-xs text-slate-400 hover:text-slate-600 font-bold py-1 transition-colors"
               >
-                No thanks, I will pay ₹2,999 later
+                No thanks, I will pay full price later
               </button>
             </div>
           </div>
@@ -1317,26 +1557,13 @@ const LandingPage: React.FC = () => {
                 
                 <div className="flex items-center justify-between flex-wrap gap-2 mt-2">
                   <div className="flex items-baseline gap-2">
-                    {discountPercent > 0 ? (
-                      <>
-                        <span className="text-3xl font-display font-black text-amber-400">₹{finalPrice}</span>
-                        <span className="text-slate-400 text-sm line-through">₹{BUNDLE_PRICE}</span>
-                        <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-2 py-0.5 rounded-full border border-emerald-500/30">
-                          {discountPercent}% OFF APPLIED
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="text-3xl font-display font-black text-white">₹{BUNDLE_PRICE}</span>
-                        <span className="text-slate-400 text-sm line-through">₹2,999</span>
-                        <span className="bg-orange-500/20 text-orange-300 text-xs font-bold px-2 py-0.5 rounded-full border border-orange-500/30">
-                          67% OFF
-                        </span>
-                      </>
-                    )}
+                    <span className="text-3xl font-display font-black text-white">₹{finalPrice}</span>
+                    <span className="text-slate-400 text-sm line-through">₹{BUNDLE_ORIGINAL_PRICE.toLocaleString('en-IN')}</span>
+                    <span className="bg-orange-500/20 text-orange-300 text-xs font-bold px-2 py-0.5 rounded-full border border-orange-500/30">
+                      92% OFF
+                    </span>
                   </div>
 
-                  {/* Very Small Countdown Timer */}
                   <div className="inline-flex items-center gap-1.5 bg-black/40 border border-white/10 px-2.5 py-1 rounded-full text-[11px] font-mono font-bold text-white shadow-xs">
                     <Timer size={12} className="text-amber-400 animate-pulse" />
                     <span>{formatTime(timeLeft.h)}h</span>
@@ -1352,7 +1579,6 @@ const LandingPage: React.FC = () => {
             {/* Modal Body */}
             <div className="p-5">
               
-
               {/* Feature Chips */}
               <div className="grid grid-cols-2 gap-2 mb-4 text-[10px] xs:text-[11px] font-bold text-slate-700">
                 {[
@@ -1367,7 +1593,6 @@ const LandingPage: React.FC = () => {
                   </div>
                 ))}
                 
-                {/* Software Download in Green Box */}
                 <div className="flex items-center justify-center gap-2 bg-emerald-50 py-2.5 px-3 rounded-xl border-2 border-emerald-400 text-emerald-900 font-bold col-span-2 shadow-xs whitespace-nowrap">
                   <Download size={14} className="text-emerald-600 shrink-0" />
                   <span className="text-[11px] xs:text-xs">Direct Software Download Links Included</span>
@@ -1378,7 +1603,7 @@ const LandingPage: React.FC = () => {
               <div className="space-y-3 mb-4">
                 <div>
                   <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                    E-mail
+                    E-mail (For Instant Access Link)
                   </label>
                   <div className="relative">
                     <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -1395,7 +1620,7 @@ const LandingPage: React.FC = () => {
 
                 <div>
                   <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                    Phone
+                    WhatsApp Phone Number
                   </label>
                   <div className="relative">
                     <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">+91</span>
@@ -1418,7 +1643,7 @@ const LandingPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Coupon Code Section */}
+              {/* Coupon Section */}
               {!showCouponInput && !appliedCoupon ? (
                 <div className="flex justify-end mb-4">
                   <button
@@ -1455,7 +1680,7 @@ const LandingPage: React.FC = () => {
                       <div className="flex gap-2">
                         <input
                           type="text"
-                          placeholder="ENTER CODE"
+                          placeholder="e.g. EARN10"
                           value={couponCode}
                           onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setCouponError(null); }}
                           className="flex-1 px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold uppercase"
