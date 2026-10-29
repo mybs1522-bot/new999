@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 .vite
+.env
+.env.*
+test-shopify.mjs
 
 # Editor directories and files
 .vscode/*
